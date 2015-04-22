@@ -6,5 +6,4 @@ endif()
 
 add_subdirectory("${SFML_ROOT_DIR}" "sfml")
 
-include_directories("${SFML_ROOT_DIR}/include")
-#include_directories("${SFML_ROOT_DIR}/src")
+target_include_directories("sfml-graphics" PUBLIC "${SFML_SOURCE_DIR}/include")

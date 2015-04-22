@@ -58,6 +58,8 @@ if(ELASTIC_BUILD_TESTS)
 endif()
 
 add_library("elastic" STATIC ${elastic_INCLUDE_FILES} ${elastic_SOURCE_FILES})
+target_link_libraries("elastic" "nucleus" "sfml-graphics" "sfml-window" "sfml-system")
+target_include_directories("elastic" PUBLIC "${elastic_SOURCE_DIR}/include")
 set_property(TARGET "elastic" PROPERTY FOLDER "elastic")
 
 if(ELASTIC_BUILD_TESTS)
