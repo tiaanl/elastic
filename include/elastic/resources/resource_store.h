@@ -34,15 +34,15 @@ public:
   // resource could not be loaded.
   bool load(const IdType& id,
                      const ResourceLoader<ResourceType>& loader) {
-    std::unique_ptr<ResourceType> original{loader.load()};
-    if (!original) {
+    ResourceEntry newEntry{loader.load(), loader};
+    if (!newEntry.resource) {
       return false;
     }
 
     // Insert the resource into the store.
-    m_resources.insert(std::make_pair(id, original.release()));
+    m_resources.insert(std::make_pair(id, std::move(newEntry)));
 
-    // Return the resource.
+    // Success.
     return true;
   }
 
@@ -52,12 +52,27 @@ public:
       return nullptr;
     }
 
-    return it->second;
+    return it->second.resource.get();
   }
 
 private:
-  // Id's mapped to resources.
-  std::unordered_map<IdType, ResourceType*> m_resources;
+  struct ResourceEntry {
+    // The resource we own.
+    std::unique_ptr<ResourceType> resource;
+
+    // The loader used to create the resource.
+    ResourceLoader<ResourceType> loader;
+
+    ResourceEntry(std::unique_ptr<ResourceType> resource,
+                  const ResourceLoader<ResourceType>& loader)
+      : resource(std::move(resource)), loader(loader) {}
+
+    ResourceEntry(ResourceEntry&& other)
+      : resource(std::move(other.resource)), loader(other.loader) {}
+  };
+
+  // Id's mapped to resource entries.
+  std::unordered_map<IdType, ResourceEntry> m_resources;
 
   DISALLOW_COPY_AND_ASSIGN(ResourceStore);
 };
