@@ -15,6 +15,7 @@
 #ifndef ELASTIC_VIEWS_VIEW_H_
 #define ELASTIC_VIEWS_VIEW_H_
 
+#include <cstdint>
 #include <string>
 
 #include <nucleus/macros.h>
@@ -70,6 +71,10 @@ public:
   ExpandType getExpand() const { return m_expand; }
   void setExpand(ExpandType expand);
 
+  // proportion
+  int32_t getProportion() const { return m_proportion; }
+  void setProportion(int32_t proportion);
+
   // Virtual Interface
 
   // Get the view/child view at this position.
@@ -116,11 +121,15 @@ protected:
   sf::Vector2i m_minSize;
 
   // Horizontal/vertical align.
-  AlignType m_horizontalAlign;
-  AlignType m_verticalAlign;
+  AlignType m_horizontalAlign{AlignCenter};
+  AlignType m_verticalAlign{AlignCenter};
 
   // Expand type of the view.
-  ExpandType m_expand;
+  ExpandType m_expand{ExpandNone};
+
+  // The proportion of this view in relation to other views in the same
+  // GroupView.
+  int32_t m_proportion{0};
 
 private:
   DISALLOW_IMPLICIT_CONSTRUCTORS(View);

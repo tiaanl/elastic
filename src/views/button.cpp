@@ -24,11 +24,11 @@
 
 namespace el {
 
-Button::OnClickListener::~OnClickListener() {
+ButtonView::OnClickListener::~OnClickListener() {
 }
 
-Button::Button(Context* context, const std::string& label,
-               OnClickListener* listener)
+ButtonView::ButtonView(Context* context, const std::string& label,
+                       OnClickListener* listener)
   : View(context), m_label(label), m_listener(listener) {
   sf::Font* buttonFont = context->getFont("default");
 
@@ -46,20 +46,20 @@ Button::Button(Context* context, const std::string& label,
   }
 }
 
-Button::~Button() {
+ButtonView::~ButtonView() {
 }
 
-void Button::setLabel(const std::string& label) {
+void ButtonView::setLabel(const std::string& label) {
   m_label = label;
   m_labelShape.setString(label);
 }
 
-bool Button::onMousePressed(sf::Event& event) {
+bool ButtonView::onMousePressed(sf::Event& event) {
   View::onMousePressed(event);
   return true;
 }
 
-void Button::onMouseReleased(sf::Event& event) {
+void ButtonView::onMouseReleased(sf::Event& event) {
   View::onMouseReleased(event);
 
   if (m_listener) {
@@ -67,15 +67,15 @@ void Button::onMouseReleased(sf::Event& event) {
   }
 }
 
-void Button::onMouseEntered(sf::Event& event) {
+void ButtonView::onMouseEntered(sf::Event& event) {
   m_backgroundShape.setFillColor(sf::Color{255, 255, 255, 191});
 }
 
-void Button::onMouseExited(sf::Event& event) {
+void ButtonView::onMouseExited(sf::Event& event) {
   m_backgroundShape.setFillColor(sf::Color{255, 255, 255, 127});
 }
 
-sf::Vector2i Button::calculateMinSize() const {
+sf::Vector2i ButtonView::calculateMinSize() const {
   sf::Vector2i result{View::calculateMinSize()};
 
   // Calculate the size of the label.
@@ -94,7 +94,7 @@ sf::Vector2i Button::calculateMinSize() const {
   return result;
 }
 
-void Button::layout(const sf::IntRect& rect) {
+void ButtonView::layout(const sf::IntRect& rect) {
   View::layout(rect);
 
   // Move the background shape into position.
@@ -111,7 +111,7 @@ void Button::layout(const sf::IntRect& rect) {
                    static_cast<float>(rect.top + 10) - floatLabelSize.top});
 }
 
-void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void ButtonView::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   View::draw(target, states);
 
   target.draw(m_backgroundShape);

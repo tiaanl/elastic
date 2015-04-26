@@ -20,9 +20,7 @@
 
 namespace el {
 
-View::View(Context* context)
-  : m_context(context), m_horizontalAlign(AlignCenter),
-    m_verticalAlign(AlignCenter), m_expand(ExpandNone) {
+View::View(Context* context) : m_context(context) {
 }
 
 View::~View() {
@@ -46,6 +44,10 @@ void View::setVerticalAlign(AlignType align) {
 
 void View::setExpand(ExpandType expand) {
   m_expand = expand;
+}
+
+void View::setProportion(int32_t proportion) {
+  m_proportion = proportion;
 }
 
 View* View::getViewAtPosition(const sf::Vector2i& pos) {

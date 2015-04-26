@@ -24,17 +24,17 @@
 
 namespace el {
 
-class Button : public View {
+class ButtonView : public View {
 public:
   class OnClickListener {
   public:
     virtual ~OnClickListener();
-    virtual void onButtonClicked(Button* sender) = 0;
+    virtual void onButtonClicked(ButtonView* sender) = 0;
   };
 
-  Button(Context* context, const std::string& label = std::string{},
-         OnClickListener* listener = nullptr);
-  virtual ~Button() override;
+  ButtonView(Context* context, const std::string& label = std::string{},
+             OnClickListener* listener = nullptr);
+  virtual ~ButtonView() override;
 
   // label
   const std::string& getLabel() const { return m_label; }
@@ -64,7 +64,7 @@ private:
   // The shape we use to render the label.
   sf::Text m_labelShape;
 
-  DISALLOW_IMPLICIT_CONSTRUCTORS(Button);
+  DISALLOW_IMPLICIT_CONSTRUCTORS(ButtonView);
 };
 
 }  // namespace el
