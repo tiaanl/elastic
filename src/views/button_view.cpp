@@ -12,7 +12,7 @@
 // OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 // PERFORMANCE OF THIS SOFTWARE.
 
-#include "elastic/views/button.h"
+#include "elastic/views/button_view.h"
 
 #include <cmath>
 #include <algorithm>
