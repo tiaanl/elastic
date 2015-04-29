@@ -42,7 +42,7 @@ ButtonView::ButtonView(Context* context, const std::string& label,
     m_labelShape.setString(m_label);
     m_labelShape.setFont(*buttonFont);
     m_labelShape.setColor(sf::Color{127, 255, 127});
-    m_labelShape.setCharacterSize(30);
+    m_labelShape.setCharacterSize(25);
   }
 }
 

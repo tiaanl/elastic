@@ -91,6 +91,12 @@ void View::onMouseEntered(sf::Event& event) {
 void View::onMouseExited(sf::Event& event) {
 }
 
+void View::onKeyPressed(sf::Event& event) {
+}
+
+void View::onKeyReleased(sf::Event& event) {
+}
+
 void View::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 

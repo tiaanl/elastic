@@ -98,6 +98,9 @@ public:
   virtual void onMouseEntered(sf::Event& event);
   virtual void onMouseExited(sf::Event& event);
 
+  virtual void onKeyPressed(sf::Event& event);
+  virtual void onKeyReleased(sf::Event& event);
+
   // Override: sf::Drawable
   virtual void draw(sf::RenderTarget& target,
                     sf::RenderStates states) const override;

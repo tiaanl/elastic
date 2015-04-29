@@ -22,6 +22,10 @@ Context::Context() : m_contextView(this) {
 Context::~Context() {
 }
 
+void Context::setFocusView(View* view) {
+  m_focusView = view;
+}
+
 void Context::handleInput(sf::Event& event) {
   switch (event.type) {
     case sf::Event::MouseButtonPressed: {
@@ -39,6 +43,16 @@ void Context::handleInput(sf::Event& event) {
     case sf::Event::MouseWheelMoved: {
       m_contextView.processMouseWheel(event);
     } break;
+
+    case sf::Event::KeyPressed: {
+      m_contextView.processKeyPressed(event);
+      break;
+    }
+
+    case sf::Event::KeyReleased: {
+      m_contextView.processKeyReleased(event);
+      break;
+    }
 
     default:
       break;

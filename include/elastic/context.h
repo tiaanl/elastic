@@ -36,6 +36,10 @@ public:
   // Get the root view of the context.
   ContextView* getRoot() { return &m_contextView; }
 
+  // Get/set the view that will have the keyboard focus.
+  View* getFocusView() const { return m_focusView; }
+  void setFocusView(View* view);
+
   // Resources
   virtual sf::Font* getFont(const std::string& name) = 0;
 
@@ -48,6 +52,9 @@ protected:
 
   // The root view of our hierarchy.
   mutable ContextView m_contextView;
+
+  // The view that is currently the view with keyboard focus.
+  View* m_focusView{nullptr};
 
 private:
   DISALLOW_COPY_AND_ASSIGN(Context);

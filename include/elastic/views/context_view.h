@@ -39,6 +39,8 @@ private:
   void processMouseReleased(sf::Event& event);
   void processMouseMoved(sf::Event& event);
   void processMouseWheel(sf::Event& event);
+  void processKeyPressed(sf::Event& event);
+  void processKeyReleased(sf::Event& event);
 
   // Keeps track of whether the last mouse event was a move event.
   bool m_lastMouseEventWasMove{false};

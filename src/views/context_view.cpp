@@ -14,6 +14,8 @@
 
 #include "elastic/views/context_view.h"
 
+#include "elastic/context.h"
+
 namespace el {
 
 ContextView::ContextView(Context* context) : StackedSizerView(context) {
@@ -160,6 +162,22 @@ void ContextView::processMouseWheel(sf::Event& event) {
   }
 
   view->onMouseWheel(event);
+}
+
+void ContextView::processKeyPressed(sf::Event& event) {
+  if (!m_context->getFocusView()) {
+    return;
+  }
+
+  m_context->getFocusView()->onKeyPressed(event);
+}
+
+void ContextView::processKeyReleased(sf::Event& event) {
+  if (!m_context->getFocusView()) {
+    return;
+  }
+
+  m_context->getFocusView()->onKeyReleased(event);
 }
 
 }  // namespace el
