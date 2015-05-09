@@ -1,16 +1,13 @@
 cmake_minimum_required(VERSION 2.8.7)
 project("elastic")
 
-# General options
-
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/out")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/out")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/out")
-
 # Dependencies
 
-include("cmake/sfml.cmake")
-include("cmake/nucleus.cmake")
+option(ELASTIC_BUILD_DEPENDENCIES "Build all dependencies with this library")
+if (ELASTIC_BUILD_DEPENDENCIES)
+  include("cmake/nucleus.cmake")
+  include("cmake/sfml.cmake")
+endif()
 
 # Options
 
@@ -22,8 +19,6 @@ endif()
 option(ELASTIC_BUILD_EXAMPLES "Build example projects")
 
 # elastic
-
-include_directories("include")
 
 set("elastic_INCLUDE_FILES"
   "include/elastic/context.h"

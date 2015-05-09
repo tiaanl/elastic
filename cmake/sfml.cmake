@@ -5,5 +5,7 @@ if(NOT SFML_ROOT_DIR)
 endif()
 
 add_subdirectory("${SFML_ROOT_DIR}" "sfml")
-
 target_include_directories("sfml-graphics" PUBLIC "${SFML_SOURCE_DIR}/include")
+if(NOT BUILD_SHARED_LIBRARIES)
+  add_definitions("-DSFML_STATIC")
+endif()

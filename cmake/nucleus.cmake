@@ -5,4 +5,3 @@ if(NOT NUCLEUS_ROOT_DIR)
 endif()
 
 add_subdirectory("${NUCLEUS_ROOT_DIR}" "nucleus")
-include_directories("${NUCLEUS_ROOT_DIR}/include")
