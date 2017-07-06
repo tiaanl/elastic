@@ -14,6 +14,8 @@
 
 #include "elastic/views/color_view.h"
 
+#include "nucleus/logging.h"
+
 namespace el {
 
 ColorView::ColorView(Context* context) : View(context) {
@@ -33,6 +35,8 @@ void ColorView::setColor(const sf::Color& color) {
 
 void ColorView::layout(const sf::IntRect& rect) {
   View::layout(rect);
+
+  LOG(Info) << m_name << " = (" << rect.left << ", " << rect.top << ") x (" << rect.width << ", " << rect.height << ")";
 
   m_drawable.setPosition(sf::Vector2f(static_cast<float>(rect.left),
                                       static_cast<float>(rect.top)));

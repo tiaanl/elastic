@@ -1,5 +1,5 @@
 
 ADD_ELASTIC_EXAMPLE(
-  "minimal"
+  "ElasticMinimal"
   SOURCES "minimal.cpp"
 )
