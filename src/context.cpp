@@ -16,60 +16,48 @@
 
 namespace el {
 
-Context::Context() : m_contextView(this) {
-}
+Context::Context() : m_contextView(this) {}
 
-Context::~Context() {
-}
+Context::~Context() {}
 
 void Context::setFocusView(View* view) {
-  m_focusView = view;
+    m_focusView = view;
 }
 
-void Context::handleInput(sf::Event& event) {
-  switch (event.type) {
-    case sf::Event::MouseButtonPressed: {
-      m_contextView.processMousePressed(event, false);
-    } break;
+void Context::onMouseMoved(const ca::MouseEvent& evt) {
+    m_contextView.processMouseMoved(evt);
+}
 
-    case sf::Event::MouseMoved: {
-      m_contextView.processMouseMoved(event);
-    } break;
+bool Context::onMousePressed(const ca::MouseEvent& evt) {
+    return m_contextView.processMousePressed(evt, false);
+}
 
-    case sf::Event::MouseButtonReleased: {
-      m_contextView.processMouseReleased(event);
-    } break;
+void Context::onMouseReleased(const ca::MouseEvent& evt) {
+    m_contextView.processMouseReleased(evt);
+}
 
-    case sf::Event::MouseWheelMoved: {
-      m_contextView.processMouseWheel(event);
-    } break;
+void Context::onMouseWheel(const ca::MouseWheelEvent& evt) {
+    m_contextView.processMouseWheel(evt);
+}
 
-    case sf::Event::KeyPressed: {
-      m_contextView.processKeyPressed(event);
-      break;
-    }
+void Context::onKeyPressed(const ca::KeyEvent& evt) {
+    m_contextView.processKeyPressed(evt);
+}
 
-    case sf::Event::KeyReleased: {
-      m_contextView.processKeyReleased(event);
-      break;
-    }
-
-    default:
-      break;
-  }
+void Context::onKeyReleased(const ca::KeyEvent& evt) {
+    m_contextView.processKeyReleased(evt);
 }
 
 void Context::tick(float adjustment) {
-  m_contextView.tick(adjustment);
+    m_contextView.tick(adjustment);
 }
 
-void Context::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-  // Get the size of the render target in pixels for the UI to render.
-  sf::IntRect layoutRect{0, 0, static_cast<int>(target.getSize().x),
-                         static_cast<int>(target.getSize().y)};
+void Context::render(ca::Canvas* canvas) {
+    // Get the size of the render target in pixels for the UI to render.
+    ca::Rect<I32> layoutRect{ca::Pos<I32>(0, 0), canvas->getSize()};
 
-  m_contextView.layout(layoutRect);
-  target.draw(m_contextView, states);
+    m_contextView.layout(layoutRect);
+    m_contextView.render(canvas, ca::Mat4{});
 }
 
 }  // namespace el

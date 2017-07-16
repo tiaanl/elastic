@@ -25,8 +25,8 @@ public:
   virtual ~StackedSizerView();
 
   // Implement: GroupView
-  virtual sf::Vector2i calculateMinSize() const override;
-  virtual void layout(const sf::IntRect& rect) override;
+  virtual ca::Size<I32> calculateMinSize() const override;
+  virtual void layout(const ca::Rect<I32>& rect) override;
 
 private:
   DISALLOW_IMPLICIT_CONSTRUCTORS(StackedSizerView);

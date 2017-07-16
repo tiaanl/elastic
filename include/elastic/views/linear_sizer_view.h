@@ -21,31 +21,31 @@ namespace el {
 
 class LinearSizerView : public GroupView {
 public:
-  enum OrientationType {
-    OrientationHorizontal,
-    OrientationVertical,
-  };
+    enum OrientationType {
+        OrientationHorizontal,
+        OrientationVertical,
+    };
 
-  explicit LinearSizerView(Context* context);
-  LinearSizerView(Context* context, OrientationType orientation);
-  virtual ~LinearSizerView();
+    explicit LinearSizerView(Context* context);
+    LinearSizerView(Context* context, OrientationType orientation);
+    virtual ~LinearSizerView();
 
-  // orientation
-  OrientationType GetOrientation() const { return m_orientation; }
-  void SetOrientation(OrientationType orientation);
+    // orientation
+    OrientationType GetOrientation() const { return m_orientation; }
+    void SetOrientation(OrientationType orientation);
 
-  // Override: GroupView
-  virtual sf::Vector2i calculateMinSize() const override;
-  virtual void layout(const sf::IntRect& rect) override;
+    // Override: GroupView
+    virtual ca::Size<I32> calculateMinSize() const override;
+    virtual void layout(const ca::Rect<I32>& rect) override;
 
 private:
-  void layoutHorizontal(const sf::IntRect& rect);
-  void layoutVertical(const sf::IntRect& rect);
+    void layoutHorizontal(const ca::Rect<I32>& rect);
+    void layoutVertical(const ca::Rect<I32>& rect);
 
-  // The orientaion of the sizer.
-  OrientationType m_orientation;
+    // The orientaion of the sizer.
+    OrientationType m_orientation;
 
-  DISALLOW_IMPLICIT_CONSTRUCTORS(LinearSizerView);
+    DISALLOW_IMPLICIT_CONSTRUCTORS(LinearSizerView);
 };
 
 }  // namespace el

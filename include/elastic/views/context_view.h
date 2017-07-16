@@ -21,46 +21,46 @@ namespace el {
 
 class ContextView : public StackedSizerView {
 public:
-  explicit ContextView(Context* context);
-  virtual ~ContextView();
+    explicit ContextView(Context* context);
+    virtual ~ContextView();
 
-  // Override: StackedSizerView
-  virtual bool onMousePressed(sf::Event& event) override;
-  virtual bool onMouseDragged(sf::Event& event) override;
-  virtual void onMouseReleased(sf::Event& event) override;
-  virtual void onMouseMoved(sf::Event& event) override;
+    // Override: StackedSizerView
+    void onMouseMoved(const ca::MouseEvent& evt) override;
+    bool onMousePressed(const ca::MouseEvent& evt) override;
+    void onMouseReleased(const ca::MouseEvent& evt) override;
+    bool onMouseDragged(const ca::MouseEvent& evt) override;
 
 private:
-  friend class Context;
+    friend class Context;
 
-  // Initiate user input from the context.
-  bool processMousePressed(sf::Event& event, bool isDouble);
-  void processMouseDragged(sf::Event& event);
-  void processMouseReleased(sf::Event& event);
-  void processMouseMoved(sf::Event& event);
-  void processMouseWheel(sf::Event& event);
-  void processKeyPressed(sf::Event& event);
-  void processKeyReleased(sf::Event& event);
+    // Initiate user input from the context.
+    bool processMousePressed(const ca::MouseEvent& event, bool isDouble);
+    void processMouseDragged(const ca::MouseEvent& event);
+    void processMouseReleased(const ca::MouseEvent& event);
+    void processMouseMoved(const ca::MouseEvent& event);
+    void processMouseWheel(const ca::MouseWheelEvent& event);
+    void processKeyPressed(const ca::KeyEvent& event);
+    void processKeyReleased(const ca::KeyEvent& event);
 
-  // Keeps track of whether the last mouse event was a move event.
-  bool m_lastMouseEventWasMove{false};
+    // Keeps track of whether the last mouse event was a move event.
+    bool m_lastMouseEventWasMove{false};
 
-  // Keeps track of whether we have the mouse captured or not.
-  bool m_hasCapture{false};
+    // Keeps track of whether we have the mouse captured or not.
+    bool m_hasCapture{false};
 
-  // Keeps track of whether the mouse is down or not.
-  bool m_isMouseDown{false};
+    // Keeps track of whether the mouse is down or not.
+    bool m_isMouseDown{false};
 
-  // Keeps track of the last position we moved the mouse at.
-  sf::Vector2i m_lastMouseMovePos;
+    // Keeps track of the last position we moved the mouse at.
+    ca::Pos<I32> m_lastMouseMovePos;
 
-  // The view that we last pressed on.
-  View* m_mousePressedHandler{nullptr};
+    // The view that we last pressed on.
+    View* m_mousePressedHandler{nullptr};
 
-  // The view that we last moved on.
-  View* m_mouseMoveHandler{nullptr};
+    // The view that we last moved on.
+    View* m_mouseMoveHandler{nullptr};
 
-  DISALLOW_IMPLICIT_CONSTRUCTORS(ContextView);
+    DISALLOW_IMPLICIT_CONSTRUCTORS(ContextView);
 };
 
 }  // namespace el

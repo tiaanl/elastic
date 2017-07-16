@@ -18,124 +18,127 @@
 #include <cstdint>
 #include <string>
 
-#include <nucleus/macros.h>
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Window/Event.hpp>
+#include "canvas/math/mat4.h"
+#include "canvas/rendering/canvas.h"
+#include "canvas/utils/pos.h"
+#include "canvas/utils/rect.h"
+#include "canvas/utils/size.h"
+#include "canvas/windows/KeyboardEventHandlerInterface.h"
+#include "canvas/windows/MouseEventHandlerInterface.h"
+#include "nucleus/macros.h"
 
 namespace el {
 
 class Context;
 class GroupView;
 
-class View : public sf::Drawable {
+class View : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
-  enum AlignType {
-    AlignLeft,
-    AlignTop,
-    AlignCenter,
-    AlignRight,
-    AlignBottom,
-  };
+    enum AlignType {
+        AlignLeft,
+        AlignTop,
+        AlignCenter,
+        AlignRight,
+        AlignBottom,
+    };
 
-  enum ExpandType {
-    ExpandNone,
-    ExpandHorizontal,
-    ExpandVertical,
-    ExpandBoth,
-  };
+    enum ExpandType {
+        ExpandNone,
+        ExpandHorizontal,
+        ExpandVertical,
+        ExpandBoth,
+    };
 
-  explicit View(Context* context);
-  virtual ~View();
+    explicit View(Context* context);
+    virtual ~View();
 
-  // Return the parent of the view, if any.
-  View* getParent() const { return m_parent; }
+    // Return the parent of the view, if any.
+    View* getParent() const { return m_parent; }
 
-  // name
-  const std::string& getName() const { return m_name; }
-  void setName(const std::string& name);
+    // name
+    const std::string& getName() const { return m_name; }
+    void setName(const std::string& name);
 
-  // minsize
-  const sf::Vector2i& getMinSize() const { return m_minSize; }
-  void setMinSize(const sf::Vector2i& minSize);
+    // minsize
+    const ca::Size<I32>& getMinSize() const { return m_minSize; }
+    void setMinSize(const ca::Size<I32>& minSize);
 
-  // horizontalalign
-  AlignType getHorizontalAlign() const { return m_horizontalAlign; }
-  void setHorizontalAlign(AlignType align);
+    // horizontalalign
+    AlignType getHorizontalAlign() const { return m_horizontalAlign; }
+    void setHorizontalAlign(AlignType align);
 
-  // verticalalign
-  AlignType getVerticalAlign() const { return m_verticalAlign; }
-  void setVerticalAlign(AlignType align);
+    // verticalalign
+    AlignType getVerticalAlign() const { return m_verticalAlign; }
+    void setVerticalAlign(AlignType align);
 
-  // expand
-  ExpandType getExpand() const { return m_expand; }
-  void setExpand(ExpandType expand);
+    // expand
+    ExpandType getExpand() const { return m_expand; }
+    void setExpand(ExpandType expand);
 
-  // proportion
-  int32_t getProportion() const { return m_proportion; }
-  void setProportion(int32_t proportion);
+    // proportion
+    int32_t getProportion() const { return m_proportion; }
+    void setProportion(int32_t proportion);
 
-  // Virtual Interface
+    // Virtual Interface
 
-  // Get the view/child view at this position.
-  virtual View* getViewAtPosition(const sf::Vector2i& pos);
+    // Get the view/child view at this position.
+    virtual View* getViewAtPosition(const ca::Pos<I32>& pos) const;
 
-  // Return true if you want to receive input events on this view.  If not,
-  // events will be processed by this view's parents.
-  virtual bool handlesInput() const { return false; }
+    // Return true if you want to receive input events on this view.  If not,
+    // events will be processed by this view's parents.
+    virtual bool handlesInput() const { return false; }
 
-  virtual void tick(float adjustment);
-  virtual sf::Vector2i calculateMinSize() const;
-  virtual void layout(const sf::IntRect& rect);
+    virtual void tick(float adjustment);
+    virtual ca::Size<I32> calculateMinSize() const;
+    virtual void layout(const ca::Rect<I32>& rect);
 
-  // Events
+    // Events
 
-  virtual bool onMousePressed(sf::Event& event);
-  virtual bool onMouseDragged(sf::Event& event);
-  virtual void onMouseMoved(sf::Event& event);
-  virtual void onMouseReleased(sf::Event& event);
-  virtual void onMouseWheel(sf::Event& event);
-  virtual void onMouseEntered(sf::Event& event);
-  virtual void onMouseExited(sf::Event& event);
+    void onMouseMoved(const ca::MouseEvent& evt) override;
+    bool onMousePressed(const ca::MouseEvent& evt) override;
+    void onMouseReleased(const ca::MouseEvent& evt) override;
+    void onMouseWheel(const ca::MouseWheelEvent& evt) override;
 
-  virtual void onKeyPressed(sf::Event& event);
-  virtual void onKeyReleased(sf::Event& event);
+    virtual bool onMouseDragged(const ca::MouseEvent& evt);
+    virtual void onMouseEnter(const ca::MouseEvent& evt);
+    virtual void onMouseLeave(const ca::MouseEvent& evt);
 
-  // Override: sf::Drawable
-  virtual void draw(sf::RenderTarget& target,
-                    sf::RenderStates states) const override;
+    void onKeyPressed(const ca::KeyEvent& evt) override;
+    void onKeyReleased(const ca::KeyEvent& evt) override;
+
+    virtual void render(ca::Canvas* canvas, const ca::Mat4& mat);
 
 protected:
-  friend class GroupView;
+    friend class GroupView;
 
-  // The context we belong to.
-  Context* m_context;
+    // The context we belong to.
+    Context* m_context;
 
-  // The parent of this view.
-  View* m_parent{nullptr};
+    // The parent of this view.
+    View* m_parent{nullptr};
 
-  // The (optional) name of the control.
-  std::string m_name;
+    // The (optional) name of the control.
+    std::string m_name;
 
-  // The rect where this view has been layed out to.
-  sf::IntRect m_rect;
+    // The rect where this view has been layed out to.
+    ca::Rect<I32> m_rect;
 
-  // The minimum size of the view.
-  sf::Vector2i m_minSize;
+    // The minimum size of the view.
+    ca::Size<I32> m_minSize;
 
-  // Horizontal/vertical align.
-  AlignType m_horizontalAlign{AlignCenter};
-  AlignType m_verticalAlign{AlignCenter};
+    // Horizontal/vertical align.
+    AlignType m_horizontalAlign{AlignCenter};
+    AlignType m_verticalAlign{AlignCenter};
 
-  // Expand type of the view.
-  ExpandType m_expand{ExpandNone};
+    // Expand type of the view.
+    ExpandType m_expand{ExpandNone};
 
-  // The proportion of this view in relation to other views in the same
-  // GroupView.
-  int32_t m_proportion{0};
+    // The proportion of this view in relation to other views in the same
+    // GroupView.
+    int32_t m_proportion{0};
 
 private:
-  DISALLOW_IMPLICIT_CONSTRUCTORS(View);
+    DISALLOW_IMPLICIT_CONSTRUCTORS(View);
 };
 
 }  // namespace el

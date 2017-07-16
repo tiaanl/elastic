@@ -14,38 +14,104 @@
 
 #include "elastic/views/color_view.h"
 
+#include <cstring>
+#include <canvas/rendering/shader.h>
+
 #include "nucleus/logging.h"
+#include "nucleus/streams/wrapped_memory_input_stream.h"
 
 namespace el {
 
-ColorView::ColorView(Context* context) : View(context) {
+namespace {
+
+const char* kVertexShaderSource =
+    "#version 420\n"
+    "\n"
+    "layout(location = 0) in vec3 vert_position;\n"
+    "layout(location = 1) in vec2 vert_texCoord;\n"
+    "layout(location = 2) in vec4 vert_color;\n"
+    "\n"
+    "uniform mat4 uni_mvp;\n"
+    "\n"
+    "out vec2 frag_texCoord;\n"
+    "out vec4 frag_color;\n"
+    "\n"
+    "void main() {\n"
+    "  gl_Position = vec4(vert_position, 1.0) * uni_mvp;\n"
+    "  frag_texCoord = vert_texCoord;\n"
+    "  frag_color = vert_color;\n"
+    "}\n";
+
+const char* kFragmentShaderSource =
+    "#version 420\n"
+    "\n"
+    "// We get the texture coordinates from the vertex shader.\n"
+    "in vec2 frag_texCoord;\n"
+    "in vec4 frag_color;\n"
+    "\n"
+    "// The bound texture.\n"
+    "uniform sampler2D sampler;\n"
+    "\n"
+    "// The final color of the fragment.\n"
+    "out vec4 final;\n"
+    "\n"
+    "void main() {\n"
+    "  final = texture(sampler, frag_texCoord);\n"
+    "}\n";
+
+}  // namespace
+
+ColorView::ColorView(Context* context)
+  : View(context) {}
+
+ColorView::ColorView(Context* context, const ca::Color& color) : ColorView(context) {
+    setColor(color);
 }
 
-ColorView::ColorView(Context* context, const sf::Color& color) : View(context) {
-  setColor(color);
+ColorView::~ColorView() {}
+
+void ColorView::setColor(const ca::Color& color) {
+    m_color = color;
+    // m_drawable.setFillColor(color);
 }
 
-ColorView::~ColorView() {
+void ColorView::layout(const ca::Rect<I32>& rect) {
+    View::layout(rect);
+
+    LOG(Info) << m_name << " = (" << rect.pos.x << ", " << rect.pos.y << ") x (" << rect.size.width << ", "
+              << rect.size.height << ")";
+
+    // m_drawable.setPosition(sf::Vector2f(static_cast<float>(rect.left), static_cast<float>(rect.top)));
+    // m_drawable.setSize(sf::Vector2f(static_cast<float>(rect.width), static_cast<float>(rect.height)));
 }
 
-void ColorView::setColor(const sf::Color& color) {
-  m_color = color;
-  m_drawable.setFillColor(color);
+void ColorView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
+    View::render(canvas, mat);
+
+    m_geometry.render();
 }
 
-void ColorView::layout(const sf::IntRect& rect) {
-  View::layout(rect);
+bool ColorView::loadShaders() {
+    nu::WrappedMemoryInputStream vertexStream(kVertexShaderSource, std::strlen(kVertexShaderSource));
+    ca::Shader vertexShader(ca::Shader::Vertex);
+    if (!vertexShader.loadFromStream(&vertexStream)) {
+        return false;
+    }
 
-  LOG(Info) << m_name << " = (" << rect.left << ", " << rect.top << ") x (" << rect.width << ", " << rect.height << ")";
+    nu::WrappedMemoryInputStream fragmentStream(kVertexShaderSource, std::strlen(kFragmentShaderSource));
+    ca::Shader fragmentShader(ca::Shader::Fragment);
+    if (!fragmentShader.loadFromStream(&fragmentStream)) {
+        return false;
+    }
 
-  m_drawable.setPosition(sf::Vector2f(static_cast<float>(rect.left),
-                                      static_cast<float>(rect.top)));
-  m_drawable.setSize(sf::Vector2f(static_cast<float>(rect.width),
-                                  static_cast<float>(rect.height)));
-}
+    m_program.setVertexShader(&vertexShader);
+    m_program.setFragmentShader(&fragmentShader);
+    m_program.link();
 
-void ColorView::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-  target.draw(m_drawable, states);
+    m_geometry = ca::Geometry::createRectangle(ca::Rect<F32>{-50.0f, -50.0f, 100.0f, 100.0f}, ca::Color{255, 0, 0, 255});
+    m_geometry.compileAndUpload();
+
+    return false;
 }
 
 }  // namespace el
