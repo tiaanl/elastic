@@ -14,90 +14,77 @@
 
 #include "elastic/views/view.h"
 
-#include <string>
-
 #include "elastic/context.h"
 
 namespace el {
 
-View::View(Context* context) : m_context(context) {
-}
+View::View(Context* context) : m_context(context) {}
 
-View::~View() {
-}
+View::~View() {}
 
 void View::setName(const std::string& name) {
-  m_name = name;
+    m_name = name;
 }
 
-void View::setMinSize(const sf::Vector2i& minSize) {
-  m_minSize = minSize;
+void View::setMinSize(const ca::Size<I32>& minSize) {
+    m_minSize = minSize;
 }
 
 void View::setHorizontalAlign(AlignType align) {
-  m_horizontalAlign = align;
+    m_horizontalAlign = align;
 }
 
 void View::setVerticalAlign(AlignType align) {
-  m_verticalAlign = align;
+    m_verticalAlign = align;
 }
 
 void View::setExpand(ExpandType expand) {
-  m_expand = expand;
+    m_expand = expand;
 }
 
 void View::setProportion(int32_t proportion) {
-  m_proportion = proportion;
+    m_proportion = proportion;
 }
 
-View* View::getViewAtPosition(const sf::Vector2i& pos) {
-  if (!handlesInput())
-    return nullptr;
+View* View::getViewAtPosition(const ca::Pos<I32>& pos) const {
+    if (!handlesInput())
+        return nullptr;
 
-  return m_rect.contains(pos) ? this : nullptr;
+    return m_rect.contains(pos) ? const_cast<View *>(this) : nullptr;
 }
 
-void View::tick(float adjustment) {
+void View::tick(float adjustment) {}
+
+ca::Size<I32> View::calculateMinSize() const {
+    return m_minSize;
 }
 
-sf::Vector2i View::calculateMinSize() const {
-  return m_minSize;
+void View::layout(const ca::Rect<I32>& rect) {
+    m_rect = rect;
 }
 
-void View::layout(const sf::IntRect& rect) {
-  m_rect = rect;
+void View::onMouseMoved(const ca::MouseEvent& evt) {}
+
+bool View::onMousePressed(const ca::MouseEvent& evt) {
+    return false;
 }
 
-bool View::onMousePressed(sf::Event& event) {
-  return false;
+bool View::onMouseDragged(const ca::MouseEvent& evt) {
+    return false;
 }
 
-bool View::onMouseDragged(sf::Event& event) {
-  return false;
-}
+void View::onMouseReleased(const ca::MouseEvent& evt) {}
 
-void View::onMouseMoved(sf::Event& event) {
-}
+void View::onMouseWheel(const ca::MouseWheelEvent& evt) {}
 
-void View::onMouseReleased(sf::Event& event) {
-}
+void View::onMouseEnter(const ca::MouseEvent& evt) {}
 
-void View::onMouseWheel(sf::Event& event) {
-}
+void View::onMouseLeave(const ca::MouseEvent& evt) {}
 
-void View::onMouseEntered(sf::Event& event) {
-}
+void View::onKeyPressed(const ca::KeyEvent& evt) {}
 
-void View::onMouseExited(sf::Event& event) {
-}
+void View::onKeyReleased(const ca::KeyEvent& evt) {}
 
-void View::onKeyPressed(sf::Event& event) {
-}
-
-void View::onKeyReleased(sf::Event& event) {
-}
-
-void View::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-}
+void View::render(ca::Canvas* canvas, const ca::Mat4& mat) {}
 
 }  // namespace el

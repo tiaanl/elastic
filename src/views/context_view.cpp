@@ -24,7 +24,7 @@ ContextView::ContextView(Context* context) : StackedSizerView(context) {
 ContextView::~ContextView() {
 }
 
-bool ContextView::onMousePressed(sf::Event& event) {
+bool ContextView::onMousePressed(const ca::MouseEvent& event) {
   // If m_mousePressedHandler is not null, we are currently processing a
   // pressed->drag->released session.  In that case we send the event to
   // m_mousePressedHandler.
@@ -33,7 +33,7 @@ bool ContextView::onMousePressed(sf::Event& event) {
     return true;
   }
 
-  sf::Vector2i mousePos{event.mouseButton.x, event.mouseButton.y};
+  ca::Pos<I32> mousePos = event.pos;
 
   for (m_mousePressedHandler = getViewAtPosition(mousePos);
        m_mousePressedHandler && (m_mousePressedHandler != this);
@@ -63,14 +63,14 @@ bool ContextView::onMousePressed(sf::Event& event) {
   return false;
 }
 
-bool ContextView::onMouseDragged(sf::Event& event) {
+bool ContextView::onMouseDragged(const ca::MouseEvent& event) {
   if (m_mousePressedHandler) {
     return m_mousePressedHandler->onMouseDragged(event);
   }
   return false;
 }
 
-void ContextView::onMouseReleased(sf::Event& event) {
+void ContextView::onMouseReleased(const ca::MouseEvent& event) {
   if (m_mousePressedHandler) {
     View* mousePressedHandler = m_mousePressedHandler;
     m_mousePressedHandler = nullptr;
@@ -79,33 +79,32 @@ void ContextView::onMouseReleased(sf::Event& event) {
   }
 }
 
-void ContextView::onMouseMoved(sf::Event& event) {
-  View* topMost =
-      getViewAtPosition(sf::Vector2i{event.mouseMove.x, event.mouseMove.y});
+void ContextView::onMouseMoved(const ca::MouseEvent& event) {
+  View* topMost = getViewAtPosition(event.pos);
 
   if (topMost && topMost != this) {
     // If we switched topMost controls, then we entered a new control.
     if (topMost != m_mouseMoveHandler) {
       // If we had a previous move handler, then we send it an exit event.
       if (m_mouseMoveHandler) {
-        m_mouseMoveHandler->onMouseExited(event);
+        m_mouseMoveHandler->onMouseLeave(event);
       }
 
       // Set the new mouse move handler to what we have as top most now.
       m_mouseMoveHandler = topMost;
 
       // Send the new move handler an aneter event.
-      m_mouseMoveHandler->onMouseEntered(event);
+      m_mouseMoveHandler->onMouseEnter(event);
     }
 
     // Now send the move event.
     m_mouseMoveHandler->onMouseMoved(event);
   } else if (m_mouseMoveHandler) {
-    m_mouseMoveHandler->onMouseExited(event);
+    m_mouseMoveHandler->onMouseLeave(event);
   }
 }
 
-bool ContextView::processMousePressed(sf::Event& event, bool isDouble) {
+bool ContextView::processMousePressed(const ca::MouseEvent& event, bool isDouble) {
   m_lastMouseEventWasMove = false;
 
   if (onMousePressed(event)) {
@@ -121,13 +120,13 @@ bool ContextView::processMousePressed(sf::Event& event, bool isDouble) {
   return false;
 }
 
-void ContextView::processMouseDragged(sf::Event& event) {
+void ContextView::processMouseDragged(const ca::MouseEvent& event) {
   m_lastMouseEventWasMove = false;
 
   onMouseDragged(event);
 }
 
-void ContextView::processMouseReleased(sf::Event& event) {
+void ContextView::processMouseReleased(const ca::MouseEvent& event) {
   m_lastMouseEventWasMove = false;
 
   if (m_hasCapture) {
@@ -139,23 +138,21 @@ void ContextView::processMouseReleased(sf::Event& event) {
   onMouseReleased(event);
 }
 
-void ContextView::processMouseMoved(sf::Event& event) {
+void ContextView::processMouseMoved(const ca::MouseEvent& event) {
   if (m_hasCapture && m_isMouseDown) {
     processMouseDragged(event);
   } else {
-    sf::Vector2i mousePos{event.mouseMove.x, event.mouseMove.y};
-    if (m_lastMouseEventWasMove && (m_lastMouseMovePos == mousePos)) {
+    if (m_lastMouseEventWasMove && (m_lastMouseMovePos == event.pos)) {
       return;
     }
-    m_lastMouseMovePos = mousePos;
+    m_lastMouseMovePos = event.pos;
     m_lastMouseEventWasMove = true;
     onMouseMoved(event);
   }
 }
 
-void ContextView::processMouseWheel(sf::Event& event) {
-  View* view =
-      getViewAtPosition(sf::Vector2i{event.mouseWheel.x, event.mouseWheel.y});
+void ContextView::processMouseWheel(const ca::MouseWheelEvent& event) {
+  View* view = getViewAtPosition(event.pos);
 
   if (!view) {
     return;
@@ -164,7 +161,7 @@ void ContextView::processMouseWheel(sf::Event& event) {
   view->onMouseWheel(event);
 }
 
-void ContextView::processKeyPressed(sf::Event& event) {
+void ContextView::processKeyPressed(const ca::KeyEvent& event) {
   if (!m_context->getFocusView()) {
     return;
   }
@@ -172,7 +169,7 @@ void ContextView::processKeyPressed(sf::Event& event) {
   m_context->getFocusView()->onKeyPressed(event);
 }
 
-void ContextView::processKeyReleased(sf::Event& event) {
+void ContextView::processKeyReleased(const ca::KeyEvent& event) {
   if (!m_context->getFocusView()) {
     return;
   }
