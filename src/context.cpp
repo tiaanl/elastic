@@ -14,6 +14,8 @@
 
 #include "elastic/context.h"
 
+#include "canvas/math/transform.h"
+
 namespace el {
 
 Context::Context() : m_contextView(this) {}
@@ -56,8 +58,13 @@ void Context::render(ca::Canvas* canvas) {
     // Get the size of the render target in pixels for the UI to render.
     ca::Rect<I32> layoutRect{ca::Pos<I32>(0, 0), canvas->getSize()};
 
+    F32 width = static_cast<F32>(layoutRect.size.width);
+    F32 height = static_cast<F32>(layoutRect.size.height);
+
+    ca::Mat4 ortho = ca::ortho(0.f, width, height, 0.f);
+
     m_contextView.layout(layoutRect);
-    m_contextView.render(canvas, ca::Mat4{});
+    m_contextView.render(canvas, ortho);
 }
 
 }  // namespace el

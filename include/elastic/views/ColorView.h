@@ -18,6 +18,7 @@
 #include "canvas/rendering/geometry.h"
 #include "canvas/rendering/program.h"
 #include "elastic/views/view.h"
+#include "nucleus/Memory/ScopedPtr.h"
 
 namespace el {
 
@@ -36,17 +37,15 @@ public:
     void render(ca::Canvas* canvas, const ca::Mat4& mat) override;
 
 private:
-    bool loadShaders();
+    bool updateRenderState();
 
     // The color of the view.
     ca::Color m_color;
 
-    // The geometry used to render the view.
-    // ca::RectangleShape m_drawable;
+    nu::ScopedPtr<ca::Program> m_shaderProgram;
 
-    ca::Program m_program;
-
-    ca::Geometry m_geometry;
+    GLuint m_vertexBufferObject{0};
+    GLuint m_vertexArrayObject{0};
 
     DISALLOW_IMPLICIT_CONSTRUCTORS(ColorView);
 };

@@ -59,8 +59,11 @@ public:
     const std::string& getName() const { return m_name; }
     void setName(const std::string& name);
 
-    // minsize
-    const ca::Size<I32>& getMinSize() const { return m_minSize; }
+    virtual  // minsize
+        const ca::Size<I32>&
+        getMinSize() const {
+        return m_minSize;
+    }
     void setMinSize(const ca::Size<I32>& minSize);
 
     // horizontalalign

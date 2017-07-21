@@ -12,13 +12,15 @@
 // OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 // PERFORMANCE OF THIS SOFTWARE.
 
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Event.hpp>
+#include "canvas/app.h"
+#include "canvas/rendering/canvas.h"
 
-#include "elastic/context.h"
-#include "elastic/views/color_view.h"
-#include "elastic/views/linear_sizer_view.h"
+class App : public ca::WindowDelegate {
+public:
+    void onPaint(ca::Canvas* canvas) override { canvas->clear(ca::Color(0, 0, 127, 255)); }
+};
 
+#if 0
 class MyContext : public el::Context {
 public:
   virtual sf::Font* getFont(const std::string& name) override {
@@ -68,3 +70,6 @@ int main(int argc, char* argv[]) {
 
   return 0;
 }
+#endif  // 0
+
+CANVAS_APP(App);

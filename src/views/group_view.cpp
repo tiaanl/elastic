@@ -105,9 +105,9 @@ void GroupView::tick(float adjustment) {
 void GroupView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
     View::render(canvas, mat);
 
-    // for (auto& child : m_children) {
-    //   target.draw(*child, states);
-    // }
+    for (auto& child : m_children) {
+        child->render(canvas, mat);
+    }
 }
 
 }  // namespace el

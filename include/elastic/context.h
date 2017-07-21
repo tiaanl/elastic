@@ -40,12 +40,12 @@ public:
     // Resources
     virtual ca::Font* getFont(const std::string& name) = 0;
 
-    void onKeyPressed(const ca::KeyEvent &evt) override;
-    void onKeyReleased(const ca::KeyEvent &evt) override;
-    void onMouseMoved(const ca::MouseEvent &evt) override;
-    bool onMousePressed(const ca::MouseEvent &evt) override;
-    void onMouseReleased(const ca::MouseEvent &evt) override;
-    void onMouseWheel(const ca::MouseWheelEvent &evt) override;
+    void onKeyPressed(const ca::KeyEvent& evt) override;
+    void onKeyReleased(const ca::KeyEvent& evt) override;
+    void onMouseMoved(const ca::MouseEvent& evt) override;
+    bool onMousePressed(const ca::MouseEvent& evt) override;
+    void onMouseReleased(const ca::MouseEvent& evt) override;
+    void onMouseWheel(const ca::MouseWheelEvent& evt) override;
 
     void tick(float adjustment);
     void render(ca::Canvas* canvas);
