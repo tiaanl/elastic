@@ -10,46 +10,46 @@ namespace el {
 
 LabelView::LabelView(Context* context, std::string label)
   : View(context), m_label(label), m_font(nu::MakeScopedPtr<ca::Font>()) {
-    nu::FileInputStream fontStream(nu::FilePath(FILE_PATH_LITERAL("C:\\Windows\\Fonts\\Arial.ttf")));
-    m_font->loadFromStream(&fontStream);
-    m_text.setFont(m_font.get());
+  nu::FileInputStream fontStream(nu::FilePath(FILE_PATH_LITERAL("C:\\Windows\\Fonts\\Arial.ttf")));
+  m_font->loadFromStream(&fontStream);
+  m_text.setFont(m_font.get());
 
-    updateTextInternal();
+  updateTextInternal();
 }
 
 LabelView::~LabelView() {}
 
 void LabelView::setLabel(std::string label) {
-    m_label = label;
+  m_label = label;
 
-    updateTextInternal();
+  updateTextInternal();
 }
 
 ca::Size<I32> LabelView::calculateMinSize() const {
-    ca::Size<I32> minSize = View::calculateMinSize();
+  ca::Size<I32> minSize = View::calculateMinSize();
 
-    ca::Rect<I32> bounds = m_text.getBounds();
+  ca::Rect<I32> bounds = m_text.getBounds();
 
-    minSize.width = std::max(minSize.width, bounds.size.width);
-    minSize.height = std::max(minSize.height, bounds.size.height);
+  minSize.width = std::max(minSize.width, bounds.size.width);
+  minSize.height = std::max(minSize.height, bounds.size.height);
 
-    return minSize;
+  return minSize;
 }
 
 void LabelView::updateTextInternal() {
-    m_text.setText(m_label);
+  m_text.setText(m_label);
 }
 
 void LabelView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
-    View::render(canvas, mat);
+  View::render(canvas, mat);
 
-    auto bounds = m_text.getBounds();
+  auto bounds = m_text.getBounds();
 
-    ca::Mat4 view;
-    view *= ca::translate(static_cast<F32>(m_rect.pos.x - bounds.pos.x), static_cast<F32>(m_rect.pos.y - bounds.pos.y),
-                          0.f);
+  ca::Mat4 view;
+  view *=
+      ca::translate(static_cast<F32>(m_rect.pos.x - bounds.pos.x), static_cast<F32>(m_rect.pos.y - bounds.pos.y), 0.f);
 
-    m_text.render(canvas, mat * view);
+  m_text.render(canvas, mat * view);
 }
 
 }  // namespace el
