@@ -11,26 +11,26 @@ namespace el {
 
 class LabelView : public View {
 public:
-    LabelView(Context* context, std::string label);
-    virtual ~LabelView();
+  LabelView(Context* context, std::string label);
+  virtual ~LabelView();
 
-    const std::string& getLabel() const { return m_label; }
-    void setLabel(std::string label);
+  const std::string& getLabel() const { return m_label; }
+  void setLabel(std::string label);
 
-    // Override: View
-    ca::Size<I32> calculateMinSize() const override;
-    void render(ca::Canvas *canvas, const ca::Mat4 &mat) override;
+  // Override: View
+  ca::Size<I32> calculateMinSize() const override;
+  void render(ca::Canvas* canvas, const ca::Mat4& mat) override;
 
 private:
-    // Update the render primitive.
-    void updateTextInternal();
+  // Update the render primitive.
+  void updateTextInternal();
 
-    std::string m_label;
-    ca::Text m_text;
+  std::string m_label;
+  ca::Text m_text;
 
-    nu::ScopedPtr<ca::Font> m_font;
+  nu::ScopedPtr<ca::Font> m_font;
 
-    DISALLOW_IMPLICIT_CONSTRUCTORS(LabelView);
+  DISALLOW_IMPLICIT_CONSTRUCTORS(LabelView);
 };
 
 }  // namespace el

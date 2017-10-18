@@ -1,16 +1,3 @@
-// Copyright (c) 2015, Tiaan Louw
-//
-// Permission to use, copy, modify, and/or distribute this software for any
-// purpose with or without fee is hereby granted, provided that the above
-// copyright notice and this permission notice appear in all copies.
-//
-// THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-// REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-// AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-// INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-// LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-// OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-// PERFORMANCE OF THIS SOFTWARE.
 
 #ifndef ELASTIC_VIEWS_COLOR_VIEW_H_
 #define ELASTIC_VIEWS_COLOR_VIEW_H_
@@ -24,30 +11,30 @@ namespace el {
 
 class ColorView : public View {
 public:
-    explicit ColorView(Context* context);
-    ColorView(Context* context, const ca::Color& color);
-    virtual ~ColorView();
+  explicit ColorView(Context* context);
+  ColorView(Context* context, const ca::Color& color);
+  virtual ~ColorView();
 
-    // color
-    const ca::Color& getColor() const { return m_color; }
-    void setColor(const ca::Color& color);
+  // color
+  const ca::Color& getColor() const { return m_color; }
+  void setColor(const ca::Color& color);
 
-    // Override: View
-    void layout(const ca::Rect<I32>& rect) override;
-    void render(ca::Canvas* canvas, const ca::Mat4& mat) override;
+  // Override: View
+  void layout(const ca::Rect<I32>& rect) override;
+  void render(ca::Canvas* canvas, const ca::Mat4& mat) override;
 
 private:
-    bool updateRenderState();
+  bool updateRenderState();
 
-    // The color of the view.
-    ca::Color m_color;
+  // The color of the view.
+  ca::Color m_color;
 
-    nu::ScopedPtr<ca::Program> m_shaderProgram;
+  nu::ScopedPtr<ca::Program> m_shaderProgram;
 
-    GLuint m_vertexBufferObject{0};
-    GLuint m_vertexArrayObject{0};
+  GLuint m_vertexBufferObject{0};
+  GLuint m_vertexArrayObject{0};
 
-    DISALLOW_IMPLICIT_CONSTRUCTORS(ColorView);
+  DISALLOW_IMPLICIT_CONSTRUCTORS(ColorView);
 };
 
 }  // namespace el

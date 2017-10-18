@@ -1,16 +1,3 @@
-// Copyright (c) 2015, Tiaan Louw
-//
-// Permission to use, copy, modify, and/or distribute this software for any
-// purpose with or without fee is hereby granted, provided that the above
-// copyright notice and this permission notice appear in all copies.
-//
-// THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-// REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-// AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-// INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-// LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-// OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-// PERFORMANCE OF THIS SOFTWARE.
 
 #ifndef ELASTIC_RESOURCES_RESOURCE_STORE_H_
 #define ELASTIC_RESOURCES_RESOURCE_STORE_H_
@@ -32,8 +19,7 @@ public:
 
   // Load the resource and insert it in the store.  Returns false if the
   // resource could not be loaded.
-  bool load(const IdType& id,
-                     const ResourceLoader<ResourceType>& loader) {
+  bool load(const IdType& id, const ResourceLoader<ResourceType>& loader) {
     ResourceEntry newEntry{loader.load(), loader};
     if (!newEntry.resource) {
       return false;
@@ -63,12 +49,10 @@ private:
     // The loader used to create the resource.
     ResourceLoader<ResourceType> loader;
 
-    ResourceEntry(std::unique_ptr<ResourceType> resource,
-                  const ResourceLoader<ResourceType>& loader)
+    ResourceEntry(std::unique_ptr<ResourceType> resource, const ResourceLoader<ResourceType>& loader)
       : resource(std::move(resource)), loader(loader) {}
 
-    ResourceEntry(ResourceEntry&& other)
-      : resource(std::move(other.resource)), loader(other.loader) {}
+    ResourceEntry(ResourceEntry&& other) : resource(std::move(other.resource)), loader(other.loader) {}
   };
 
   // Id's mapped to resource entries.

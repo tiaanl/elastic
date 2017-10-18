@@ -6,71 +6,71 @@
 
 class MyContext : public el::Context {
 public:
-    MyContext() : el::Context() {}
-    virtual ~MyContext() {}
+  MyContext() : el::Context() {}
+  virtual ~MyContext() {}
 
-    ca::Font* getFont(const std::string& name) override { return nullptr; }
+  ca::Font* getFont(const std::string& name) override { return nullptr; }
 };
 
 class CanvasIntegrationWindow : public ca::WindowDelegate {
 public:
-    CanvasIntegrationWindow() {}
-    ~CanvasIntegrationWindow() override {}
+  CanvasIntegrationWindow() {}
+  ~CanvasIntegrationWindow() override {}
 
-    // Override: ca::WindowDelegate
-    bool onWindowCreated() override {
-        if (!ca::WindowDelegate::onWindowCreated()) {
-            return false;
-        }
-
-        el::ColorView* colorView = new el::ColorView(&m_ui, ca::Color(255, 0, 0, 0));
-        colorView->setExpand(el::View::ExpandBoth);
-        m_ui.getRoot()->addChild(colorView);
-
-        return true;
+  // Override: ca::WindowDelegate
+  bool onWindowCreated() override {
+    if (!ca::WindowDelegate::onWindowCreated()) {
+      return false;
     }
 
-    void onMouseMoved(const ca::MouseEvent& evt) override {
-        ca::WindowDelegate::onMouseMoved(evt);
-        m_ui.onMouseMoved(evt);
-    }
+    el::ColorView* colorView = new el::ColorView(&m_ui, ca::Color(255, 0, 0, 0));
+    colorView->setExpand(el::View::ExpandBoth);
+    m_ui.getRoot()->addChild(colorView);
 
-    void onMousePressed(const ca::MouseEvent& evt) override {
-        ca::WindowDelegate::onMousePressed(evt);
-        m_ui.onMouseMoved(evt);
-    }
+    return true;
+  }
 
-    void onMouseReleased(const ca::MouseEvent& evt) override {
-        ca::WindowDelegate::onMouseReleased(evt);
-        m_ui.onMouseReleased(evt);
-    }
+  void onMouseMoved(const ca::MouseEvent& evt) override {
+    ca::WindowDelegate::onMouseMoved(evt);
+    m_ui.onMouseMoved(evt);
+  }
 
-    void onMouseWheel(const ca::MouseWheelEvent& evt) override {
-        ca::WindowDelegate::onMouseWheel(evt);
-        m_ui.onMouseWheel(evt);
-    }
+  void onMousePressed(const ca::MouseEvent& evt) override {
+    ca::WindowDelegate::onMousePressed(evt);
+    m_ui.onMouseMoved(evt);
+  }
 
-    void onKeyPressed(const ca::KeyEvent& evt) override {
-        ca::WindowDelegate::onKeyPressed(evt);
-        m_ui.onKeyPressed(evt);
-    }
+  void onMouseReleased(const ca::MouseEvent& evt) override {
+    ca::WindowDelegate::onMouseReleased(evt);
+    m_ui.onMouseReleased(evt);
+  }
 
-    void onKeyReleased(const ca::KeyEvent& evt) override {
-        ca::WindowDelegate::onKeyReleased(evt);
-        m_ui.onKeyReleased(evt);
-    };
+  void onMouseWheel(const ca::MouseWheelEvent& evt) override {
+    ca::WindowDelegate::onMouseWheel(evt);
+    m_ui.onMouseWheel(evt);
+  }
 
-    // Override: ca::WindowDelegate
-    void onPaint(ca::Canvas* canvas) override {
-        canvas->clear(ca::Color{31, 63, 95});
+  void onKeyPressed(const ca::KeyEvent& evt) override {
+    ca::WindowDelegate::onKeyPressed(evt);
+    m_ui.onKeyPressed(evt);
+  }
 
-        m_ui.render(canvas);
-    }
+  void onKeyReleased(const ca::KeyEvent& evt) override {
+    ca::WindowDelegate::onKeyReleased(evt);
+    m_ui.onKeyReleased(evt);
+  };
+
+  // Override: ca::WindowDelegate
+  void onPaint(ca::Canvas* canvas) override {
+    canvas->clear(ca::Color{31, 63, 95});
+
+    m_ui.render(canvas);
+  }
 
 private:
-    MyContext m_ui;
+  MyContext m_ui;
 
-    DISALLOW_COPY_AND_ASSIGN(CanvasIntegrationWindow);
+  DISALLOW_COPY_AND_ASSIGN(CanvasIntegrationWindow);
 };
 
 CANVAS_APP(CanvasIntegrationWindow);
