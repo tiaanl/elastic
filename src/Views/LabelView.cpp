@@ -6,11 +6,15 @@
 #include "canvas/math/transform.h"
 #include "nucleus/streams/file_input_stream.h"
 
+#include "nucleus/MemoryDebug.h"
+
 namespace el {
 
 LabelView::LabelView(Context* context, std::string label)
   : View(context), m_label(label), m_font(nu::MakeScopedPtr<ca::Font>()) {
   m_text.setFont(context->getFont("default"));
+
+  int* a = new int;
 
   updateTextInternal();
 }

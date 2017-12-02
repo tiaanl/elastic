@@ -5,9 +5,10 @@
 #include <cmath>
 #include <string>
 
-#include <nucleus/logging.h>
-
 #include "elastic/context.h"
+#include "nucleus/logging.h"
+
+#include "nucleus/MemoryDebug.h"
 
 namespace el {
 

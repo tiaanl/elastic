@@ -3,6 +3,10 @@
 
 #include <algorithm>
 
+#include "elastic/Context.h"
+
+#include "nucleus/MemoryDebug.h"
+
 namespace el {
 
 // static
@@ -39,13 +43,13 @@ ca::Rect<I32> GroupView::layoutControlInRect(View* view, const ca::Rect<I32>& re
   return viewRect;
 }
 
-GroupView::GroupView(Context* context) : View(context) {}
+GroupView::GroupView(Context* context) : View(context), m_children(m_context->getAllocator()) {}
 
 GroupView::~GroupView() {}
 
 void GroupView::addChild(View* view) {
   view->m_parent = this;
-  m_children.emplace_back(view);
+  m_children.emplaceBack(view);
 }
 
 void GroupView::removeChild(View* view) {
@@ -53,7 +57,7 @@ void GroupView::removeChild(View* view) {
   if (it == std::end(m_children))
     return;
   view->m_parent = nullptr;
-  m_children.erase(it);
+  m_children.remove(it);
 }
 
 View* GroupView::getViewAtPosition(const ca::Pos<I32>& pos) const {

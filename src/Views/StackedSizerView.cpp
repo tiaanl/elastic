@@ -3,6 +3,8 @@
 
 #include <algorithm>
 
+#include "nucleus/MemoryDebug.h"
+
 namespace el {
 
 StackedSizerView::StackedSizerView(Context* context) : GroupView(context) {}

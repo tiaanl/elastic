@@ -7,6 +7,7 @@
 #include "canvas/rendering/font.h"
 #include "elastic/Resources/ResourceStore.h"
 #include "elastic/Views/ContextView.h"
+#include "nucleus/Allocators/Allocator.h"
 
 namespace el {
 
@@ -14,8 +15,10 @@ class View;
 
 class Context : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
-  Context();
+  Context(nu::Allocator* allocator = nu::getDefaultAllocator());
   virtual ~Context();
+
+  nu::Allocator* getAllocator() const { return m_allocator; }
 
   // Get the root view of the context.
   ContextView* getRoot() { return &m_contextView; }
@@ -39,6 +42,8 @@ public:
 
 protected:
   friend class View;
+
+  nu::Allocator* m_allocator;
 
   // The root view of our hierarchy.
   mutable ContextView m_contextView;

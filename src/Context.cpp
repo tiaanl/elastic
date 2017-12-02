@@ -3,9 +3,11 @@
 
 #include "canvas/math/transform.h"
 
+#include "nucleus/MemoryDebug.h"
+
 namespace el {
 
-Context::Context() : m_contextView(this) {}
+Context::Context(nu::Allocator* allocator) : m_allocator(allocator), m_contextView(this) {}
 
 Context::~Context() {}
 

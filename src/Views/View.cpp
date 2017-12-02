@@ -3,6 +3,8 @@
 
 #include "elastic/Context.h"
 
+#include "nucleus/MemoryDebug.h"
+
 namespace el {
 
 View::View(Context* context) : m_context(context) {}

@@ -3,6 +3,8 @@
 
 #include "elastic/Context.h"
 
+#include "nucleus/MemoryDebug.h"
+
 namespace el {
 
 ContextView::ContextView(Context* context) : StackedSizerView(context) {}

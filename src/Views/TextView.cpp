@@ -5,6 +5,8 @@
 #include "elastic/context.h"
 #include "nucleus/algorithms/Utility.h"
 
+#include "nucleus/MemoryDebug.h"
+
 namespace el {
 
 TextView::TextView(Context* context, const std::string& label) : View(context), m_label(label) {

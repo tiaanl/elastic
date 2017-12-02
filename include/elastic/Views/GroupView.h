@@ -2,10 +2,11 @@
 #ifndef ELASTIC_VIEWS_GROUP_VIEW_H_
 #define ELASTIC_VIEWS_GROUP_VIEW_H_
 
+#include <utility>
 #include <vector>
 
 #include "elastic/Views/View.h"
-#include "nucleus/Memory/ScopedPtr.h"
+#include "nucleus/Containers/DynamicArray.h"
 
 namespace el {
 
@@ -19,6 +20,14 @@ public:
   void addChild(View* view);
   void removeChild(View* view);
 
+  template <typename ViewType, typename... Args>
+  ViewType* emplaceChild(Args&&... args) {
+    void* newBuffer = m_context->getAllocator()->allocate(sizeof(ViewType));
+    ViewType* newView = new (newBuffer) ViewType(std::forward<Args>(args)...);
+    m_children.emplaceBack(newView);
+    return newView;
+  }
+
   // Return a pointer to the view that is at the given coordinates.
   virtual View* getViewAtPosition(const ca::Pos<I32>& pos) const override;
 
@@ -29,7 +38,7 @@ public:
 
 protected:
   // This view's child views.
-  std::vector<View*> m_children;
+  nu::DynamicArray<View*> m_children;
 
 private:
   DISALLOW_IMPLICIT_CONSTRUCTORS(GroupView);
