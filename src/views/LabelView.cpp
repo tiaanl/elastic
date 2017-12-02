@@ -10,9 +10,7 @@ namespace el {
 
 LabelView::LabelView(Context* context, std::string label)
   : View(context), m_label(label), m_font(nu::MakeScopedPtr<ca::Font>()) {
-  nu::FileInputStream fontStream(nu::FilePath(FILE_PATH_LITERAL("C:\\Windows\\Fonts\\Arial.ttf")));
-  m_font->loadFromStream(&fontStream);
-  m_text.setFont(m_font.get());
+  m_text.setFont(context->getFont("default"));
 
   updateTextInternal();
 }
