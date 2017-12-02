@@ -3,7 +3,6 @@
 #define ELASTIC_VIEWS_GROUP_VIEW_H_
 
 #include <utility>
-#include <vector>
 
 #include "elastic/Views/View.h"
 #include "nucleus/Containers/DynamicArray.h"
