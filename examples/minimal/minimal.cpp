@@ -1,62 +1,46 @@
 
 #include "canvas/app.h"
 #include "canvas/rendering/canvas.h"
+#include "elastic/context.h"
+#include "elastic/views/ColorView.h"
+#include "elastic/views/stacked_sizer_view.h"
+#include "elastic/views/text_view.h"
+#include "nucleus/files/file_path.h"
+#include "nucleus/streams/file_input_stream.h"
 
-class App : public ca::WindowDelegate {
+class App : public ca::WindowDelegate, el::Context {
 public:
-  void onPaint(ca::Canvas* canvas) override { canvas->clear(ca::Color(0, 0, 127, 255)); }
-};
+  App() {}
 
-#if 0
-class MyContext : public el::Context {
-public:
-  virtual sf::Font* getFont(const std::string& name) override {
-    return nullptr;
-  }
-};
+  bool onWindowCreated() override {
+    nu::FileInputStream fontStream{nu::FilePath{FILE_PATH_LITERAL("C:\\Windows\\Fonts\\arial.ttf")}};
+    m_font.loadFromStream(&fontStream);
 
-int main(int argc, char* argv[]) {
-  sf::RenderWindow window{sf::VideoMode{800, 600}, "elastic - Minimal"};
+    el::StackedSizerView* stackedSizer = new el::StackedSizerView{this};
+    getRoot()->addChild(stackedSizer);
 
-  MyContext context;
+    el::ColorView* colorView1 = new el::ColorView(this);
+    colorView1->setName("colorView1");
+    colorView1->setColor(ca::Color{255, 0, 0, 255});
+    colorView1->setExpand(el::View::ExpandBoth);
+    stackedSizer->addChild(colorView1);
 
-  el::LinearSizerView* rootSizer = new el::LinearSizerView(&context);
-  rootSizer->setName("rootSizer");
-  rootSizer->setExpand(el::View::ExpandBoth);
-  rootSizer->SetOrientation(el::LinearSizerView::OrientationHorizontal);
-  context.getRoot()->addChild(rootSizer);
+    el::TextView* textView = new el::TextView(this, "Welg");
+    // textView->setMinSize(ca::Size<I32>{300, 200});
+    stackedSizer->addChild(textView);
 
-  el::ColorView* colorView1 = new el::ColorView(&context);
-  colorView1->setName("colorView1");
-  colorView1->setExpand(el::View::ExpandBoth);
-  colorView1->setProportion(1);
-  colorView1->setColor(sf::Color(50, 80, 110));
-  rootSizer->addChild(colorView1);
-
-  el::ColorView* colorView2 = new el::ColorView(&context);
-  colorView2->setName("colorView2");
-  colorView2->setExpand(el::View::ExpandBoth);
-  colorView2->setProportion(1);
-  colorView2->setColor(sf::Color(255, 0, 0));
-  rootSizer->addChild(colorView2);
-
-  while (window.isOpen()) {
-    sf::Event event;
-    if (window.pollEvent(event)) {
-      switch (event.type) {
-      case sf::Event::Closed:
-        window.close();
-        break;
-      }
-    }
-
-    window.clear(sf::Color{0, 0, 0, 0});
-    window.draw(context);
-    window.display();
+    return true;
   }
 
-  return 0;
-}
-#endif  // 0
+  void onPaint(ca::Canvas* canvas) override {
+    canvas->clear(ca::Color(0, 0, 127, 255));
+    render(canvas);
+  }
+
+  ca::Font* getFont(const std::string& name) override { return &m_font; }
+
+private:
+  ca::Font m_font;
+};
 
 CANVAS_APP(App);

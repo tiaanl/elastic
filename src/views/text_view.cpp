@@ -1,21 +1,23 @@
 
 #include "elastic/views/text_view.h"
 
+#include "canvas/math/transform.h"
 #include "elastic/context.h"
+#include "nucleus/algorithms/Utility.h"
 
 namespace el {
 
 TextView::TextView(Context* context, const std::string& label) : View(context), m_label(label) {
   // Set up the text shape.
-  // sf::Font* labelFont = context->getFont("default");
+  ca::Font* font = context->getFont("default");
 
   // Set up the label.
-  // if (labelFont) {
-  //     m_shape.setString(m_label);
-  //     m_shape.setFont(*labelFont);
-  //     m_shape.setColor(sf::Color{255, 255, 255});
-  //     m_shape.setCharacterSize(30);
-  // }
+  if (font) {
+    m_text.setText(m_label);
+    m_text.setFont(font);
+    // m_shape.setColor(sf::Color{255, 255, 255});
+    m_text.setTextSize(16);
+  }
 }
 
 TextView::~TextView() {}
@@ -24,28 +26,25 @@ void TextView::setLabel(const std::string& label) {
   m_label = label;
 
   // Set the label on the shape.
-  // m_shape.setString(label);
+  m_text.setText(m_label);
 }
 
 ca::Size<I32> TextView::calculateMinSize() const {
-  // ca::Rect<F32> bounds = m_shape.getLocalBounds();
-  // return sf::Vector2i{static_cast<int>(std::ceil(bounds.width)), static_cast<int>(std::ceil(bounds.height))};
+  ca::Size<I32> minSize = View::calculateMinSize();
+  ca::Rect<I32> bounds = m_text.getBounds();
 
-  return View::calculateMinSize();
-}
+  minSize.width = nu::max(minSize.width, bounds.size.width);
+  minSize.height = nu::max(minSize.height, bounds.size.height);
 
-void TextView::layout(const ca::Rect<I32>& rect) {
-  // sf::FloatRect floatLabelSize = m_shape.getLocalBounds();
-
-  // Move the shape to the correct position.
-  // m_shape.setPosition(sf::Vector2f{static_cast<float>(rect.left) - floatLabelSize.left,
-  // static_cast<float>(rect.top) - floatLabelSize.top});
+  return minSize;
 }
 
 void TextView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
   View::render(canvas, mat);
 
-  // target.draw(m_shape, states);
+  ca::Mat4 vmat = mat * ca::translate(static_cast<F32>(m_rect.pos.x), static_cast<F32>(m_rect.pos.y), 0.f);
+
+  m_text.render(canvas, vmat);
 }
 
 }  // namespace el

@@ -2,6 +2,7 @@
 #ifndef ELASTIC_VIEWS_TEXT_VIEW_H_
 #define ELASTIC_VIEWS_TEXT_VIEW_H_
 
+#include "canvas/Primitives/Text.h"
 #include "elastic/views/view.h"
 
 namespace el {
@@ -17,7 +18,6 @@ public:
 
   // Override: View
   ca::Size<I32> calculateMinSize() const override;
-  void layout(const ca::Rect<I32>& rect) override;
   void render(ca::Canvas* canvas, const ca::Mat4& mat) override;
 
 private:
@@ -25,7 +25,7 @@ private:
   std::string m_label;
 
   // The shape we use to render the text.
-  // sf::Text m_shape;
+  ca::Text m_text;
 
   DISALLOW_IMPLICIT_CONSTRUCTORS(TextView);
 };
