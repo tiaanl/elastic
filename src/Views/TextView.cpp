@@ -1,5 +1,5 @@
 
-#include "elastic/views/text_view.h"
+#include "elastic/Views/TextView.h"
 
 #include "canvas/math/transform.h"
 #include "elastic/context.h"

@@ -4,7 +4,7 @@
 
 #include "canvas/rendering/geometry.h"
 #include "canvas/rendering/program.h"
-#include "elastic/views/view.h"
+#include "elastic/Views/View.h"
 #include "nucleus/Memory/ScopedPtr.h"
 
 namespace el {

@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "elastic/views/view.h"
+#include "elastic/Views/View.h"
 #include "nucleus/Memory/ScopedPtr.h"
 
 namespace el {

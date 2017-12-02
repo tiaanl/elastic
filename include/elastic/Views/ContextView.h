@@ -2,7 +2,7 @@
 #ifndef ELASTIC_VIEWS_CONTEXT_VIEW_H_
 #define ELASTIC_VIEWS_CONTEXT_VIEW_H_
 
-#include "elastic/views/stacked_sizer_view.h"
+#include "elastic/Views/StackedSizerView.h"
 
 namespace el {
 

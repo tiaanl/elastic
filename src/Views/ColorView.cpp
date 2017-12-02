@@ -1,5 +1,5 @@
 
-#include "elastic/views/ColorView.h"
+#include "elastic/Views/ColorView.h"
 
 #include <cstring>
 

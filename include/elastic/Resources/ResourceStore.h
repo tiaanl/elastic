@@ -4,9 +4,8 @@
 
 #include <unordered_map>
 
-#include <nucleus/macros.h>
-
-#include "elastic/resources/resource_loader.h"
+#include "elastic/Resources/ResourceLoader.h"
+#include "nucleus/macros.h"
 
 namespace el {
 

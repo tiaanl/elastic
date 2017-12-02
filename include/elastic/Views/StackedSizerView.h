@@ -2,7 +2,7 @@
 #ifndef ELASTIC_VIEWS_STACKED_SIZER_VIEW_H_
 #define ELASTIC_VIEWS_STACKED_SIZER_VIEW_H_
 
-#include "elastic/views/group_view.h"
+#include "elastic/Views/GroupView.h"
 
 namespace el {
 

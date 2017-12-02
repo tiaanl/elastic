@@ -1,5 +1,5 @@
 
-#include "elastic/views/group_view.h"
+#include "elastic/Views/GroupView.h"
 
 #include <algorithm>
 

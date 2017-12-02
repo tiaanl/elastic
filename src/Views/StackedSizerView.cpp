@@ -1,5 +1,5 @@
 
-#include "elastic/views/stacked_sizer_view.h"
+#include "elastic/Views/StackedSizerView.h"
 
 #include <algorithm>
 

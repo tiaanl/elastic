@@ -1,5 +1,5 @@
 
-#include "elastic/views/linear_sizer_view.h"
+#include "elastic/Views/LinearSizerView.h"
 
 #include <algorithm>
 #include <cmath>

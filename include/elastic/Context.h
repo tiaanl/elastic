@@ -5,8 +5,8 @@
 #include <string>
 
 #include "canvas/rendering/font.h"
-#include "elastic/resources/resource_store.h"
-#include "elastic/views/context_view.h"
+#include "elastic/Resources/ResourceStore.h"
+#include "elastic/Views/ContextView.h"
 
 namespace el {
 

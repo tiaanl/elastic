@@ -1,7 +1,7 @@
 
-#include "elastic/views/context_view.h"
+#include "elastic/Views/ContextView.h"
 
-#include "elastic/context.h"
+#include "elastic/Context.h"
 
 namespace el {
 

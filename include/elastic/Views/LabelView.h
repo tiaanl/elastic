@@ -4,8 +4,9 @@
 
 #include "canvas/Primitives/Text.h"
 #include "canvas/rendering/font.h"
-#include "elastic/context.h"
-#include "elastic/views/view.h"
+#include "elastic/Context.h"
+#include "elastic/Views/View.h"
+#include "nucleus/Memory/ScopedPtr.h"
 
 namespace el {
 

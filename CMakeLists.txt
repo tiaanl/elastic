@@ -19,31 +19,31 @@ option(ELASTIC_BUILD_EXAMPLES "Build example projects")
 # elastic
 
 set(elastic_HEADER_FILES
-    "include/elastic/context.h"
-    "include/elastic/resources/resource_loader.h"
-    "include/elastic/resources/resource_store.h"
-    "include/elastic/views/button_view.h"
-    "include/elastic/views/ColorView.h"
-    "include/elastic/views/context_view.h"
-    "include/elastic/views/group_view.h"
-    "include/elastic/views/LabelView.h"
-    "include/elastic/views/linear_sizer_view.h"
-    "include/elastic/views/stacked_sizer_view.h"
-    "include/elastic/views/text_view.h"
-    "include/elastic/views/view.h"
+    "include/elastic/Context.h"
+    "include/elastic/Resources/ResourceLoader.h"
+    "include/elastic/Resources/ResourceStore.h"
+    "include/elastic/Views/ButtonView.h"
+    "include/elastic/Views/ColorView.h"
+    "include/elastic/Views/ContextView.h"
+    "include/elastic/Views/GroupView.h"
+    "include/elastic/Views/LabelView.h"
+    "include/elastic/Views/LinearSizerView.h"
+    "include/elastic/Views/StackedSizerView.h"
+    "include/elastic/Views/TextView.h"
+    "include/elastic/Views/View.h"
 )
 
 set(elastic_SOURCE_FILES
-    "src/context.cpp"
-    "src/views/button_view.cpp"
-    "src/views/ColorView.cpp"
-    "src/views/context_view.cpp"
-    "src/views/group_view.cpp"
-    "src/views/LabelView.cpp"
-    "src/views/linear_sizer_view.cpp"
-    "src/views/stacked_sizer_view.cpp"
-    "src/views/text_view.cpp"
-    "src/views/view.cpp"
+    "src/Context.cpp"
+    "src/Views/ButtonView.cpp"
+    "src/Views/ColorView.cpp"
+    "src/Views/ContextView.cpp"
+    "src/Views/GroupView.cpp"
+    "src/Views/LabelView.cpp"
+    "src/Views/LinearSizerView.cpp"
+    "src/Views/StackedSizerView.cpp"
+    "src/Views/TextView.cpp"
+    "src/Views/View.cpp"
 )
 
 add_library(elastic STATIC ${elastic_HEADER_FILES} ${elastic_SOURCE_FILES})
@@ -53,6 +53,6 @@ set_property(TARGET elastic PROPERTY FOLDER elastic)
 
 add_subdirectory(tests elastic_tests)
 
-if (ELASTIC_BUILD_EXAMPLES)
+if(ELASTIC_BUILD_EXAMPLES)
     add_subdirectory("examples")
-endif ()
+endif()

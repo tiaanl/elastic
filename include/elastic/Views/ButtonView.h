@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "elastic/views/view.h"
+#include "elastic/Views/View.h"
 
 namespace el {
 

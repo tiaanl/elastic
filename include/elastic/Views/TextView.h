@@ -3,7 +3,7 @@
 #define ELASTIC_VIEWS_TEXT_VIEW_H_
 
 #include "canvas/Primitives/Text.h"
-#include "elastic/views/view.h"
+#include "elastic/Views/View.h"
 
 namespace el {
 
