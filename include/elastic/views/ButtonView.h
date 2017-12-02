@@ -1,6 +1,6 @@
 
-#ifndef ELASTIC_VIEWS_BUTTON_H_
-#define ELASTIC_VIEWS_BUTTON_H_
+#ifndef ELASTIC_VIEWS_BUTTON_VIEW_H_
+#define ELASTIC_VIEWS_BUTTON_VIEW_H_
 
 #include <string>
 
@@ -53,4 +53,4 @@ private:
 
 }  // namespace el
 
-#endif  // ELASTIC_VIEWS_BUTTON_H_
+#endif  // ELASTIC_VIEWS_BUTTON_VIEW_H_
