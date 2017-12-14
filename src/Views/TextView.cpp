@@ -2,8 +2,7 @@
 #include "elastic/Views/TextView.h"
 
 #include "canvas/math/transform.h"
-#include "elastic/context.h"
-#include "nucleus/algorithms/Utility.h"
+#include "elastic/Context.h"
 
 #include "nucleus/MemoryDebug.h"
 

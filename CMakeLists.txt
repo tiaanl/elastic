@@ -1,20 +1,15 @@
 cmake_minimum_required(VERSION 2.8.7)
 
-project("elastic")
-
-# Dependencies
-
-include("cmake/canvas.cmake")
-
-# Compiler options
-
-include(${NUCLEUS_ROOT_DIR}/cmake/gcc.cmake)
-include(${NUCLEUS_ROOT_DIR}/cmake/msvc.cmake)
-include(${NUCLEUS_ROOT_DIR}/cmake/win32.cmake)
+project(elastic)
 
 # Options
 
 option(ELASTIC_BUILD_EXAMPLES "Build example projects")
+set(CMAKE_CXX_STANDARD 14)
+
+# Dependencies
+
+include("cmake/canvas.cmake")
 
 # elastic
 
@@ -31,7 +26,7 @@ set(elastic_HEADER_FILES
     "include/elastic/Views/StackedSizerView.h"
     "include/elastic/Views/TextView.h"
     "include/elastic/Views/View.h"
-)
+    )
 
 set(elastic_SOURCE_FILES
     "src/Context.cpp"
@@ -44,7 +39,7 @@ set(elastic_SOURCE_FILES
     "src/Views/StackedSizerView.cpp"
     "src/Views/TextView.cpp"
     "src/Views/View.cpp"
-)
+    )
 
 add_library(elastic STATIC ${elastic_HEADER_FILES} ${elastic_SOURCE_FILES})
 target_link_libraries(elastic nucleus canvas)

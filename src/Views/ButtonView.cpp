@@ -1,12 +1,7 @@
 
-#include "elastic/views/ButtonView.h"
+#include "elastic/Views/ButtonView.h"
 
-#include <algorithm>
-#include <cmath>
-#include <string>
-
-#include "elastic/context.h"
-#include "nucleus/logging.h"
+#include "elastic/Context.h"
 
 #include "nucleus/MemoryDebug.h"
 

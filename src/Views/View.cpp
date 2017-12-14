@@ -1,5 +1,5 @@
 
-#include "elastic/views/view.h"
+#include "elastic/Views/View.h"
 
 #include "elastic/Context.h"
 

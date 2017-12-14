@@ -19,6 +19,7 @@ public:
   void addChild(View* view);
   void removeChild(View* view);
 
+#if 0
   template <typename ViewType, typename... Args>
   ViewType* emplaceChild(Args&&... args) {
     void* newBuffer = m_context->getAllocator()->allocate(sizeof(ViewType));
@@ -26,6 +27,7 @@ public:
     m_children.emplaceBack(newView);
     return newView;
   }
+#endif  // 0
 
   // Return a pointer to the view that is at the given coordinates.
   virtual View* getViewAtPosition(const ca::Pos<I32>& pos) const override;

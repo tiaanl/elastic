@@ -14,7 +14,7 @@ namespace el {
 namespace {
 
 const char* kVertexShaderSource =
-    "#version 420\n"
+    "#version 410\n"
     "\n"
     "layout(location = 0) in vec2 vertex_position;\n"
     "\n"
@@ -25,7 +25,7 @@ const char* kVertexShaderSource =
     "}\n";
 
 const char* kFragmentShaderSource =
-    "#version 420\n"
+    "#version 410\n"
     "\n"
     "uniform vec4 uniform_color;\n"
     "\n"

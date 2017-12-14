@@ -1,10 +1,9 @@
 
 #include "canvas/app.h"
 #include "canvas/rendering/canvas.h"
-#include "elastic/context.h"
-#include "elastic/views/ColorView.h"
-#include "elastic/views/StackedSizerView.h"
-#include "elastic/views/TextView.h"
+#include "elastic/Context.h"
+#include "elastic/Views/ColorView.h"
+#include "elastic/Views/TextView.h"
 #include "nucleus/files/file_path.h"
 #include "nucleus/streams/file_input_stream.h"
 
@@ -13,17 +12,24 @@ public:
   App() {}
 
   bool onWindowCreated() override {
+#if OS(WIN32)
     nu::FileInputStream fontStream{nu::FilePath{FILE_PATH_LITERAL("C:\\Windows\\Fonts\\arial.ttf")}};
+#elif OS(MACOSX)
+      nu::FileInputStream fontStream{nu::FilePath{FILE_PATH_LITERAL("/Library/Fonts/Arial.ttf")}};
+#endif
+
     m_font.loadFromStream(&fontStream);
 
-    el::StackedSizerView* stackedSizer = getRoot()->emplaceChild<el::StackedSizerView>(static_cast<el::Context*>(this));
+    el::StackedSizerView* stackedSizerView = new el::StackedSizerView(this);
+    getRoot()->addChild(stackedSizerView);
 
-    el::ColorView* colorView1 = stackedSizer->emplaceChild<el::ColorView>(static_cast<el::Context*>(this));
+    el::ColorView* colorView1 = new el::ColorView(this);
     colorView1->setName("colorView1");
     colorView1->setColor(ca::Color{255, 0, 0, 255});
     colorView1->setExpand(el::View::ExpandBoth);
 
-    el::TextView* textView = stackedSizer->emplaceChild<el::TextView>(static_cast<el::Context*>(this), "Welg");
+    el::TextView* textView = new el::TextView(this, "Welg");
+    stackedSizerView->addChild(textView);
 
     return true;
   }

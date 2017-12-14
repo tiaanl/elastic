@@ -1,8 +1,6 @@
 
 #include "elastic/Views/GroupView.h"
 
-#include <algorithm>
-
 #include "elastic/Context.h"
 
 #include "nucleus/MemoryDebug.h"

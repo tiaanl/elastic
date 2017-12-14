@@ -1,5 +1,5 @@
 
-#include "elastic/views/ColorView.h"
+#include "elastic/Views/ColorView.h"
 #include "canvas/app.h"
 #include "canvas/rendering/canvas.h"
 #include "elastic/context.h"
