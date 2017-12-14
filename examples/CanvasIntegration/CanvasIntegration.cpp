@@ -1,8 +1,8 @@
 
 #include "elastic/Views/ColorView.h"
-#include "canvas/app.h"
-#include "canvas/rendering/canvas.h"
-#include "elastic/context.h"
+#include "canvas/App.h"
+#include "canvas/Rendering/Canvas.h"
+#include "elastic/Context.h"
 
 class MyContext : public el::Context {
 public:

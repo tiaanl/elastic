@@ -1,11 +1,9 @@
 
 #include "elastic/Views/ColorView.h"
 
-#include <cstring>
-
-#include "canvas/math/transform.h"
-#include "canvas/rendering/shader.h"
-#include "nucleus/streams/wrapped_memory_input_stream.h"
+#include "canvas/Math/Transform.h"
+#include "canvas/Rendering/Shader.h"
+#include "nucleus/Streams/WrappedMemoryInputStream.h"
 
 #include "nucleus/MemoryDebug.h"
 
@@ -106,7 +104,7 @@ bool ColorView::updateRenderState() {
       return false;
     }
 
-    m_shaderProgram = nu::MakeScopedPtr<ca::Program>(&vertexShader, &fragmentShader);
+    m_shaderProgram = nu::makeScopedPtr<ca::Program>(&vertexShader, &fragmentShader);
     m_shaderProgram->link();
   }
 

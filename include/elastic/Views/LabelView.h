@@ -3,7 +3,7 @@
 #define ELASTIC_VIEWS_LABEL_VIEW_H_
 
 #include "canvas/Primitives/Text.h"
-#include "canvas/rendering/font.h"
+#include "canvas/Rendering/Font.h"
 #include "elastic/Context.h"
 #include "elastic/Views/View.h"
 #include "nucleus/Memory/ScopedPtr.h"

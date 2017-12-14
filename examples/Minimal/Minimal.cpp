@@ -1,11 +1,11 @@
 
-#include "canvas/app.h"
-#include "canvas/rendering/canvas.h"
+#include "canvas/App.h"
+#include "canvas/Rendering/Canvas.h"
 #include "elastic/Context.h"
 #include "elastic/Views/ColorView.h"
 #include "elastic/Views/TextView.h"
-#include "nucleus/files/file_path.h"
-#include "nucleus/streams/file_input_stream.h"
+#include "nucleus/Files/FilePath.h"
+#include "nucleus/Streams/FileInputStream.h"
 
 class App : public ca::WindowDelegate, el::Context {
 public:

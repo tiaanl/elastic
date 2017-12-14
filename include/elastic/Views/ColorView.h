@@ -2,8 +2,8 @@
 #ifndef ELASTIC_VIEWS_COLOR_VIEW_H_
 #define ELASTIC_VIEWS_COLOR_VIEW_H_
 
-#include "canvas/rendering/geometry.h"
-#include "canvas/rendering/program.h"
+#include "canvas/Rendering/Geometry.h"
+#include "canvas/Rendering/Program.h"
 #include "elastic/Views/View.h"
 #include "nucleus/Memory/ScopedPtr.h"
 

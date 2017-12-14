@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "canvas/rendering/font.h"
+#include "canvas/Rendering/Font.h"
 #include "elastic/Resources/ResourceStore.h"
 #include "elastic/Views/ContextView.h"
 #include "nucleus/Allocators/Allocator.h"

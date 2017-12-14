@@ -5,14 +5,14 @@
 #include <cstdint>
 #include <string>
 
-#include "canvas/math/mat4.h"
-#include "canvas/rendering/canvas.h"
-#include "canvas/utils/pos.h"
-#include "canvas/utils/rect.h"
-#include "canvas/utils/size.h"
-#include "canvas/windows/KeyboardEventHandlerInterface.h"
-#include "canvas/windows/MouseEventHandlerInterface.h"
-#include "nucleus/macros.h"
+#include "canvas/Math/Mat4.h"
+#include "canvas/Rendering/Canvas.h"
+#include "canvas/Utils/Pos.h"
+#include "canvas/Utils/Rect.h"
+#include "canvas/Utils/Size.h"
+#include "canvas/Windows/KeyboardEventHandlerInterface.h"
+#include "canvas/Windows/MouseEventHandlerInterface.h"
+#include "nucleus/Macros.h"
 
 namespace el {
 
