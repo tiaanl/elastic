@@ -3,6 +3,7 @@
 
 #include "canvas/Math/Transform.h"
 #include "nucleus/Streams/FileInputStream.h"
+#include "nucleus/Utils/MinMax.h"
 
 #include "nucleus/MemoryDebug.h"
 
@@ -30,8 +31,8 @@ ca::Size<I32> LabelView::calculateMinSize() const {
 
   ca::Rect<I32> bounds = m_text.getBounds();
 
-  minSize.width = std::max(minSize.width, bounds.size.width);
-  minSize.height = std::max(minSize.height, bounds.size.height);
+  minSize.width = nu::max(minSize.width, bounds.size.width);
+  minSize.height = nu::max(minSize.height, bounds.size.height);
 
   return minSize;
 }
