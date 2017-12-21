@@ -39,7 +39,7 @@ public:
     render(canvas);
   }
 
-  ca::Font* getFont(const std::string& name) override { return &m_font; }
+  ca::Font* getFont(const std::string&) override { return &m_font; }
 
 private:
   ca::Font m_font;

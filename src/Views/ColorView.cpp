@@ -3,6 +3,7 @@
 
 #include "canvas/Math/Transform.h"
 #include "canvas/Rendering/Shader.h"
+#include "elastic/Context.h"
 #include "nucleus/Streams/WrappedMemoryInputStream.h"
 
 #include "nucleus/MemoryDebug.h"
@@ -35,7 +36,7 @@ const char* kFragmentShaderSource =
 
 }  // namespace
 
-ColorView::ColorView(Context* context) : View(context) {}
+ColorView::ColorView(Context* context) : View(context), m_shaderProgram(context->getAllocator()) {}
 
 ColorView::ColorView(Context* context, const ca::Color& color) : ColorView(context) {
   setColor(color);
@@ -104,7 +105,7 @@ bool ColorView::updateRenderState() {
       return false;
     }
 
-    m_shaderProgram = nu::makeScopedPtr<ca::Program>(&vertexShader, &fragmentShader);
+    m_shaderProgram = nu::move(nu::allocate<ca::Program>(m_context->getAllocator(), &vertexShader, &fragmentShader));
     m_shaderProgram->link();
   }
 

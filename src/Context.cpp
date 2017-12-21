@@ -9,8 +9,6 @@ namespace el {
 
 Context::Context(nu::Allocator* allocator) : m_allocator(allocator), m_contextView(this) {}
 
-Context::~Context() {}
-
 void Context::setFocusView(View* view) {
   m_focusView = view;
 }

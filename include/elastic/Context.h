@@ -15,8 +15,8 @@ class View;
 
 class Context : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
-  Context(nu::Allocator* allocator = nu::getDefaultAllocator());
-  virtual ~Context();
+  explicit Context(nu::Allocator* allocator = nu::getDefaultAllocator());
+  virtual ~Context() = default;
 
   nu::Allocator* getAllocator() const { return m_allocator; }
 

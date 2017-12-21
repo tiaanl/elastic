@@ -1,15 +1,15 @@
 
-#include "elastic/Views/ColorView.h"
 #include "canvas/App.h"
 #include "canvas/Rendering/Canvas.h"
 #include "elastic/Context.h"
+#include "elastic/Views/ColorView.h"
 
 class MyContext : public el::Context {
 public:
-  MyContext() : el::Context() {}
+  MyContext() {}
   virtual ~MyContext() {}
 
-  ca::Font* getFont(const std::string& name) override { return nullptr; }
+  ca::Font* getFont(const std::string&) override { return nullptr; }
 };
 
 class CanvasIntegrationWindow : public ca::WindowDelegate {

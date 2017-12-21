@@ -5,7 +5,7 @@
 #include "canvas/Rendering/Geometry.h"
 #include "canvas/Rendering/Program.h"
 #include "elastic/Views/View.h"
-#include "nucleus/Memory/ScopedPtr.h"
+#include "nucleus/Memory/Allocated.h"
 
 namespace el {
 
@@ -29,7 +29,7 @@ private:
   // The color of the view.
   ca::Color m_color;
 
-  nu::ScopedPtr<ca::Program> m_shaderProgram;
+  nu::Allocated<ca::Program> m_shaderProgram;
 
   GLuint m_vertexBufferObject{0};
   GLuint m_vertexArrayObject{0};
