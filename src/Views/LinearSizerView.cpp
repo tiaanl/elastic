@@ -61,14 +61,14 @@ void LinearSizerView::layoutHorizontal(const ca::Rect<I32>& rect) {
   int32_t totalSize = rect.size.width;
   int32_t totalProportion = 0;
   for (size_t i = 0; i < m_children.getSize(); ++i) {
-    sizes.get(i).first = m_children.get(i)->getProportion();
-    sizes.get(i).second = m_children.get(i)->calculateMinSize();
+    sizes[i].first = m_children[i]->getProportion();
+    sizes[i].second = m_children[i]->calculateMinSize();
 
     // Calculate the total number of proportions we need.
-    totalProportion += m_children.get(i)->getProportion();
+    totalProportion += m_children[i]->getProportion();
 
     // Adjust the space we have to divide between the views.
-    totalSize -= sizes.get(i).second.width;
+    totalSize -= sizes[i].second.width;
   }
 
   // Calculate the size we have per proportion for each view.
@@ -79,11 +79,11 @@ void LinearSizerView::layoutHorizontal(const ca::Rect<I32>& rect) {
   for (size_t i = 0; i < m_children.getSize(); ++i) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.
-    sectionRect.size.width = sizes.get(i).second.width +
-                             std::lround(singleProportionSize * static_cast<float>(m_children.get(i)->getProportion()));
+    sectionRect.size.width = sizes[i].second.width +
+                             std::lround(singleProportionSize * static_cast<float>(m_children[i]->getProportion()));
 
     // Layout the child view.
-    m_children.get(i)->layout(layoutControlInRect(m_children.get(i), sectionRect));
+    m_children[i]->layout(layoutControlInRect(m_children[i], sectionRect));
 
     // Adjust the top of the layout rect to where the next view will be layed
     // out.
@@ -100,14 +100,14 @@ void LinearSizerView::layoutVertical(const ca::Rect<I32>& rect) {
   int32_t totalSize = rect.size.height;
   int32_t totalProportion = 0;
   for (size_t i = 0; i < m_children.getSize(); ++i) {
-    sizes.get(i).first = m_children.get(i)->getProportion();
-    sizes.get(i).second = m_children.get(i)->calculateMinSize();
+    sizes[i].first = m_children[i]->getProportion();
+    sizes[i].second = m_children[i]->calculateMinSize();
 
     // Calculate the total number of proportions we need.
-    totalProportion += m_children.get(i)->getProportion();
+    totalProportion += m_children[i]->getProportion();
 
     // Adjust the space we have to divide between the views.
-    totalSize -= sizes.get(i).second.height;
+    totalSize -= sizes[i].second.height;
   }
 
   // Calculate the size we have per proportion for each view.
@@ -119,11 +119,11 @@ void LinearSizerView::layoutVertical(const ca::Rect<I32>& rect) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.
     sectionRect.size.height =
-        sizes.get(i).second.height +
-        std::lround(singleProportionSize * static_cast<float>(m_children.get(i)->getProportion()));
+        sizes[i].second.height +
+        std::lround(singleProportionSize * static_cast<float>(m_children[i]->getProportion()));
 
     // Layout the child view.
-    m_children.get(i)->layout(layoutControlInRect(m_children.get(i), sectionRect));
+    m_children[i]->layout(layoutControlInRect(m_children[i], sectionRect));
 
     // Adjust the top of the layout rect to where the next view will be layed
     // out.
