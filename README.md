@@ -1,5 +1,6 @@
 # elastic
-General purpose cross-platform UI library bases on SFML and nucleus.
+
+General purpose cross-platform UI library based on nucleus and canvas.
 
 ## Panel definition
 
