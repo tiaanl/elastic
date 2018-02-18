@@ -1,6 +1,8 @@
 
 #include "elastic/Views/ColorView.h"
 
+#include <utility>
+
 #include "canvas/Math/Transform.h"
 #include "canvas/Rendering/Shader.h"
 #include "elastic/Context.h"
@@ -89,6 +91,7 @@ void ColorView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
 }
 
 bool ColorView::updateRenderState() {
+  /*
   // Create the shader program if required.
   if (!m_shaderProgram) {
     // Create the vertex shader.
@@ -105,7 +108,7 @@ bool ColorView::updateRenderState() {
       return false;
     }
 
-    m_shaderProgram = nu::move(nu::allocate<ca::Program>(m_context->getAllocator(), &vertexShader, &fragmentShader));
+    m_shaderProgram = nu::allocate<ca::Program>(m_context->getAllocator(), &vertexShader, &fragmentShader);
     m_shaderProgram->link();
   }
 
@@ -136,6 +139,7 @@ bool ColorView::updateRenderState() {
 
   GL_CHECK(glEnableVertexAttribArray(0));
   GL_CHECK(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0));
+  */
 
   return true;
 }

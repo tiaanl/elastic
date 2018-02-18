@@ -6,7 +6,7 @@
 #include "canvas/Rendering/Font.h"
 #include "elastic/Context.h"
 #include "elastic/Views/View.h"
-#include "nucleus/Memory/ScopedPtr.h"
+#include "nucleus/Memory/Ptr.h"
 
 namespace el {
 
@@ -29,7 +29,7 @@ private:
   std::string m_label;
   ca::Text m_text;
 
-  nu::ScopedPtr<ca::Font> m_font;
+  nu::Ptr<ca::Font> m_font;
 
   DISALLOW_IMPLICIT_CONSTRUCTORS(LabelView);
 };

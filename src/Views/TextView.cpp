@@ -34,8 +34,8 @@ ca::Size<I32> TextView::calculateMinSize() const {
   ca::Size<I32> minSize = View::calculateMinSize();
   ca::Rect<I32> bounds = m_text.getBounds();
 
-  minSize.width = nu::max(minSize.width, bounds.size.width);
-  minSize.height = nu::max(minSize.height, bounds.size.height);
+  minSize.width = std::max(minSize.width, bounds.size.width);
+  minSize.height = std::max(minSize.height, bounds.size.height);
 
   return minSize;
 }

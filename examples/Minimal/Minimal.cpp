@@ -4,18 +4,18 @@
 #include "elastic/Context.h"
 #include "elastic/Views/ColorView.h"
 #include "elastic/Views/TextView.h"
-#include "nucleus/Files/FilePath.h"
+#include "nucleus/FilePath.h"
 #include "nucleus/Streams/FileInputStream.h"
 
 class App : public ca::WindowDelegate, el::Context {
 public:
-  App() {}
+  App() : ca::WindowDelegate("Minimal") {}
 
   bool onWindowCreated() override {
 #if OS(WIN32)
-    nu::FileInputStream fontStream{nu::FilePath{FILE_PATH_LITERAL("C:\\Windows\\Fonts\\arial.ttf")}};
+    nu::FileInputStream fontStream{nu::FilePath { FILE_PATH_LITERAL("C:\\Windows\\Fonts\\arial.ttf") }};
 #elif OS(MACOSX)
-      nu::FileInputStream fontStream{nu::FilePath{FILE_PATH_LITERAL("/Library/Fonts/Arial.ttf")}};
+    nu::FileInputStream fontStream{nu::FilePath{"/Library/Fonts/Arial.ttf"}};
 #endif
 
     m_font.loadFromStream(&fontStream);

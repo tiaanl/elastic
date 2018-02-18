@@ -5,7 +5,7 @@
 #include "canvas/Rendering/Geometry.h"
 #include "canvas/Rendering/Program.h"
 #include "elastic/Views/View.h"
-#include "nucleus/Memory/Allocated.h"
+#include "nucleus/Allocators/Allocated.h"
 
 namespace el {
 

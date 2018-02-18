@@ -3,14 +3,13 @@
 
 #include "canvas/Math/Transform.h"
 #include "nucleus/Streams/FileInputStream.h"
-#include "nucleus/Utils/MinMax.h"
 
 #include "nucleus/MemoryDebug.h"
 
 namespace el {
 
 LabelView::LabelView(Context* context, std::string label)
-  : View(context), m_label(label), m_font(nu::makeScopedPtr<ca::Font>()) {
+  : View(context), m_label(label), m_font(nu::makePtr<ca::Font>()) {
   m_text.setFont(context->getFont("default"));
 
   int* a = new int;
@@ -31,8 +30,8 @@ ca::Size<I32> LabelView::calculateMinSize() const {
 
   ca::Rect<I32> bounds = m_text.getBounds();
 
-  minSize.width = nu::max(minSize.width, bounds.size.width);
-  minSize.height = nu::max(minSize.height, bounds.size.height);
+  minSize.width = std::max(minSize.width, bounds.size.width);
+  minSize.height = std::max(minSize.height, bounds.size.height);
 
   return minSize;
 }
