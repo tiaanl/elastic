@@ -7,7 +7,8 @@
 
 namespace el {
 
-Context::Context(nu::Allocator* allocator) : m_allocator(allocator), m_contextView(this) {}
+Context::Context(ca::ResourceManager* resourceManager, nu::Allocator* allocator)
+  : m_allocator{allocator}, m_resourceManager{resourceManager}, m_contextView(this) {}
 
 void Context::setFocusView(View* view) {
   m_focusView = view;

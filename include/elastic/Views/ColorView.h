@@ -29,7 +29,7 @@ private:
   // The color of the view.
   ca::Color m_color;
 
-  nu::Allocated<ca::Program> m_shaderProgram;
+  ca::ResourceRef<ca::Program> m_shaderProgram;
 
   GLuint m_vertexBufferObject{0};
   GLuint m_vertexArrayObject{0};

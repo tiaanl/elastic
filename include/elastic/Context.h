@@ -5,7 +5,7 @@
 #include <string>
 
 #include "canvas/Rendering/Font.h"
-#include "elastic/Resources/ResourceStore.h"
+#include "canvas/Resources/ResourceManager.h"
 #include "elastic/Views/ContextView.h"
 #include "nucleus/Allocators/Allocator.h"
 
@@ -15,8 +15,10 @@ class View;
 
 class Context : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
-  explicit Context(nu::Allocator* allocator = nu::getDefaultAllocator());
+  explicit Context(ca::ResourceManager* resourceManager, nu::Allocator* allocator = nu::getDefaultAllocator());
   virtual ~Context() = default;
+
+  ca::ResourceManager* getResourceManager() { return m_resourceManager; }
 
   nu::Allocator* getAllocator() const { return m_allocator; }
 
@@ -42,6 +44,8 @@ public:
 
 protected:
   friend class View;
+
+  ca::ResourceManager* m_resourceManager;
 
   nu::Allocator* m_allocator;
 
