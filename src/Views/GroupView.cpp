@@ -41,9 +41,9 @@ ca::Rect<I32> GroupView::layoutControlInRect(View* view, const ca::Rect<I32>& re
   return viewRect;
 }
 
-GroupView::GroupView(Context* context) : View(context), m_children(m_context->getAllocator()) {}
+GroupView::GroupView(Context* context) : View(context) {}
 
-GroupView::~GroupView() {}
+GroupView::~GroupView() = default;
 
 void GroupView::addChild(View* view) {
   view->m_parent = this;

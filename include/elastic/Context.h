@@ -15,12 +15,10 @@ class View;
 
 class Context : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
-  explicit Context(ca::ResourceManager* resourceManager, nu::Allocator* allocator = nu::getDefaultAllocator());
+  explicit Context(ca::ResourceManager* resourceManager);
   virtual ~Context() = default;
 
   ca::ResourceManager* getResourceManager() { return m_resourceManager; }
-
-  nu::Allocator* getAllocator() const { return m_allocator; }
 
   // Get the root view of the context.
   ContextView* getRoot() { return &m_contextView; }
@@ -46,8 +44,6 @@ protected:
   friend class View;
 
   ca::ResourceManager* m_resourceManager;
-
-  nu::Allocator* m_allocator;
 
   // The root view of our hierarchy.
   mutable ContextView m_contextView;
