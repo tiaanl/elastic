@@ -9,11 +9,11 @@
 
 class App : public ca::WindowDelegate, el::Context {
 public:
-  App() : ca::WindowDelegate("Minimal") {}
+  App() : ca::WindowDelegate("Minimal"), el::Context(nullptr) {}
 
   bool onWindowCreated() override {
-#if OS(WIN32)
-    nu::FileInputStream fontStream{nu::FilePath { FILE_PATH_LITERAL("C:\\Windows\\Fonts\\arial.ttf") }};
+#if OS(WIN)
+    nu::FileInputStream fontStream{nu::FilePath("C:\\Windows\\Fonts\\arial.ttf")};
 #elif OS(MACOSX)
     nu::FileInputStream fontStream{nu::FilePath{"/Library/Fonts/Arial.ttf"}};
 #endif

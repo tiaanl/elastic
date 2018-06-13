@@ -72,11 +72,11 @@ void ColorView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
   view *= ca::scale(static_cast<F32>(m_rect.size.width), static_cast<F32>(m_rect.size.height), 1.f);
 
 #if 1
-  ca::Program::bind(&m_shaderProgram.get()->get());
-  m_shaderProgram.get()->get().setUniform(
-      "uniform_color", ca::Vec4{static_cast<F32>(m_color.r) / 255.f, static_cast<F32>(m_color.g) / 255.f,
-                                static_cast<F32>(m_color.b) / 255.f, static_cast<F32>(m_color.a) / 255.f});
-  m_shaderProgram.get()->get().setUniform("uniform_mvp", mat * view);
+  ca::Program::bind(m_shaderProgram.get());
+  m_shaderProgram.get()->setUniform("uniform_color",
+                                    ca::Vec4{static_cast<F32>(m_color.r) / 255.f, static_cast<F32>(m_color.g) / 255.f,
+                                             static_cast<F32>(m_color.b) / 255.f, static_cast<F32>(m_color.a) / 255.f});
+  m_shaderProgram.get()->setUniform("uniform_mvp", mat * view);
 
   GL_CHECK(glBindVertexArray(m_vertexArrayObject));
   GL_CHECK(glDrawArrays(GL_TRIANGLE_STRIP, 0, 4));
@@ -94,20 +94,20 @@ bool ColorView::updateRenderState() {
   // Create the shader program if required.
   if (!m_shaderProgram) {
     m_shaderProgram = m_context->getResourceManager()->getOrCreateProgram("elastic_ColorView_program");
-    if (!m_shaderProgram.get()->get().isLinked()) {
+    if (!m_shaderProgram.get()->isLinked()) {
       // Create the vertex shader.
       nu::WrappedMemoryInputStream vertexStream{kVertexShaderSource, std::strlen(kVertexShaderSource)};
       ca::ResourceRef<ca::Shader> vertexShaderResource =
-          m_context->getResourceManager()->getOrCreateShader("elastic_ColorView_vertexShader", ca::Shader::Vertex);
-      if (!vertexShaderResource.get()->get().loadFromStream(&vertexStream)) {
+          m_context->getResourceManager()->getOrCreateShader("elastic_ColorView_vertexShader");
+      if (!vertexShaderResource.get()->loadFromStream(ca::Shader::Vertex, &vertexStream)) {
         return false;
       }
 
       // Create the fragment shader.
       nu::WrappedMemoryInputStream fragmentStream{kFragmentShaderSource, std::strlen(kFragmentShaderSource)};
       ca::ResourceRef<ca::Shader> fragmentShaderResource =
-          m_context->getResourceManager()->getOrCreateShader("elastic_ColorView_fragmentShader", ca::Shader::Fragment);
-      if (!fragmentShaderResource.get()->get().loadFromStream(&fragmentStream)) {
+          m_context->getResourceManager()->getOrCreateShader("elastic_ColorView_fragmentShader");
+      if (!fragmentShaderResource.get()->loadFromStream(ca::Shader::Fragment, &fragmentStream)) {
         return false;
       }
 
@@ -117,9 +117,9 @@ bool ColorView::updateRenderState() {
       }
 
       m_shaderProgram = m_context->getResourceManager()->getOrCreateProgram("elastic_ColorView_program");
-      m_shaderProgram->get().setVertexShader(vertexShaderResource);
-      m_shaderProgram->get().setFragmentShader(fragmentShaderResource);
-      if (!m_shaderProgram->get().link()) {
+      m_shaderProgram->setVertexShader(vertexShaderResource);
+      m_shaderProgram->setFragmentShader(fragmentShaderResource);
+      if (!m_shaderProgram->link()) {
         return false;
       }
     }

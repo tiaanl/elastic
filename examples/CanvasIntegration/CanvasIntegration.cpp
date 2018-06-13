@@ -6,7 +6,7 @@
 
 class MyContext : public el::Context {
 public:
-  MyContext() {}
+  MyContext() : el::Context(nullptr) {}
   virtual ~MyContext() {}
 
   ca::Font* getFont(const std::string&) override { return nullptr; }
@@ -14,7 +14,7 @@ public:
 
 class CanvasIntegrationWindow : public ca::WindowDelegate {
 public:
-  CanvasIntegrationWindow() {}
+  CanvasIntegrationWindow() : ca::WindowDelegate("elastic: CanvasIntegration") {}
   ~CanvasIntegrationWindow() override {}
 
   // Override: ca::WindowDelegate
