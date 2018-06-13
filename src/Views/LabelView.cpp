@@ -9,7 +9,7 @@
 namespace el {
 
 LabelView::LabelView(Context* context, std::string label)
-  : View(context), m_label(label), m_font(nu::makePtr<ca::Font>()) {
+  : View(context), m_label(label), m_font(nu::makeScopedPtr<ca::Font>()) {
   m_text.setFont(context->getFont("default"));
 
   int* a = new int;
