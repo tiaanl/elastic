@@ -12,11 +12,16 @@ namespace el {
 
 class LabelView : public View {
 public:
-  LabelView(Context* context, std::string label);
+  MOVE_DELETE(LabelView);
+  COPY_DELETE(LabelView);
+
+  LabelView(Context* context, nu::String label);
   virtual ~LabelView();
 
-  const std::string& getLabel() const { return m_label; }
-  void setLabel(std::string label);
+  const nu::String& getLabel() const {
+    return m_label;
+  }
+  void setLabel(nu::String label);
 
   // Override: View
   ca::Size<I32> calculateMinSize() const override;
@@ -26,12 +31,8 @@ private:
   // Update the render primitive.
   void updateTextInternal();
 
-  std::string m_label;
+  nu::String m_label;
   ca::Text m_text;
-
-  nu::ScopedPtr<ca::Font> m_font;
-
-  DISALLOW_IMPLICIT_CONSTRUCTORS(LabelView);
 };
 
 }  // namespace el

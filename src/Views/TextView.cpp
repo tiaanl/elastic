@@ -8,26 +8,29 @@
 
 namespace el {
 
-TextView::TextView(Context* context, const std::string& label) : View(context), m_label(label) {
+TextView::TextView(Context* context, const nu::String& label)
+  : View(context), m_label(label), m_text(context->getResourceManager()) {
   // Set up the text shape.
-  ca::Font* font = context->getFont("default");
+  auto font = context->getResourceManager()->getOrCreateFont("default");
 
   // Set up the label.
-  if (font) {
-    m_text.setText(m_label);
+  if (font->isLoaded()) {
     m_text.setFont(font);
-    // m_shape.setColor(sf::Color{255, 255, 255});
-    m_text.setTextSize(16);
+    m_text.setText(m_label);
   }
 }
 
 TextView::~TextView() {}
 
-void TextView::setLabel(const std::string& label) {
+void TextView::setLabel(const nu::String& label) {
   m_label = label;
 
   // Set the label on the shape.
   m_text.setText(m_label);
+}
+
+void TextView::setFont(const ca::ResourceRef<ca::Font>& font) {
+  m_font = font;
 }
 
 ca::Size<I32> TextView::calculateMinSize() const {
@@ -43,7 +46,8 @@ ca::Size<I32> TextView::calculateMinSize() const {
 void TextView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
   View::render(canvas, mat);
 
-  ca::Mat4 vmat = mat * ca::translate(static_cast<F32>(m_rect.pos.x), static_cast<F32>(m_rect.pos.y), 0.f);
+  ca::Mat4 vmat =
+      mat * ca::translate(static_cast<F32>(m_rect.pos.x), static_cast<F32>(m_rect.pos.y), 0.f);
 
   m_text.render(canvas, vmat);
 }

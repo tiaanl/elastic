@@ -15,6 +15,9 @@ class View;
 
 class Context : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
+  COPY_DELETE(Context);
+  MOVE_DELETE(Context);
+
   explicit Context(ca::ResourceManager* resourceManager);
   virtual ~Context() = default;
 
@@ -26,9 +29,6 @@ public:
   // Get/set the view that will have the keyboard focus.
   View* getFocusView() const { return m_focusView; }
   void setFocusView(View* view);
-
-  // Resources
-  virtual ca::Font* getFont(const std::string& name) = 0;
 
   void onKeyPressed(const ca::KeyEvent& evt) override;
   void onKeyReleased(const ca::KeyEvent& evt) override;
@@ -49,10 +49,7 @@ protected:
   mutable ContextView m_contextView;
 
   // The view that is currently the view with keyboard focus.
-  View* m_focusView{nullptr};
-
-private:
-  DISALLOW_COPY_AND_ASSIGN(Context);
+  View* m_focusView = nullptr;
 };
 
 }  // namespace el

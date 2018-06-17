@@ -8,18 +8,14 @@
 
 namespace el {
 
-LabelView::LabelView(Context* context, std::string label)
-  : View(context), m_label(label), m_font(nu::makeScopedPtr<ca::Font>()) {
-  m_text.setFont(context->getFont("default"));
-
-  int* a = new int;
-
+LabelView::LabelView(Context* context, nu::String label)
+  : View(context), m_label(label), m_text(context->getResourceManager(), label) {
   updateTextInternal();
 }
 
 LabelView::~LabelView() {}
 
-void LabelView::setLabel(std::string label) {
+void LabelView::setLabel(nu::String label) {
   m_label = label;
 
   updateTextInternal();
@@ -46,8 +42,8 @@ void LabelView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
   auto bounds = m_text.getBounds();
 
   ca::Mat4 view;
-  view *=
-      ca::translate(static_cast<F32>(m_rect.pos.x - bounds.pos.x), static_cast<F32>(m_rect.pos.y - bounds.pos.y), 0.f);
+  view *= ca::translate(static_cast<F32>(m_rect.pos.x - bounds.pos.x),
+                        static_cast<F32>(m_rect.pos.y - bounds.pos.y), 0.f);
 
   m_text.render(canvas, mat * view);
 }

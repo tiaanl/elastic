@@ -3,18 +3,30 @@
 #define ELASTIC_VIEWS_TEXT_VIEW_H_
 
 #include "canvas/Primitives/Text.h"
+#include "canvas/Resources/Resource.h"
 #include "elastic/Views/View.h"
 
 namespace el {
 
 class TextView : public View {
 public:
-  explicit TextView(Context* context, const std::string& label = std::string{});
+  MOVE_DELETE(TextView);
+  COPY_DELETE(TextView);
+
+  explicit TextView(Context* context, const nu::String& label = nu::String{});
   ~TextView() override;
 
   // label
-  const std::string& getLabel() const { return m_label; }
-  void setLabel(const std::string& label);
+  const nu::String& getLabel() const {
+    return m_label;
+  }
+  void setLabel(const nu::String& label);
+
+  // font
+  const ca::ResourceRef<ca::Font>& getFont() const {
+    return m_font;
+  }
+  void setFont(const ca::ResourceRef<ca::Font>& font);
 
   // Override: View
   ca::Size<I32> calculateMinSize() const override;
@@ -22,12 +34,13 @@ public:
 
 private:
   // The label we render.
-  std::string m_label;
+  nu::String m_label;
+
+  // Hold a reference to the font we're using.
+  ca::ResourceRef<ca::Font> m_font;
 
   // The shape we use to render the text.
   ca::Text m_text;
-
-  DISALLOW_IMPLICIT_CONSTRUCTORS(TextView);
 };
 
 }  // namespace el

@@ -11,12 +11,17 @@ namespace el {
 
 class ColorView : public View {
 public:
+  MOVE_DELETE(ColorView);
+  COPY_DELETE(ColorView);
+
   explicit ColorView(Context* context);
   ColorView(Context* context, const ca::Color& color);
   virtual ~ColorView();
 
   // color
-  const ca::Color& getColor() const { return m_color; }
+  const ca::Color& getColor() const {
+    return m_color;
+  }
   void setColor(const ca::Color& color);
 
   // Override: View
@@ -24,6 +29,7 @@ public:
   void render(ca::Canvas* canvas, const ca::Mat4& mat) override;
 
 private:
+  bool ensureShaders();
   bool updateRenderState();
 
   // The color of the view.
@@ -31,10 +37,8 @@ private:
 
   ca::ResourceRef<ca::Program> m_shaderProgram;
 
-  GLuint m_vertexBufferObject{0};
-  GLuint m_vertexArrayObject{0};
-
-  DISALLOW_IMPLICIT_CONSTRUCTORS(ColorView);
+  GLuint m_vertexBufferObject = 0;
+  GLuint m_vertexArrayObject = 0;
 };
 
 }  // namespace el
