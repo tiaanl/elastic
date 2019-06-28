@@ -9,14 +9,14 @@ namespace el {
 class StackedSizerView : public GroupView {
 public:
   explicit StackedSizerView(Context* context);
-  virtual ~StackedSizerView();
+  ~StackedSizerView() override;
 
   // Implement: GroupView
-  virtual ca::Size<I32> calculateMinSize() const override;
-  virtual void layout(const ca::Rect<I32>& rect) override;
+  ca::Size<I32> calculateMinSize() const override;
+  void layout(const ca::Rect<I32>& rect) override;
 
 private:
-  DISALLOW_IMPLICIT_CONSTRUCTORS(StackedSizerView);
+  DELETE_COPY_AND_MOVE(StackedSizerView);
 };
 
 }  // namespace el

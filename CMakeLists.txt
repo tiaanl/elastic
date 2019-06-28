@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 3.10.0)
 
 if(TARGET elastic)
     return()
@@ -19,8 +19,7 @@ include("cmake/canvas.cmake")
 
 set(elastic_HEADER_FILES
     "include/elastic/Context.h"
-    "include/elastic/Resources/ResourceLoader.h"
-    "include/elastic/Resources/ResourceStore.h"
+    "include/elastic/Renderer/Renderer.h"
     "include/elastic/Views/ButtonView.h"
     "include/elastic/Views/ColorView.h"
     "include/elastic/Views/ContextView.h"
@@ -28,12 +27,12 @@ set(elastic_HEADER_FILES
     "include/elastic/Views/LabelView.h"
     "include/elastic/Views/LinearSizerView.h"
     "include/elastic/Views/StackedSizerView.h"
-    "include/elastic/Views/TextView.h"
     "include/elastic/Views/View.h"
     )
 
 set(elastic_SOURCE_FILES
     "src/Context.cpp"
+    "src/Renderer/Renderer.cpp"
     "src/Views/ButtonView.cpp"
     "src/Views/ColorView.cpp"
     "src/Views/ContextView.cpp"
@@ -41,7 +40,6 @@ set(elastic_SOURCE_FILES
     "src/Views/LabelView.cpp"
     "src/Views/LinearSizerView.cpp"
     "src/Views/StackedSizerView.cpp"
-    "src/Views/TextView.cpp"
     "src/Views/View.cpp"
     )
 

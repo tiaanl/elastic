@@ -7,9 +7,9 @@
 
 namespace el {
 
-ButtonView::OnClickListener::~OnClickListener() {}
+ButtonView::OnClickListener::~OnClickListener() = default;
 
-ButtonView::ButtonView(Context* context, const std::string& label, OnClickListener* listener)
+ButtonView::ButtonView(Context* context, const nu::StringView& label, OnClickListener* listener)
   : View(context), m_label(label), m_listener(listener) {
   // sf::Font* buttonFont = context->getFont("default");
 
@@ -27,11 +27,10 @@ ButtonView::ButtonView(Context* context, const std::string& label, OnClickListen
   // }
 }
 
-ButtonView::~ButtonView() {}
+ButtonView::~ButtonView() = default;
 
-void ButtonView::setLabel(const std::string& label) {
+void ButtonView::setLabel(const nu::StringView& label) {
   m_label = label;
-  // m_labelShape.setString(label);
 }
 
 bool ButtonView::onMousePressed(const ca::MouseEvent& evt) {
@@ -48,51 +47,23 @@ void ButtonView::onMouseReleased(const ca::MouseEvent& event) {
 }
 
 void ButtonView::onMouseEnter(const ca::MouseEvent& event) {
-  // m_backgroundShape.setFillColor(sf::Color{255, 255, 255, 191});
 }
 
 void ButtonView::onMouseLeave(const ca::MouseEvent& event) {
-  // m_backgroundShape.setFillColor(sf::Color{255, 255, 255, 127});
 }
 
 ca::Size<I32> ButtonView::calculateMinSize() const {
   ca::Size<I32> result = View::calculateMinSize();
-
-  // Calculate the size of the label.
-  // sf::FloatRect floatLabelSize{m_labelShape.getLocalBounds()};
-
-  // sf::Vector2i labelSize{static_cast<int>(std::ceil(floatLabelSize.width)),
-  //                        static_cast<int>(std::ceil(floatLabelSize.height))};
-
-  // Add a border around the label.
-  // labelSize.x += 20;
-  // labelSize.y += 20;
-
-  // result.x = std::max(result.x, labelSize.x);
-  // result.y = std::max(result.y, labelSize.y);
 
   return result;
 }
 
 void ButtonView::layout(const ca::Rect<I32>& rect) {
   View::layout(rect);
-
-  // Move the background shape into position.
-  // m_backgroundShape.setPosition(sf::Vector2f{static_cast<float>(rect.left), static_cast<float>(rect.top)});
-  // m_backgroundShape.setSize(sf::Vector2f{static_cast<float>(rect.width), static_cast<float>(rect.height)});
-
-  // sf::FloatRect floatLabelSize{m_labelShape.getLocalBounds()};
-
-  // Move the shape to the correct position.
-  // m_labelShape.setPosition(sf::Vector2f{static_cast<float>(rect.left + 10) - floatLabelSize.left,
-  //                                       static_cast<float>(rect.top + 10) - floatLabelSize.top});
 }
 
-void ButtonView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
-  View::render(canvas, mat);
-
-  // target.draw(m_backgroundShape);
-  // target.draw(m_labelShape);
+void ButtonView::render(Renderer* renderer, const ca::Mat4& mat) {
+  View::render(renderer, mat);
 }
 
 }  // namespace el

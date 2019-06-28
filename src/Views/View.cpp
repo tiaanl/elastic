@@ -9,9 +9,9 @@ namespace el {
 
 View::View(Context* context) : m_context(context) {}
 
-View::~View() {}
+View::~View() = default;
 
-void View::setName(const std::string& name) {
+void View::setName(const nu::StringView& name) {
   m_name = name;
 }
 
@@ -19,19 +19,19 @@ void View::setMinSize(const ca::Size<I32>& minSize) {
   m_minSize = minSize;
 }
 
-void View::setHorizontalAlign(AlignType align) {
-  m_horizontalAlign = align;
+void View::setHorizontalAlignment(Alignment alignment) {
+  m_horizontalAlignment = alignment;
 }
 
-void View::setVerticalAlign(AlignType align) {
-  m_verticalAlign = align;
+void View::setVerticalAlignment(Alignment alignment) {
+  m_verticalAlignment = alignment;
 }
 
-void View::setExpand(ExpandType expand) {
-  m_expand = expand;
+void View::setExpansion(Expansion expansion) {
+  m_expansion = expansion;
 }
 
-void View::setProportion(int32_t proportion) {
+void View::setProportion(I32 proportion) {
   m_proportion = proportion;
 }
 
@@ -42,7 +42,7 @@ View* View::getViewAtPosition(const ca::Pos<I32>& pos) const {
   return m_rect.contains(pos) ? const_cast<View*>(this) : nullptr;
 }
 
-void View::tick(float adjustment) {}
+void View::tick(F32 delta) {}
 
 ca::Size<I32> View::calculateMinSize() const {
   return m_minSize;
@@ -74,6 +74,6 @@ void View::onKeyPressed(const ca::KeyEvent& evt) {}
 
 void View::onKeyReleased(const ca::KeyEvent& evt) {}
 
-void View::render(ca::Canvas* canvas, const ca::Mat4& mat) {}
+void View::render(Renderer* renderer, const ca::Mat4& mat) {}
 
 }  // namespace el

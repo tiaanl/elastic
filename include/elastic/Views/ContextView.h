@@ -9,7 +9,7 @@ namespace el {
 class ContextView : public StackedSizerView {
 public:
   explicit ContextView(Context* context);
-  virtual ~ContextView();
+  ~ContextView() override;
 
   // Override: StackedSizerView
   void onMouseMoved(const ca::MouseEvent& evt) override;
@@ -18,6 +18,8 @@ public:
   bool onMouseDragged(const ca::MouseEvent& evt) override;
 
 private:
+  DELETE_COPY_AND_MOVE(ContextView);
+
   friend class Context;
 
   // Initiate user input from the context.
@@ -30,24 +32,22 @@ private:
   void processKeyReleased(const ca::KeyEvent& event);
 
   // Keeps track of whether the last mouse event was a move event.
-  bool m_lastMouseEventWasMove{false};
+  bool m_lastMouseEventWasMove = false;
 
   // Keeps track of whether we have the mouse captured or not.
-  bool m_hasCapture{false};
+  bool m_hasCapture = false;
 
   // Keeps track of whether the mouse is down or not.
-  bool m_isMouseDown{false};
+  bool m_isMouseDown = false;
 
   // Keeps track of the last position we moved the mouse at.
   ca::Pos<I32> m_lastMouseMovePos;
 
   // The view that we last pressed on.
-  View* m_mousePressedHandler{nullptr};
+  View* m_mousePressedHandler = nullptr;
 
   // The view that we last moved on.
-  View* m_mouseMoveHandler{nullptr};
-
-  DISALLOW_IMPLICIT_CONSTRUCTORS(ContextView);
+  View* m_mouseMoveHandler = nullptr;
 };
 
 }  // namespace el

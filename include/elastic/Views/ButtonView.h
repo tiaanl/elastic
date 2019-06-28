@@ -16,15 +16,19 @@ public:
     virtual void onButtonClicked(ButtonView* sender) = 0;
   };
 
-  ButtonView(Context* context, const std::string& label = std::string{}, OnClickListener* listener = nullptr);
-  virtual ~ButtonView() override;
+  explicit ButtonView(Context* context, const nu::StringView& label = nu::StringView{}, OnClickListener* listener = nullptr);
+  ~ButtonView() override;
 
   // label
-  const std::string& getLabel() const { return m_label; }
-  void setLabel(const std::string& label);
+  const nu::StringView& getLabel() const {
+    return m_label;
+  }
+  void setLabel(const nu::StringView& label);
 
   // Override: View
-  bool handlesInput() const override { return true; }
+  bool handlesInput() const override {
+    return true;
+  }
 
   bool onMousePressed(const ca::MouseEvent& evt) override;
   void onMouseReleased(const ca::MouseEvent& evt) override;
@@ -33,22 +37,16 @@ public:
 
   ca::Size<I32> calculateMinSize() const override;
   void layout(const ca::Rect<I32>& rect) override;
-  void render(ca::Canvas* canvas, const ca::Mat4& mat) override;
+  void render(Renderer* renderer, const ca::Mat4& mat) override;
 
 private:
+  DELETE_COPY_AND_MOVE(ButtonView);
+
   // The label we print on the button.
-  std::string m_label;
+  nu::StaticString<128> m_label;
 
   // A listener that will receive events when the button is clicked.
   OnClickListener* m_listener;
-
-  // The shape we use to render a background for the button.
-  // sf::RectangleShape m_backgroundShape;
-
-  // The shape we use to render the label.
-  // sf::Text m_labelShape;
-
-  DISALLOW_IMPLICIT_CONSTRUCTORS(ButtonView);
 };
 
 }  // namespace el

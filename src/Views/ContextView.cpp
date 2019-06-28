@@ -7,14 +7,13 @@
 
 namespace el {
 
-ContextView::ContextView(Context* context) : StackedSizerView(context) {}
+ContextView::ContextView(Context* context) : StackedSizerView{context} {}
 
-ContextView::~ContextView() {}
+ContextView::~ContextView() = default;
 
 bool ContextView::onMousePressed(const ca::MouseEvent& event) {
-  // If m_mousePressedHandler is not null, we are currently processing a
-  // pressed->drag->released session.  In that case we send the event to
-  // m_mousePressedHandler.
+  // If `m_mousePressedHandler` is not `nullptr`, then we are currently processing a
+  // pressed->drag->released session. In that case we send the event to `m_mousePressedHandler`.
   if (m_mousePressedHandler) {
     m_mousePressedHandler->onMousePressed(event);
     return true;
@@ -22,28 +21,26 @@ bool ContextView::onMousePressed(const ca::MouseEvent& event) {
 
   ca::Pos<I32> mousePos = event.pos;
 
-  for (m_mousePressedHandler = getViewAtPosition(mousePos); m_mousePressedHandler && (m_mousePressedHandler != this);
+  for (m_mousePressedHandler = getViewAtPosition(mousePos);
+       m_mousePressedHandler && (m_mousePressedHandler != this);
        m_mousePressedHandler = m_mousePressedHandler->getParent()) {
     bool handled = m_mousePressedHandler->onMousePressed(event);
 
-    // The view could have removed itself from the tree when handling
-    // onMousePressed().  In this case, the removal notification will have reset
-    // m_mousePressedHandler to null.  Detect this case and stop.
-    // We don't return true here, because we don't want the context to forward
-    // future events to us when there is no handler.
+    // The view could have removed itself from the tree when handling `onMousePressed()`.  In this case, the removal
+    // notification will have reset `m_mousePressedHandler` to nullptr.  Detect this case and stop.  We don't return
+    // `true` here, because we don't want the context to forward future events to us when there is no handler.
     if (!m_mousePressedHandler) {
       break;
     }
 
-    // If the view handled the event, leave m_mousePressedHandler set and return
-    // true, which will cause subsequent drag/release events to get forwarded to
-    // that view.
+    // If the view handled the event, leave `m_mousePressedHandler` set and return `true`, which will cause subsequent
+    // drag/release events to get forwarded to that view.
     if (handled) {
       return true;
     }
   }
 
-  // Reset m_mousePressedHandler to indicate that no processing is occurring.
+  // Reset `m_mousePressedHandler` to indicate that no processing is occurring.
   m_mousePressedHandler = nullptr;
 
   return false;

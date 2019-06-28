@@ -2,12 +2,8 @@
 #ifndef ELASTIC_CONTEXT_H_
 #define ELASTIC_CONTEXT_H_
 
-#include <string>
-
-#include "canvas/Rendering/Font.h"
-#include "canvas/Resources/ResourceManager.h"
+#include "elastic/Renderer/Renderer.h"
 #include "elastic/Views/ContextView.h"
-#include "nucleus/Allocators/Allocator.h"
 
 namespace el {
 
@@ -15,19 +11,18 @@ class View;
 
 class Context : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
-  COPY_DELETE(Context);
-  MOVE_DELETE(Context);
-
-  explicit Context(ca::ResourceManager* resourceManager);
-  virtual ~Context() = default;
-
-  ca::ResourceManager* getResourceManager() { return m_resourceManager; }
+  Context();
+  ~Context();
 
   // Get the root view of the context.
-  ContextView* getRoot() { return &m_contextView; }
+  ContextView* getRootView() {
+    return &m_contextView;
+  }
 
   // Get/set the view that will have the keyboard focus.
-  View* getFocusView() const { return m_focusView; }
+  View* getFocusView() const {
+    return m_focusView;
+  }
   void setFocusView(View* view);
 
   void onKeyPressed(const ca::KeyEvent& evt) override;
@@ -37,18 +32,21 @@ public:
   void onMouseReleased(const ca::MouseEvent& evt) override;
   void onMouseWheel(const ca::MouseWheelEvent& evt) override;
 
-  void tick(float adjustment);
-  void render(ca::Canvas* canvas);
+  void tick(float delta);
+  void render(ca::Renderer* renderer);
 
 protected:
+  DELETE_COPY_AND_MOVE(Context);
+
   friend class View;
 
-  ca::ResourceManager* m_resourceManager;
-
   // The root view of our hierarchy.
-  mutable ContextView m_contextView;
+  ContextView m_contextView;
 
-  // The view that is currently the view with keyboard focus.
+  // The elastic renderer we use to render all the views.
+  Renderer m_renderer;
+
+  // The view that currently has keyboard focus.
   View* m_focusView = nullptr;
 };
 

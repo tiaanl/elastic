@@ -9,5 +9,4 @@ macro(ADD_ELASTIC_EXAMPLE EXAMPLE_NAME)
     set_property(TARGET ${EXAMPLE_NAME} PROPERTY FOLDER elastic)
 endmacro()
 
-add_subdirectory("Minimal")
-add_subdirectory("CanvasIntegration")
+add_subdirectory("ElasticDemo")

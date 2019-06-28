@@ -8,14 +8,12 @@
 
 namespace el {
 
-LinearSizerView::LinearSizerView(Context* context) : GroupView(context), m_orientation(OrientationHorizontal) {}
-
-LinearSizerView::LinearSizerView(Context* context, OrientationType orientation)
+LinearSizerView::LinearSizerView(Context* context, Orientation orientation)
   : GroupView(context), m_orientation(orientation) {}
 
-LinearSizerView::~LinearSizerView() {}
+LinearSizerView::~LinearSizerView() = default;
 
-void LinearSizerView::SetOrientation(OrientationType orientation) {
+void LinearSizerView::setOrientation(Orientation orientation) {
   m_orientation = orientation;
 }
 
@@ -23,7 +21,7 @@ ca::Size<I32> LinearSizerView::calculateMinSize() const {
   ca::Size<I32> minSize = GroupView::calculateMinSize();
 
   ca::Size<I32> contentSize;
-  if (m_orientation == OrientationHorizontal) {
+  if (m_orientation == Orientation::Horizontal) {
     for (const auto& child : m_children) {
       ca::Size<I32> childMinSize = child->calculateMinSize();
       contentSize.width += childMinSize.width;
@@ -46,7 +44,7 @@ ca::Size<I32> LinearSizerView::calculateMinSize() const {
 void LinearSizerView::layout(const ca::Rect<I32>& rect) {
   GroupView::layout(rect);
 
-  if (m_orientation == OrientationHorizontal)
+  if (m_orientation == Orientation::Horizontal)
     layoutHorizontal(rect);
   else
     layoutVertical(rect);
@@ -79,8 +77,9 @@ void LinearSizerView::layoutHorizontal(const ca::Rect<I32>& rect) {
   for (size_t i = 0; i < m_children.getSize(); ++i) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.
-    sectionRect.size.width = sizes[i].second.width +
-                             std::lround(singleProportionSize * static_cast<float>(m_children[i]->getProportion()));
+    sectionRect.size.width =
+        sizes[i].second.width +
+        std::lround(singleProportionSize * static_cast<float>(m_children[i]->getProportion()));
 
     // Layout the child view.
     m_children[i]->layout(layoutControlInRect(m_children[i], sectionRect));

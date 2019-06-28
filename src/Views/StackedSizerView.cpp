@@ -9,7 +9,7 @@ namespace el {
 
 StackedSizerView::StackedSizerView(Context* context) : GroupView(context) {}
 
-StackedSizerView::~StackedSizerView() {}
+StackedSizerView::~StackedSizerView() = default;
 
 ca::Size<I32> StackedSizerView::calculateMinSize() const {
   ca::Size<I32> minSize = GroupView::calculateMinSize();

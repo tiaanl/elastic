@@ -2,16 +2,13 @@
 #ifndef ELASTIC_VIEWS_VIEW_H_
 #define ELASTIC_VIEWS_VIEW_H_
 
-#include <cstdint>
-#include <string>
-
 #include "canvas/Math/Mat4.h"
-#include "canvas/Rendering/Canvas.h"
 #include "canvas/Utils/Pos.h"
 #include "canvas/Utils/Rect.h"
 #include "canvas/Utils/Size.h"
 #include "canvas/Windows/KeyboardEventHandlerInterface.h"
 #include "canvas/Windows/MouseEventHandlerInterface.h"
+#include "elastic/Renderer/Renderer.h"
 #include "nucleus/Macros.h"
 
 namespace el {
@@ -19,55 +16,66 @@ namespace el {
 class Context;
 class GroupView;
 
+enum class Alignment : U32 {
+  Left,
+  Top,
+  Center,
+  Right,
+  Bottom,
+};
+
+enum class Expansion : U32 {
+  None,
+  Horizontal,
+  Vertical,
+  Both,
+};
+
 class View : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
-  enum AlignType {
-    AlignLeft,
-    AlignTop,
-    AlignCenter,
-    AlignRight,
-    AlignBottom,
-  };
-
-  enum ExpandType {
-    ExpandNone,
-    ExpandHorizontal,
-    ExpandVertical,
-    ExpandBoth,
-  };
-
   explicit View(Context* context);
   virtual ~View();
 
   // Return the parent of the view, if any.
-  View* getParent() const { return m_parent; }
+  View* getParent() const {
+    return m_parent;
+  }
 
   // name
-  const std::string& getName() const { return m_name; }
-  void setName(const std::string& name);
+  const nu::StringView& getName() const {
+    return m_name;
+  }
+  void setName(const nu::StringView& name);
 
-  virtual  // minsize
-      const ca::Size<I32>&
-      getMinSize() const {
+  // minSize
+  virtual const ca::Size<I32>& getMinSize() const {
     return m_minSize;
   }
   void setMinSize(const ca::Size<I32>& minSize);
 
-  // horizontalalign
-  AlignType getHorizontalAlign() const { return m_horizontalAlign; }
-  void setHorizontalAlign(AlignType align);
+  // horizontalAlign
+  Alignment getHorizontalAlignment() const {
+    return m_horizontalAlignment;
+  }
+  void setHorizontalAlignment(Alignment alignment);
 
-  // verticalalign
-  AlignType getVerticalAlign() const { return m_verticalAlign; }
-  void setVerticalAlign(AlignType align);
+  // verticalAlign
+  Alignment getVerticalAlignment() const {
+    return m_verticalAlignment;
+  }
+  void setVerticalAlignment(Alignment alignment);
 
   // expand
-  ExpandType getExpand() const { return m_expand; }
-  void setExpand(ExpandType expand);
+  Expansion getExpansion() const {
+    return m_expansion;
+  }
+  void setExpansion(Expansion expansion);
 
   // proportion
-  int32_t getProportion() const { return m_proportion; }
-  void setProportion(int32_t proportion);
+  I32 getProportion() const {
+    return m_proportion;
+  }
+  void setProportion(I32 proportion);
 
   // Virtual Interface
 
@@ -76,9 +84,11 @@ public:
 
   // Return true if you want to receive input events on this view.  If not,
   // events will be processed by this view's parents.
-  virtual bool handlesInput() const { return false; }
+  virtual bool handlesInput() const {
+    return false;
+  }
 
-  virtual void tick(float adjustment);
+  virtual void tick(F32 delta);
   virtual ca::Size<I32> calculateMinSize() const;
   virtual void layout(const ca::Rect<I32>& rect);
 
@@ -96,7 +106,7 @@ public:
   void onKeyPressed(const ca::KeyEvent& evt) override;
   void onKeyReleased(const ca::KeyEvent& evt) override;
 
-  virtual void render(ca::Canvas* canvas, const ca::Mat4& mat);
+  virtual void render(Renderer* renderer, const ca::Mat4& mat);
 
 protected:
   friend class GroupView;
@@ -105,30 +115,29 @@ protected:
   Context* m_context;
 
   // The parent of this view.
-  View* m_parent{nullptr};
+  View* m_parent = nullptr;
 
   // The (optional) name of the control.
-  std::string m_name;
+  nu::StaticString<64> m_name;
 
-  // The rect where this view has been layed out to.
+  // The rect where this view has been laid out to.
   ca::Rect<I32> m_rect;
 
   // The minimum size of the view.
   ca::Size<I32> m_minSize;
 
   // Horizontal/vertical align.
-  AlignType m_horizontalAlign{AlignCenter};
-  AlignType m_verticalAlign{AlignCenter};
+  Alignment m_horizontalAlignment = Alignment::Center;
+  Alignment m_verticalAlignment = Alignment::Center;
 
   // Expand type of the view.
-  ExpandType m_expand{ExpandNone};
+  Expansion m_expansion = Expansion::None;
 
-  // The proportion of this view in relation to other views in the same
-  // GroupView.
-  int32_t m_proportion{0};
+  // The proportion of this view in relation to other views in the same GroupView.
+  I32 m_proportion = 0;
 
 private:
-  DISALLOW_IMPLICIT_CONSTRUCTORS(View);
+  DELETE_COPY_AND_MOVE(View);
 };
 
 }  // namespace el

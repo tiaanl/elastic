@@ -1,51 +1,28 @@
 
 #include "elastic/Views/LabelView.h"
 
-#include "canvas/Math/Transform.h"
-#include "nucleus/Streams/FileInputStream.h"
-
 #include "nucleus/MemoryDebug.h"
 
 namespace el {
 
-LabelView::LabelView(Context* context, nu::String label)
-  : View(context), m_label(label), m_text(context->getResourceManager(), label) {
-  updateTextInternal();
+LabelView::LabelView(Context* context, const nu::StringView& label)
+  : View{context}, m_label{label} {
 }
 
-LabelView::~LabelView() {}
+LabelView::~LabelView() = default;
 
-void LabelView::setLabel(nu::String label) {
+void LabelView::setLabel(const nu::StringView& label) {
   m_label = label;
-
-  updateTextInternal();
 }
 
 ca::Size<I32> LabelView::calculateMinSize() const {
   ca::Size<I32> minSize = View::calculateMinSize();
 
-  ca::Rect<I32> bounds = m_text.getBounds();
-
-  minSize.width = std::max(minSize.width, bounds.size.width);
-  minSize.height = std::max(minSize.height, bounds.size.height);
-
   return minSize;
 }
 
-void LabelView::updateTextInternal() {
-  m_text.setText(m_label);
-}
-
-void LabelView::render(ca::Canvas* canvas, const ca::Mat4& mat) {
-  View::render(canvas, mat);
-
-  auto bounds = m_text.getBounds();
-
-  ca::Mat4 view;
-  view *= ca::translate(static_cast<F32>(m_rect.pos.x - bounds.pos.x),
-                        static_cast<F32>(m_rect.pos.y - bounds.pos.y), 0.f);
-
-  m_text.render(canvas, mat * view);
+void LabelView::render(Renderer* renderer, const ca::Mat4& mat) {
+  View::render(renderer, mat);
 }
 
 }  // namespace el
