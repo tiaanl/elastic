@@ -21,6 +21,8 @@ void ColorView::layout(const ca::Rect<I32>& rect) {
 
 void ColorView::render(Renderer* renderer, const ca::Mat4& mat) {
   View::render(renderer, mat);
+
+  renderer->renderQuad(m_rect);
 }
 
 }  // namespace el

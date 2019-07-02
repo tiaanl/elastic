@@ -4,6 +4,7 @@
 
 #include "elastic/Renderer/Renderer.h"
 #include "elastic/Views/ContextView.h"
+#include "nucleus/Config.h"
 
 namespace el {
 
@@ -25,15 +26,19 @@ public:
   }
   void setFocusView(View* view);
 
-  void onKeyPressed(const ca::KeyEvent& evt) override;
-  void onKeyReleased(const ca::KeyEvent& evt) override;
+  bool initialize(ca::Renderer* renderer);
+  void tick(F32 delta);
+  void render(ca::Renderer* renderer);
+
+  // Override: ca::MouseEventHandlerInterface
   void onMouseMoved(const ca::MouseEvent& evt) override;
   bool onMousePressed(const ca::MouseEvent& evt) override;
   void onMouseReleased(const ca::MouseEvent& evt) override;
   void onMouseWheel(const ca::MouseWheelEvent& evt) override;
 
-  void tick(float delta);
-  void render(ca::Renderer* renderer);
+  // Override: ca::KeyboardEventHandlerInterface
+  void onKeyPressed(const ca::KeyEvent& evt) override;
+  void onKeyReleased(const ca::KeyEvent& evt) override;
 
 protected:
   DELETE_COPY_AND_MOVE(Context);
@@ -43,11 +48,17 @@ protected:
   // The root view of our hierarchy.
   ContextView m_contextView;
 
-  // The elastic renderer we use to render all the views.
+  // The `Renderer` we use to render all the views.
   Renderer m_renderer;
 
   // The view that currently has keyboard focus.
   View* m_focusView = nullptr;
+
+#if BUILD(DEBUG)
+  // In debug builds, we make sure that the `Renderer` we initialize with, is the one we render
+  // with.
+  ca::Renderer* m_initializingRenderer = nullptr;
+#endif  // BUILD(DEBUG)
 };
 
 }  // namespace el

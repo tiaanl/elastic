@@ -14,6 +14,10 @@ public:
       return false;
     }
 
+    if (!m_context.initialize(renderer)) {
+      return false;
+    }
+
     auto* stackedSizerView = new el::StackedSizerView(&m_context);
     m_context.getRootView()->addChild(stackedSizerView);
 
