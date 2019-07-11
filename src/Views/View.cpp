@@ -15,7 +15,7 @@ void View::setName(const nu::StringView& name) {
   m_name = name;
 }
 
-void View::setMinSize(const ca::Size<I32>& minSize) {
+void View::setMinSize(const ca::Size& minSize) {
   m_minSize = minSize;
 }
 
@@ -35,7 +35,7 @@ void View::setProportion(I32 proportion) {
   m_proportion = proportion;
 }
 
-View* View::getViewAtPosition(const ca::Pos<I32>& pos) const {
+View* View::getViewAtPosition(const ca::Pos& pos) const {
   if (!handlesInput())
     return nullptr;
 
@@ -44,11 +44,11 @@ View* View::getViewAtPosition(const ca::Pos<I32>& pos) const {
 
 void View::tick(F32 delta) {}
 
-ca::Size<I32> View::calculateMinSize() const {
+ca::Size View::calculateMinSize() const {
   return m_minSize;
 }
 
-void View::layout(const ca::Rect<I32>& rect) {
+void View::layout(const ca::Rect& rect) {
   m_rect = rect;
 }
 

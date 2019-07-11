@@ -19,7 +19,7 @@ bool ContextView::onMousePressed(const ca::MouseEvent& event) {
     return true;
   }
 
-  ca::Pos<I32> mousePos = event.pos;
+  ca::Pos mousePos = event.pos;
 
   for (m_mousePressedHandler = getViewAtPosition(mousePos);
        m_mousePressedHandler && (m_mousePressedHandler != this);

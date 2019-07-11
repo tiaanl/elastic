@@ -15,14 +15,14 @@ void ColorView::setColor(const ca::Color& color) {
   m_color = color;
 }
 
-void ColorView::layout(const ca::Rect<I32>& rect) {
+void ColorView::layout(const ca::Rect& rect) {
   View::layout(rect);
 }
 
 void ColorView::render(Renderer* renderer, const ca::Mat4& mat) {
   View::render(renderer, mat);
 
-  renderer->renderQuad(m_rect);
+  renderer->renderQuad(m_rect, m_color);
 }
 
 }  // namespace el

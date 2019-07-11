@@ -18,7 +18,7 @@ public:
   void setLabel(const nu::StringView& label);
 
   // Override: View
-  ca::Size<I32> calculateMinSize() const override;
+  ca::Size calculateMinSize() const override;
   void render(Renderer* canvas, const ca::Mat4& mat) override;
 
 private:

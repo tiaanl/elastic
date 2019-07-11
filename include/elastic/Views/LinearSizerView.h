@@ -23,14 +23,14 @@ public:
   void setOrientation(Orientation orientation);
 
   // Override: GroupView
-  ca::Size<I32> calculateMinSize() const override;
-  void layout(const ca::Rect<I32>& rect) override;
+  ca::Size calculateMinSize() const override;
+  void layout(const ca::Rect& rect) override;
 
 private:
   DELETE_COPY_AND_MOVE(LinearSizerView);
 
-  void layoutHorizontal(const ca::Rect<I32>& rect);
-  void layoutVertical(const ca::Rect<I32>& rect);
+  void layoutHorizontal(const ca::Rect& rect);
+  void layoutVertical(const ca::Rect& rect);
 
   // The orientation of the sizer.
   Orientation m_orientation;

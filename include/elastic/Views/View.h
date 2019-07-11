@@ -48,10 +48,10 @@ public:
   void setName(const nu::StringView& name);
 
   // minSize
-  virtual const ca::Size<I32>& getMinSize() const {
+  virtual const ca::Size& getMinSize() const {
     return m_minSize;
   }
-  void setMinSize(const ca::Size<I32>& minSize);
+  void setMinSize(const ca::Size& minSize);
 
   // horizontalAlign
   Alignment getHorizontalAlignment() const {
@@ -80,7 +80,7 @@ public:
   // Virtual Interface
 
   // Get the view/child view at this position.
-  virtual View* getViewAtPosition(const ca::Pos<I32>& pos) const;
+  virtual View* getViewAtPosition(const ca::Pos& pos) const;
 
   // Return true if you want to receive input events on this view.  If not,
   // events will be processed by this view's parents.
@@ -89,8 +89,8 @@ public:
   }
 
   virtual void tick(F32 delta);
-  virtual ca::Size<I32> calculateMinSize() const;
-  virtual void layout(const ca::Rect<I32>& rect);
+  virtual ca::Size calculateMinSize() const;
+  virtual void layout(const ca::Rect& rect);
 
   // Events
 
@@ -121,10 +121,10 @@ protected:
   nu::StaticString<64> m_name;
 
   // The rect where this view has been laid out to.
-  ca::Rect<I32> m_rect;
+  ca::Rect m_rect;
 
   // The minimum size of the view.
-  ca::Size<I32> m_minSize;
+  ca::Size m_minSize;
 
   // Horizontal/vertical align.
   Alignment m_horizontalAlignment = Alignment::Center;

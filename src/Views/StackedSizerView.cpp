@@ -11,11 +11,11 @@ StackedSizerView::StackedSizerView(Context* context) : GroupView(context) {}
 
 StackedSizerView::~StackedSizerView() = default;
 
-ca::Size<I32> StackedSizerView::calculateMinSize() const {
-  ca::Size<I32> minSize = GroupView::calculateMinSize();
+ca::Size StackedSizerView::calculateMinSize() const {
+  ca::Size minSize = GroupView::calculateMinSize();
 
   for (auto& child : m_children) {
-    ca::Size<I32> childSize = child->calculateMinSize();
+    ca::Size childSize = child->calculateMinSize();
     minSize.width = std::max(minSize.width, childSize.width);
     minSize.height = std::max(minSize.height, childSize.height);
   }
@@ -23,7 +23,7 @@ ca::Size<I32> StackedSizerView::calculateMinSize() const {
   return minSize;
 }
 
-void StackedSizerView::layout(const ca::Rect<I32>& rect) {
+void StackedSizerView::layout(const ca::Rect& rect) {
   GroupView::layout(rect);
 
   for (auto& child : m_children)

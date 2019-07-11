@@ -17,6 +17,10 @@ bool Context::initialize(ca::Renderer* renderer) {
   return m_renderer.initialize(renderer);
 }
 
+void Context::resize(const ca::Size& size) {
+  m_renderer.resize(size);
+}
+
 void Context::setFocusView(View* view) {
   m_focusView = view;
 }
@@ -31,17 +35,10 @@ void Context::render(ca::Renderer* renderer) {
                                                 "with. Maybe you didn't initialize the context?";
 #endif  // BUILD(DEBUG)
 
-  ca::Size<I32> size = {1600, 900};
+  ca::Size size = renderer->getSize();
 
   // Get the size of the render target in pixels for the UI to render.
-  ca::Rect<I32> layoutRect{ca::Pos<I32>(0, 0), size};
-
-#if 0
-  F32 width = static_cast<F32>(layoutRect.size.width);
-  F32 height = static_cast<F32>(layoutRect.size.height);
-
-  ca::Mat4 ortho = ca::ortho(0.f, width, height, 0.f);
-#endif  // 0
+  ca::Rect layoutRect{{0, 0}, size};
 
   m_contextView.layout(layoutRect);
   m_contextView.render(&m_renderer, ca::Mat4::identity);

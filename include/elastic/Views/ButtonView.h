@@ -35,8 +35,8 @@ public:
   void onMouseEnter(const ca::MouseEvent& evt) override;
   void onMouseLeave(const ca::MouseEvent& evt) override;
 
-  ca::Size<I32> calculateMinSize() const override;
-  void layout(const ca::Rect<I32>& rect) override;
+  ca::Size calculateMinSize() const override;
+  void layout(const ca::Rect& rect) override;
   void render(Renderer* renderer, const ca::Mat4& mat) override;
 
 private:

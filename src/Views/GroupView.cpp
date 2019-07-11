@@ -8,9 +8,9 @@
 namespace el {
 
 // static
-ca::Rect<I32> GroupView::layoutControlInRect(View* view, const ca::Rect<I32>& rect) {
-  ca::Size<I32> minSize = view->calculateMinSize();
-  ca::Rect<I32> viewRect{rect.pos.x, rect.pos.y, minSize.width, minSize.height};
+ca::Rect GroupView::layoutControlInRect(View* view, const ca::Rect& rect) {
+  ca::Size minSize = view->calculateMinSize();
+  ca::Rect viewRect{rect.pos.x, rect.pos.y, minSize.width, minSize.height};
 
   const Expansion expand = view->getExpansion();
 
@@ -58,7 +58,7 @@ void GroupView::removeChild(View* view) {
   m_children.remove(it);
 }
 
-View* GroupView::getViewAtPosition(const ca::Pos<I32>& pos) const {
+View* GroupView::getViewAtPosition(const ca::Pos& pos) const {
   View* foundView = nullptr;
 
   for (const auto& view : m_children) {

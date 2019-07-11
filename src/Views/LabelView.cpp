@@ -15,8 +15,8 @@ void LabelView::setLabel(const nu::StringView& label) {
   m_label = label;
 }
 
-ca::Size<I32> LabelView::calculateMinSize() const {
-  ca::Size<I32> minSize = View::calculateMinSize();
+ca::Size LabelView::calculateMinSize() const {
+  ca::Size minSize = View::calculateMinSize();
 
   return minSize;
 }

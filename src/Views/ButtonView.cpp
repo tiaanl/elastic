@@ -52,13 +52,13 @@ void ButtonView::onMouseEnter(const ca::MouseEvent& event) {
 void ButtonView::onMouseLeave(const ca::MouseEvent& event) {
 }
 
-ca::Size<I32> ButtonView::calculateMinSize() const {
-  ca::Size<I32> result = View::calculateMinSize();
+ca::Size ButtonView::calculateMinSize() const {
+  ca::Size result = View::calculateMinSize();
 
   return result;
 }
 
-void ButtonView::layout(const ca::Rect<I32>& rect) {
+void ButtonView::layout(const ca::Rect& rect) {
   View::layout(rect);
 }
 

@@ -12,8 +12,8 @@ public:
   ~StackedSizerView() override;
 
   // Implement: GroupView
-  ca::Size<I32> calculateMinSize() const override;
-  void layout(const ca::Rect<I32>& rect) override;
+  ca::Size calculateMinSize() const override;
+  void layout(const ca::Rect& rect) override;
 
 private:
   DELETE_COPY_AND_MOVE(StackedSizerView);

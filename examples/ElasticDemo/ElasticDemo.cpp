@@ -9,6 +9,10 @@ class ElasticDemo : public ca::WindowDelegate {
 public:
   ElasticDemo() : ca::WindowDelegate("ElasticDemo") {}
 
+  void onWindowResized(const ca::Size& size) override {
+    m_context.resize(size);
+  }
+
   bool onWindowCreated(ca::Renderer* renderer) override {
     if (!WindowDelegate::onWindowCreated(renderer)) {
       return false;
@@ -19,12 +23,22 @@ public:
     }
 
     auto* stackedSizerView = new el::StackedSizerView(&m_context);
+    stackedSizerView->setExpansion(el::Expansion::Both);
     m_context.getRootView()->addChild(stackedSizerView);
 
     auto* colorView1 = new el::ColorView(&m_context, ca::Color::red);
     stackedSizerView->addChild(colorView1);
     colorView1->setName("colorView1");
-    colorView1->setExpansion(el::Expansion::Both);
+    colorView1->setHorizontalAlignment(el::Alignment::Center);
+    colorView1->setExpansion(el::Expansion::Vertical);
+    colorView1->setMinSize({100, 100});
+
+    auto* colorView2 = new el::ColorView(&m_context, ca::Color::blue);
+    stackedSizerView->addChild(colorView2);
+    colorView2->setName("colorView2");
+    colorView2->setHorizontalAlignment(el::Alignment::Center);
+    colorView2->setExpansion(el::Expansion::Horizontal);
+    colorView2->setMinSize({100, 100});
 
     return true;
   }

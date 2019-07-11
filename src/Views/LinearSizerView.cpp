@@ -17,19 +17,19 @@ void LinearSizerView::setOrientation(Orientation orientation) {
   m_orientation = orientation;
 }
 
-ca::Size<I32> LinearSizerView::calculateMinSize() const {
-  ca::Size<I32> minSize = GroupView::calculateMinSize();
+ca::Size LinearSizerView::calculateMinSize() const {
+  ca::Size minSize = GroupView::calculateMinSize();
 
-  ca::Size<I32> contentSize;
+  ca::Size contentSize;
   if (m_orientation == Orientation::Horizontal) {
     for (const auto& child : m_children) {
-      ca::Size<I32> childMinSize = child->calculateMinSize();
+      ca::Size childMinSize = child->calculateMinSize();
       contentSize.width += childMinSize.width;
       contentSize.height = std::max(contentSize.height, childMinSize.height);
     }
   } else {
     for (const auto& child : m_children) {
-      ca::Size<I32> childMinSize = child->calculateMinSize();
+      ca::Size childMinSize = child->calculateMinSize();
       contentSize.width = std::max(contentSize.width, childMinSize.width);
       contentSize.height += childMinSize.height;
     }
@@ -41,7 +41,7 @@ ca::Size<I32> LinearSizerView::calculateMinSize() const {
   return minSize;
 }
 
-void LinearSizerView::layout(const ca::Rect<I32>& rect) {
+void LinearSizerView::layout(const ca::Rect& rect) {
   GroupView::layout(rect);
 
   if (m_orientation == Orientation::Horizontal)
@@ -50,10 +50,10 @@ void LinearSizerView::layout(const ca::Rect<I32>& rect) {
     layoutVertical(rect);
 }
 
-void LinearSizerView::layoutHorizontal(const ca::Rect<I32>& rect) {
+void LinearSizerView::layoutHorizontal(const ca::Rect& rect) {
   // Make place where we can store the size for each child.
-  nu::DynamicArray<std::pair<I32, ca::Size<I32>>> sizes;
-  sizes.resize(m_children.getSize(), std::make_pair(0, ca::Size<I32>{}));
+  nu::DynamicArray<std::pair<I32, ca::Size>> sizes;
+  sizes.resize(m_children.getSize(), std::make_pair(0, ca::Size{}));
 
   // The total width available to us.
   int32_t totalSize = rect.size.width;
@@ -73,7 +73,7 @@ void LinearSizerView::layoutHorizontal(const ca::Rect<I32>& rect) {
   float singleProportionSize = static_cast<float>(totalSize) / static_cast<float>(totalProportion);
 
   // Start with the entire area we have available.
-  ca::Rect<I32> sectionRect(rect);
+  ca::Rect sectionRect(rect);
   for (size_t i = 0; i < m_children.getSize(); ++i) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.
@@ -90,10 +90,10 @@ void LinearSizerView::layoutHorizontal(const ca::Rect<I32>& rect) {
   }
 }
 
-void LinearSizerView::layoutVertical(const ca::Rect<I32>& rect) {
+void LinearSizerView::layoutVertical(const ca::Rect& rect) {
   // Make place where we can store the size for each child.
-  nu::DynamicArray<std::pair<int32_t, ca::Size<I32>>> sizes;
-  sizes.resize(m_children.getSize(), std::make_pair(0, ca::Size<I32>{}));
+  nu::DynamicArray<std::pair<int32_t, ca::Size>> sizes;
+  sizes.resize(m_children.getSize(), std::make_pair(0, ca::Size{}));
 
   // The total height available to us.
   int32_t totalSize = rect.size.height;
@@ -113,7 +113,7 @@ void LinearSizerView::layoutVertical(const ca::Rect<I32>& rect) {
   float singleProportionSize = static_cast<float>(totalSize) / static_cast<float>(totalProportion);
 
   // Start with the entire area we have available.
-  ca::Rect<I32> sectionRect(rect);
+  ca::Rect sectionRect(rect);
   for (size_t i = 0; i < m_children.getSize(); ++i) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.
