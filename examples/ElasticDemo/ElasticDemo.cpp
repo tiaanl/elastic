@@ -2,6 +2,7 @@
 #include "canvas/App.h"
 #include "elastic/Context.h"
 #include "elastic/Views/ColorView.h"
+#include "elastic/Views/ImageView.h"
 #include "nucleus/FilePath.h"
 #include "nucleus/Streams/FileInputStream.h"
 
@@ -25,6 +26,11 @@ public:
     auto* stackedSizerView = new el::StackedSizerView(&m_context);
     stackedSizerView->setExpansion(el::Expansion::Both);
     m_context.getRootView()->addChild(stackedSizerView);
+
+    auto* imageView1 = new el::ImageView(&m_context);
+    stackedSizerView->addChild(imageView1);
+    imageView1->setMinSize({200, 200});
+    imageView1->setExpansion(el::Expansion::Horizontal);
 
     auto* colorView1 = new el::ColorView(&m_context, ca::Color::red);
     stackedSizerView->addChild(colorView1);

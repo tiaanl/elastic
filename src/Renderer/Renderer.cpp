@@ -124,8 +124,8 @@ bool Renderer::initialize(ca::Renderer* renderer) {
     return false;
   }
 
-  m_projectionMatrix =
-      ca::orthographicProjection(0.0f, m_size.width, 0.0f, m_size.height, -1.0f, 1.0f);
+  m_projectionMatrix = ca::orthographicProjection(0.0f, static_cast<F32>(m_size.width), 0.0f,
+                                                  static_cast<F32>(m_size.height), -1.0f, 1.0f);
 
   return true;
 }
@@ -133,8 +133,8 @@ bool Renderer::initialize(ca::Renderer* renderer) {
 void Renderer::resize(const ca::Size& size) {
   m_size = size;
 
-  m_projectionMatrix =
-      ca::orthographicProjection(0.0f, m_size.width, 0.0f, m_size.height, -1.0f, 1.0f);
+  m_projectionMatrix = ca::orthographicProjection(0.0f, static_cast<F32>(m_size.width), 0.0f,
+                                                  static_cast<F32>(m_size.height), -1.0f, 1.0f);
 }
 
 void Renderer::renderQuad(const ca::Rect& rect, const ca::Color& color) {
