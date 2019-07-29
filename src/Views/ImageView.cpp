@@ -3,16 +3,29 @@
 
 namespace el {
 
-ImageView::ImageView(Context* context, ca::TextureId texture) : View{context}, m_texture{texture} {}
+ImageView::ImageView(Context* context, const hi::Resource<hi::Texture>& texture)
+  : View{context}, m_texture{texture} {}
 
 ImageView::~ImageView() = default;
 
 ca::Size ImageView::calculateMinSize() const {
-  return View::calculateMinSize();
+  ca::Size minSize = View::calculateMinSize();
+  if (m_texture) {
+    ca::Size textureSize = m_texture->getSize();
+
+    minSize.width = std::max(minSize.width, textureSize.width);
+    minSize.height = std::max(minSize.height, textureSize.height);
+  }
+
+  return minSize;
 }
 
-void ImageView::layout(const ca::Rect& rect) {
-  View::layout(rect);
+void ImageView::render(Renderer* renderer, const ca::Mat4& mat) {
+  View::render(renderer, mat);
+
+  if (m_texture) {
+    renderer->renderQuad(m_rect, m_texture->getTextureId());
+  }
 }
 
 }  // namespace el

@@ -1,20 +1,25 @@
 
 #include "elastic/Context.h"
 
-#include "nucleus/MemoryDebug.h"
-
 namespace el {
 
 Context::Context() : m_contextView{this}, m_renderer{} {}
 
 Context::~Context() = default;
 
-bool Context::initialize(ca::Renderer* renderer) {
+bool Context::initialize(ca::Renderer* renderer, hi::ResourceManager* resourceManager) {
 #if BUILD(DEBUG)
   m_initializingRenderer = renderer;
 #endif  // BUILD(DEBUG)
 
-  return m_renderer.initialize(renderer);
+  if (!m_renderer.initialize(renderer)) {
+    LOG(Error) << "Could not initialize elastic renderer.";
+    return false;
+  }
+
+  m_resourceManager = resourceManager;
+
+  return true;
 }
 
 void Context::resize(const ca::Size& size) {

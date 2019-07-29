@@ -15,10 +15,14 @@ const I8* kQuadVertexShaderSource = R"source(
 #version 330
 
 layout(location = 0) in vec2 inPosition;
+layout(location = 1) in vec2 inTexCoords;
+
+out vec2 texCoords;
 
 uniform mat4 uTransform;
 
 void main() {
+  texCoords = inTexCoords;
   gl_Position = uTransform * vec4(inPosition, 0.0, 1.0);
 }
 )source";
@@ -38,10 +42,14 @@ void main() {
 const I8* kQuadTextureFragmentShaderSource = R"source(
 #version 330
 
+in vec2 texCoords;
+
 out vec4 final;
 
+uniform sampler2D uTexture;
+
 void main() {
-  final = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+  final = texture(uTexture, texCoords);
 }
 )source";
 
@@ -58,11 +66,14 @@ ca::ProgramId createProgram(ca::Renderer* renderer, const I8* vertexShaderSource
   return renderer->createProgram(vss, fss);
 }
 
-ca::Vec2 kQuadVertices[] = {
-    {0.0f, 0.0f},  //
-    {0.0f, 1.0f},  //
-    {1.0f, 1.0f},  //
-    {1.0f, 0.0f},  //
+struct QuadVertex {
+  ca::Vec2 position;
+  ca::Vec2 texCoords;
+} kQuadVertices[] = {
+    {{0.0f, 0.0f}, {0.0f, 0.0f}},  //
+    {{0.0f, 1.0f}, {0.0f, 1.0f}},  //
+    {{1.0f, 1.0f}, {1.0f, 1.0f}},  //
+    {{1.0f, 0.0f}, {1.0f, 0.0f}},  //
 };
 
 U8 kQuadIndices[] = {
@@ -96,7 +107,8 @@ bool Renderer::initialize(ca::Renderer* renderer) {
   }
 
   ca::VertexDefinition definition;
-  definition.addAttribute(ca::ComponentType::Float32, ca::ComponentCount::Two, "position");
+  definition.addAttribute(ca::ComponentType::Float32, ca::ComponentCount::Two, "inPosition");
+  definition.addAttribute(ca::ComponentType::Float32, ca::ComponentCount::Two, "inTexCoords");
 
   m_quadVertexBufferId =
       renderer->createVertexBuffer(definition, kQuadVertices, sizeof(kQuadVertices));

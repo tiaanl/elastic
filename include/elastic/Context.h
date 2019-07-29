@@ -2,6 +2,7 @@
 #ifndef ELASTIC_CONTEXT_H_
 #define ELASTIC_CONTEXT_H_
 
+#include "../../../hive/include/hive/ResourceManager.h"
 #include "elastic/Renderer/Renderer.h"
 #include "elastic/Views/ContextView.h"
 #include "nucleus/Config.h"
@@ -28,7 +29,7 @@ public:
   }
   void setFocusView(View* view);
 
-  bool initialize(ca::Renderer* renderer);
+  bool initialize(ca::Renderer* renderer, hi::ResourceManager* resourceManager);
   void tick(F32 delta);
   void render(ca::Renderer* renderer);
 
@@ -46,6 +47,9 @@ protected:
   DELETE_COPY_AND_MOVE(Context);
 
   friend class View;
+
+  // The resource manager backing all the resources we need.
+  hi::ResourceManager* m_resourceManager = nullptr;
 
   // The root view of our hierarchy.
   ContextView m_contextView;
