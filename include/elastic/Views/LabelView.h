@@ -3,13 +3,14 @@
 #define ELASTIC_VIEWS_LABEL_VIEW_H_
 
 #include "elastic/Context.h"
+#include "elastic/Renderer/Font.h"
 #include "elastic/Views/View.h"
 
 namespace el {
 
 class LabelView : public View {
 public:
-  LabelView(Context* context, const nu::StringView& label);
+  LabelView(Context* context, const nu::StringView& label, Font* font);
   ~LabelView() override;
 
   const nu::StringView& getLabel() const {
@@ -25,6 +26,8 @@ private:
   DELETE_COPY_AND_MOVE(LabelView);
 
   nu::StaticString<128> m_label;
+
+  Font* m_font;
 };
 
 }  // namespace el

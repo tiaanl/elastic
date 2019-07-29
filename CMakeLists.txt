@@ -8,7 +8,7 @@ project(elastic)
 
 # Options
 
-option(ELASTIC_BUILD_EXAMPLES "Build example projects")
+option(ELASTIC_BUILD_EXAMPLES "Build example projects" ON)
 set(CMAKE_CXX_STANDARD 14)
 
 # Dependencies
@@ -19,6 +19,7 @@ include("cmake/canvas.cmake")
 
 set(elastic_HEADER_FILES
     "include/elastic/Context.h"
+    "include/elastic/Renderer/Font.h"
     "include/elastic/Renderer/Renderer.h"
     "include/elastic/Views/ButtonView.h"
     "include/elastic/Views/ColorView.h"
@@ -33,6 +34,7 @@ set(elastic_HEADER_FILES
 
 set(elastic_SOURCE_FILES
     "src/Context.cpp"
+    "src/Renderer/Font.cpp"
     "src/Renderer/Renderer.cpp"
     "src/Views/ButtonView.cpp"
     "src/Views/ColorView.cpp"

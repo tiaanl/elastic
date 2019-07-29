@@ -3,7 +3,7 @@
 
 #include "canvas/Renderer/Renderer.h"
 #include "canvas/Utils/Rect.h"
-#include "canvas/Renderer/Renderer.h"
+#include "elastic/Renderer/Font.h"
 
 namespace el {
 
@@ -17,6 +17,7 @@ public:
 
   void renderQuad(const ca::Rect& rect, const ca::Color& color);
   void renderQuad(const ca::Rect& rect, ca::TextureId textureId);
+  void renderText(Font* font, const nu::StringView& text);
 
 private:
   DELETE_COPY_AND_MOVE(Renderer);

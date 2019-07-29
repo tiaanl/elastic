@@ -182,4 +182,6 @@ void Renderer::renderQuad(const ca::Rect& rect, ca::TextureId textureId) {
                    m_quadIndexBufferId, textureId, uniforms);
 }
 
+void Renderer::renderText(Font* font, const nu::StringView& text) {}
+
 }  // namespace el
