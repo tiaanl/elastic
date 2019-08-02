@@ -8,29 +8,115 @@
 
 namespace el {
 
-bool Font::load(ca::Renderer* renderer, nu::InputStream* inputStream, I32 size) {
+namespace {
+
+void bakeFontBitmap(U8* data,
+                    I32 offset,    // font location (use offset=0 for plain .ttf)
+                    F32 fontSize,  // height of font in pixels
+                    U8* pixels, I32 pixelWidth, I32 pixelHeight,          // bitmap to be filled in
+                    I32 firstChar, I32 numChars,                          // characters to bake
+                    stbtt_bakedchar* charData, I32* ascent, I32* descent  // outputs
+) {
+  F32 scale;
+  I32 x, y, bottomY, i;
+  stbtt_fontinfo f;
+  if (!stbtt_InitFont(&f, data, offset)) {
+    return;
+  }
+
+  // background of 0 around pixels
+  STBTT_memset(pixels, 0, pixelWidth * pixelHeight);
+  x = y = 1;
+  bottomY = 1;
+
+  scale = stbtt_ScaleForPixelHeight(&f, fontSize);
+
+  stbtt_GetFontVMetrics(&f, ascent, descent, 0);
+  *ascent *= scale;
+  *descent *= scale;
+
+  for (i = 0; i < numChars; ++i) {
+    I32 advance, leftSideBearing, x0, y0, x1, y1, glyphWidth, glyphHeight;
+
+    I32 g = stbtt_FindGlyphIndex(&f, firstChar + i);
+    stbtt_GetGlyphHMetrics(&f, g, &advance, &leftSideBearing);
+    stbtt_GetGlyphBitmapBox(&f, g, scale, scale, &x0, &y0, &x1, &y1);
+    glyphWidth = x1 - x0;
+    glyphHeight = y1 - y0;
+
+    // advance to next row
+    if (x + glyphWidth + 1 >= pixelWidth) {
+      y = bottomY, x = 1;
+    }
+
+    // check if it fits vertically AFTER potentially moving to next row
+    if (y + glyphHeight + 1 >= pixelHeight) {
+      return;
+    }
+
+    DCHECK(x + glyphWidth < pixelWidth);
+    DCHECK(y + glyphHeight < pixelHeight);
+
+    stbtt_MakeGlyphBitmap(&f, pixels + x + y * pixelWidth, glyphWidth, glyphHeight, pixelWidth,
+                          scale, scale, g);
+
+    charData[i].x0 = (stbtt_int16)x;
+    charData[i].y0 = (stbtt_int16)y;
+    charData[i].x1 = (stbtt_int16)(x + glyphWidth);
+    charData[i].y1 = (stbtt_int16)(y + glyphHeight);
+    charData[i].xadvance = scale * advance;
+    charData[i].xoff = (float)x0;
+    charData[i].yoff = (float)y0;
+    x = x + glyphWidth + 1;
+    if (y + glyphHeight + 1 > bottomY)
+      bottomY = y + glyphHeight + 1;
+  }
+}
+
+}  // namespace
+
+bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) {
   auto data = readEntireStream(inputStream);
 
-  ca::Size imageSize{512, 512};
+  ca::Size imageSize{1024, 1024};
   auto image = ca::Image::createAlpha(imageSize, 0);
 
   stbtt_bakedchar bakedChars[96];
-  stbtt_BakeFontBitmap(data.getData(), 0, static_cast<F32>(size), image.getData(), imageSize.width,
-                       imageSize.height, 32, 96, bakedChars);
+  bakeFontBitmap(data.getData(), 0, static_cast<F32>(size), image.getData(), imageSize.width,
+                 imageSize.height, 32, 96, bakedChars, &m_ascent, &m_descent);
 
-  for (auto i = 0; i < 96; ++i) {
-    m_glyphData[i].rect = {bakedChars[i].x0, bakedChars[i].y0, bakedChars[i].x1, bakedChars[i].y1};
+      for (auto i = 0; i < 96; ++i) {
+    m_glyphData[i].rect = {bakedChars[i].x0, bakedChars[i].y0, bakedChars[i].x1 - bakedChars[i].x0,
+                           bakedChars[i].y1 - bakedChars[i].y0};
     m_glyphData[i].offset = {bakedChars[i].xoff, bakedChars[i].yoff};
     m_glyphData[i].xAdvance = bakedChars[i].xadvance;
+
+#if 0
+    LOG(Info) << "glyph " << i << ": subImage(" << m_glyphData[i].rect.pos.x << ", "
+              << m_glyphData[i].rect.pos.y << ", " << m_glyphData[i].rect.size.width << ", "
+              << m_glyphData[i].rect.size.height << "), offset(" << m_glyphData[i].offset.x << ", "
+              << m_glyphData[i].offset.y << ")";
+#endif  // 0
   }
 
-  m_texture = renderer->createTexture(image);
-  if (!isValid(m_texture)) {
+  auto textureId = renderer->createTexture(image);
+  if (!isValid(textureId)) {
     LOG(Error) << "Could not create texture for font.";
     return false;
   }
 
+  m_image = Image{textureId, imageSize};
+
   return true;
+}
+
+ca::Size Font::calculateTextExtent(const nu::StringView& text) const {
+  F32 width = 0.0f;
+  for (StringLength i = 0; i < text.getLength(); ++i) {
+    width += m_glyphData[text[i]-32].xAdvance;
+  }
+
+  return {static_cast<I32>(std::round(width)), m_ascent - m_descent};
 }
 
 }  // namespace el

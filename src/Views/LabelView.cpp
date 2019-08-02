@@ -18,11 +18,18 @@ void LabelView::setLabel(const nu::StringView& label) {
 ca::Size LabelView::calculateMinSize() const {
   ca::Size minSize = View::calculateMinSize();
 
+  auto textExtent = m_font->calculateTextExtent(m_label);
+
+  minSize.width = std::max(minSize.width, textExtent.width);
+  minSize.height = std::max(minSize.height, textExtent.height);
+
   return minSize;
 }
 
 void LabelView::render(Renderer* renderer, const ca::Mat4& mat) {
   View::render(renderer, mat);
+
+  renderer->renderText(m_font, m_rect.pos, m_label);
 }
 
 }  // namespace el

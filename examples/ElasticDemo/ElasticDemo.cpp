@@ -7,13 +7,12 @@
 #include "elastic/Views/LabelView.h"
 #include "nucleus/FilePath.h"
 #include "nucleus/Logging.h"
+#include "nucleus/Memory/ScopedPtr.h"
 #include "nucleus/Streams/FileInputStream.h"
 
 class ElasticDemo : public ca::WindowDelegate {
 public:
-  ElasticDemo()
-    : ca::WindowDelegate("ElasticDemo"),
-      m_resourceManager{nu::FilePath{__FILE__}.dirName().dirName() / "resources"} {}
+  ElasticDemo() : ca::WindowDelegate("ElasticDemo") {}
 
   void onWindowResized(const ca::Size& size) override {
     m_context.resize(size);
@@ -26,24 +25,39 @@ public:
 
     ca::Renderer* renderer = window->getRenderer();
 
-    m_resourceManager.setRenderer(renderer);
+    auto rootPath = nu::FilePath{__FILE__}.dirName().dirName() / "resources";
 
-#if OS(WIN)
-    nu::FilePath fontFile{"C:\\Windows\\Fonts\\Arial.ttf"};
-#else
-    nu::FilePath fontFile{"/Library/Fonts/Arial.ttf"};
-#endif
-    nu::FileInputStream fontStream(fontFile);
+    nu::FileInputStream fontStream{rootPath / "liberation-mono.ttf"};
     if (!fontStream.openedOk()) {
       LOG(Error) << "Could not open font file.";
       return false;
     }
 
-    if (!m_font.load(renderer, &fontStream, 32)) {
+    if (!m_font.load(&fontStream, renderer, 144)) {
       return false;
     }
 
-    if (!m_context.initialize(renderer, &m_resourceManager)) {
+    nu::FileInputStream imageStream{rootPath / "elastic.png"};
+    if (!imageStream.openedOk()) {
+      LOG(Error) << "Could not open image file.";
+      return false;
+    }
+
+    ca::Image image;
+    if (!image.loadFromStream(&imageStream)) {
+      LOG(Error) << "Could not load image file.";
+      return false;
+    }
+
+    auto textureId = renderer->createTexture(image);
+    if (!isValid(textureId)) {
+      LOG(Error) << "Could not upload texture to GPU.";
+      return false;
+    }
+
+    m_image.reset(new el::Image{textureId, image.getSize()});
+
+    if (!m_context.initialize(renderer)) {
       return false;
     }
 
@@ -65,13 +79,13 @@ public:
     colorView2->setExpansion(el::Expansion::Horizontal);
     colorView2->setMinSize({100, 100});
 
-    auto imageView1 = new el::ImageView(&m_context);
+    auto imageView1 = new el::ImageView(&m_context, m_image.get());
     stackedSizerView->addChild(imageView1);
-    auto texture = m_resourceManager.getTexture("elastic.png");
-    imageView1->setTexture(texture);
 
     auto labelView = new el::LabelView{&m_context, "elastic", &m_font};
     stackedSizerView->addChild(labelView);
+//    labelView->setHorizontalAlignment(el::Alignment::Left);
+//    labelView->setVerticalAlignment(el::Alignment::Top);
 
     return true;
   }
@@ -83,8 +97,8 @@ public:
 private:
   DELETE_COPY_AND_MOVE(ElasticDemo);
 
-  hi::ResourceManager m_resourceManager;
   el::Context m_context;
+  nu::ScopedPtr<el::Image> m_image;
   el::Font m_font;
 };
 

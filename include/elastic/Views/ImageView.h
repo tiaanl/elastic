@@ -2,24 +2,22 @@
 #define ELASTIC_VIEWS_IMAGE_VIEW_H_
 
 #include "canvas/Renderer/Types.h"
+#include "elastic/Renderer/Image.h"
 #include "elastic/Views/View.h"
-#include "hive/Resource.h"
-#include "hive/Resources/Texture.h"
 
 namespace el {
 
 class ImageView : public View {
 public:
-  explicit ImageView(Context* context,
-                     const hi::Resource<hi::Texture>& texture = {nullptr, nullptr});
+  explicit ImageView(Context* context, Image* image = nullptr);
   ~ImageView() override;
 
-  const hi::Resource<hi::Texture>& getTexture() const {
-    return m_texture;
+  Image* getImage() const {
+    return m_image;
   }
 
-  void setTexture(const hi::Resource<hi::Texture>& texture) {
-    m_texture = texture;
+  void setImage(Image* image) {
+    m_image = image;
   }
 
   ca::Size calculateMinSize() const override;
@@ -28,7 +26,7 @@ public:
 private:
   DELETE_COPY_AND_MOVE(ImageView);
 
-  hi::Resource<hi::Texture> m_texture;
+  Image* m_image;
 };
 
 }  // namespace el

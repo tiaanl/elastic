@@ -7,7 +7,7 @@ Context::Context() : m_contextView{this}, m_renderer{} {}
 
 Context::~Context() = default;
 
-bool Context::initialize(ca::Renderer* renderer, hi::ResourceManager* resourceManager) {
+bool Context::initialize(ca::Renderer* renderer) {
 #if BUILD(DEBUG)
   m_initializingRenderer = renderer;
 #endif  // BUILD(DEBUG)
@@ -17,12 +17,11 @@ bool Context::initialize(ca::Renderer* renderer, hi::ResourceManager* resourceMa
     return false;
   }
 
-  m_resourceManager = resourceManager;
-
   return true;
 }
 
 void Context::resize(const ca::Size& size) {
+  LOG(Info) << "Resizing context to (" << size.width << ", " << size.height << ")";
   m_renderer.resize(size);
 }
 

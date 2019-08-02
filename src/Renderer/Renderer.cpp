@@ -20,9 +20,10 @@ layout(location = 1) in vec2 inTexCoords;
 out vec2 texCoords;
 
 uniform mat4 uTransform;
+uniform mat4 uTexCoordsTransform;
 
 void main() {
-  texCoords = inTexCoords;
+  texCoords = (uTexCoordsTransform * vec4(inTexCoords, 0.0, 1.0)).xy;
   gl_Position = uTransform * vec4(inPosition, 0.0, 1.0);
 }
 )source";
@@ -50,6 +51,23 @@ uniform sampler2D uTexture;
 
 void main() {
   final = texture(uTexture, texCoords);
+}
+)source";
+
+const I8* kQuadFontFragmentShaderSource = R"source(
+#version 330
+
+in vec2 texCoords;
+
+out vec4 final;
+
+uniform sampler2D uTexture;
+
+void main() {
+  // final = texture(uTexture, texCoords);
+   float r = texture(uTexture, texCoords).r;
+   final = vec4(1.0f, 1.0f, 1.0f, r);
+  // final = vec4(1.0f, 0.0f, 0.0f, 0.1f);
 }
 )source";
 
@@ -106,6 +124,13 @@ bool Renderer::initialize(ca::Renderer* renderer) {
     return false;
   }
 
+  m_quadFontProgramId =
+      createProgram(renderer, kQuadVertexShaderSource, kQuadFontFragmentShaderSource);
+  if (!isValid(m_quadTextureProgramId)) {
+    LOG(Error) << "Could not create quad FONT shader program.";
+    return false;
+  }
+
   ca::VertexDefinition definition;
   definition.addAttribute(ca::ComponentType::Float32, ca::ComponentCount::Two, "inPosition");
   definition.addAttribute(ca::ComponentType::Float32, ca::ComponentCount::Two, "inTexCoords");
@@ -127,6 +152,12 @@ bool Renderer::initialize(ca::Renderer* renderer) {
   m_quadTransformUniformId = renderer->createUniform("uTransform");
   if (!isValid(m_quadTransformUniformId)) {
     LOG(Error) << "Could not create quad transform uniform.";
+    return false;
+  }
+
+  m_quadTexCoordsTransformUniformId = renderer->createUniform("uTexCoordsTransform");
+  if (!isValid(m_quadTexCoordsTransformUniformId)) {
+    LOG(Error) << "Could not create quad tex coords transform uniform.";
     return false;
   }
 
@@ -166,13 +197,53 @@ void Renderer::renderQuad(const ca::Rect& rect, const ca::Color& color) {
 
   ca::UniformBuffer uniforms;
   uniforms.set(m_quadTransformUniformId, m_projectionMatrix * view);
+  uniforms.set(m_quadTexCoordsTransformUniformId, ca::Mat4::identity);
   uniforms.set(m_quadColorUniformId, color);
 
   m_renderer->draw(ca::DrawType::Triangles, 6, m_quadColorProgramId, m_quadVertexBufferId,
                    m_quadIndexBufferId, ca::TextureId{}, uniforms);
 }
 
-void Renderer::renderQuad(const ca::Rect& rect, ca::TextureId textureId) {
+void Renderer::renderQuad(const ca::Rect& rect, const Image& image) {
+  renderTexturedQuad(rect, image, {{0, 0}, image.getSize()}, m_quadTextureProgramId);
+}
+
+void Renderer::renderQuad(const ca::Rect& rect, const Image& image, const ca::Rect& subImage) {
+  renderTexturedQuad(rect, image, subImage, m_quadTextureProgramId);
+}
+
+void Renderer::renderText(Font* font, const ca::Pos& position, const nu::StringView& text) {
+  const Image& image = font->getImage();
+  ca::Pos currentPosition = position;
+  for (StringLength i = 0; i < text.getLength(); ++i) {
+    Char ch = text[i];
+    auto& glyph = font->glyph(ch);
+
+    ca::Rect rect{
+        (I32)std::round(static_cast<F32>(currentPosition.x) + glyph.offset.x),
+        (I32)std::round(static_cast<F32>(currentPosition.y) + font->getAscent() + glyph.offset.y),
+        glyph.rect.size.width, glyph.rect.size.height};
+    // rect.pos += currentPosition;
+    // rect.pos.x -= glyph.offset.x;
+    // rect.pos.y -= glyph.offset.y;
+
+#if 0
+    LOG(Info) << "glyph " << ch << ": rect(" << rect.pos.x << ", " << rect.pos.y << ", "
+              << rect.size.width << ", " << rect.size.height << "), glyph.rect(" << glyph.rect.pos.x
+              << ", " << glyph.rect.pos.y << ", " << glyph.rect.size.width << ", "
+              << glyph.rect.size.height << "), offset(" << glyph.offset.x << ", " << glyph.offset.y
+              << ")";
+#endif  // 0
+
+    // renderQuad(rect, image, glyph.rect);
+    renderTexturedQuad(rect, image, glyph.rect, m_quadFontProgramId);
+
+    currentPosition.x += glyph.xAdvance;
+  }
+}
+
+void Renderer::renderTexturedQuad(const ca::Rect& rect, const Image& image,
+                                  const ca::Rect& subImage, ca::ProgramId programId) {
 #if BUILD(DEBUG)
   if (m_renderer == nullptr) {
     DCHECK(m_renderer != nullptr) << "Renderer not initialized.";
@@ -187,13 +258,26 @@ void Renderer::renderQuad(const ca::Rect& rect, ca::TextureId textureId) {
 
   ca::Mat4 view = translation * scale;
 
+  // TRS
+  ca::Vec2 imageSize{static_cast<F32>(image.getSize().width),
+                     static_cast<F32>(image.getSize().height)};
+  ca::Mat4 texCoordsTransform =
+      ca::translationMatrix({static_cast<F32>(subImage.pos.x) / imageSize.x,
+                             static_cast<F32>(subImage.pos.y) / imageSize.y, 0.0f}) *
+      ca::scaleMatrix({static_cast<F32>(subImage.size.width) / imageSize.x,
+                       static_cast<F32>(subImage.size.height) / imageSize.y, 0.0f});
+
   ca::UniformBuffer uniforms;
   uniforms.set(m_quadTransformUniformId, m_projectionMatrix * view);
+  uniforms.set(m_quadTexCoordsTransformUniformId, texCoordsTransform);
 
-  m_renderer->draw(ca::DrawType::Triangles, 6, m_quadTextureProgramId, m_quadVertexBufferId,
-                   m_quadIndexBufferId, textureId, uniforms);
+#if 0
+  LOG(Info) << "Rendering quad at (" << rect.pos.x << ", " << rect.pos.y << ", " << rect.size.width
+            << ", " << rect.size.height << ")";
+#endif  // 0
+
+  m_renderer->draw(ca::DrawType::Triangles, 6, programId, m_quadVertexBufferId, m_quadIndexBufferId,
+                   image.getTextureId(), uniforms);
 }
-
-void Renderer::renderText(Font* font, const nu::StringView& text) {}
 
 }  // namespace el

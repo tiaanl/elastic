@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 # Dependencies
 
-include("cmake/hive.cmake")
+include("cmake/canvas.cmake")
 
 # elastic
 
@@ -48,7 +48,7 @@ set(elastic_SOURCE_FILES
     )
 
 add_library(elastic STATIC ${elastic_HEADER_FILES} ${elastic_SOURCE_FILES})
-target_link_libraries(elastic hive)
+target_link_libraries(elastic PUBLIC canvas)
 target_include_directories(elastic PUBLIC "${elastic_SOURCE_DIR}/include")
 set_property(TARGET elastic PROPERTY FOLDER elastic)
 
