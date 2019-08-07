@@ -214,18 +214,14 @@ void Renderer::renderQuad(const ca::Rect& rect, const Image& image, const ca::Re
 
 void Renderer::renderText(Font* font, const ca::Pos& position, const nu::StringView& text) {
   const Image& image = font->getImage();
-  ca::Pos currentPosition = position;
+  ca::Vec2 currentPosition{static_cast<F32>(position.x), static_cast<F32>(position.y)};
   for (StringLength i = 0; i < text.getLength(); ++i) {
     Char ch = text[i];
     auto& glyph = font->glyph(ch);
 
-    ca::Rect rect{
-        (I32)std::round(static_cast<F32>(currentPosition.x) + glyph.offset.x),
-        (I32)std::round(static_cast<F32>(currentPosition.y) + font->getAscent() + glyph.offset.y),
-        glyph.rect.size.width, glyph.rect.size.height};
-    // rect.pos += currentPosition;
-    // rect.pos.x -= glyph.offset.x;
-    // rect.pos.y -= glyph.offset.y;
+    ca::Rect rect{(I32)std::round(currentPosition.x + glyph.offset.x),
+                  (I32)std::round(currentPosition.y + font->getAscent() + glyph.offset.y),
+                  glyph.rect.size.width, glyph.rect.size.height};
 
 #if 0
     LOG(Info) << "glyph " << ch << ": rect(" << rect.pos.x << ", " << rect.pos.y << ", "

@@ -6,6 +6,8 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
 
+#include <cmath>
+
 namespace el {
 
 namespace {
@@ -17,7 +19,6 @@ void bakeFontBitmap(U8* data,
                     I32 firstChar, I32 numChars,                          // characters to bake
                     stbtt_bakedchar* charData, I32* ascent, I32* descent  // outputs
 ) {
-  F32 scale;
   I32 x, y, bottomY, i;
   stbtt_fontinfo f;
   if (!stbtt_InitFont(&f, data, offset)) {
@@ -29,11 +30,11 @@ void bakeFontBitmap(U8* data,
   x = y = 1;
   bottomY = 1;
 
-  scale = stbtt_ScaleForPixelHeight(&f, fontSize);
+  F32 scale = stbtt_ScaleForPixelHeight(&f, fontSize);
 
   stbtt_GetFontVMetrics(&f, ascent, descent, 0);
-  *ascent *= scale;
-  *descent *= scale;
+  *ascent = static_cast<I32>(std::round(static_cast<F32>(*ascent) * scale));
+  *descent = static_cast<I32>(std::round(static_cast<F32>(*descent) * scale));
 
   for (i = 0; i < numChars; ++i) {
     I32 advance, leftSideBearing, x0, y0, x1, y1, glyphWidth, glyphHeight;
