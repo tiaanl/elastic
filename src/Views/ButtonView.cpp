@@ -46,10 +46,10 @@ void ButtonView::onMouseReleased(const ca::MouseEvent& event) {
   }
 }
 
-void ButtonView::onMouseEnter(const ca::MouseEvent& event) {
+void ButtonView::onMouseEnter(const ca::MouseEvent& UNUSED(event)) {
 }
 
-void ButtonView::onMouseLeave(const ca::MouseEvent& event) {
+void ButtonView::onMouseLeave(const ca::MouseEvent& UNUSED(event)) {
 }
 
 ca::Size ButtonView::calculateMinSize() const {

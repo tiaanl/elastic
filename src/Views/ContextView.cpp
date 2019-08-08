@@ -87,7 +87,7 @@ void ContextView::onMouseMoved(const ca::MouseEvent& event) {
   }
 }
 
-bool ContextView::processMousePressed(const ca::MouseEvent& event, bool isDouble) {
+bool ContextView::processMousePressed(const ca::MouseEvent& event, bool UNUSED(isDouble)) {
   m_lastMouseEventWasMove = false;
 
   if (onMousePressed(event)) {
