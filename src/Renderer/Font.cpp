@@ -1,12 +1,12 @@
 
 #include "elastic/Renderer/Font.h"
-#include "canvas/Utils/Image.h"
 #include "nucleus/Streams/Utils.h"
+#include "silhouette/Image/Image.h"
+
+#include <cmath>
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
-
-#include <cmath>
 
 namespace el {
 
@@ -80,13 +80,13 @@ bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) 
   auto data = readEntireStream(inputStream);
 
   ca::Size imageSize{1024, 1024};
-  auto image = ca::Image::createAlpha(imageSize, 0);
+  auto image = si::Image::createAlpha(imageSize, 0);
 
   stbtt_bakedchar bakedChars[96];
-  bakeFontBitmap(data.getData(), 0, static_cast<F32>(size), image.getData(), imageSize.width,
+  bakeFontBitmap(data.getData(), 0, static_cast<F32>(size), image.data(), imageSize.width,
                  imageSize.height, 32, 96, bakedChars, &m_ascent, &m_descent);
 
-      for (auto i = 0; i < 96; ++i) {
+  for (auto i = 0; i < 96; ++i) {
     m_glyphData[i].rect = {bakedChars[i].x0, bakedChars[i].y0, bakedChars[i].x1 - bakedChars[i].x0,
                            bakedChars[i].y1 - bakedChars[i].y0};
     m_glyphData[i].offset = {bakedChars[i].xoff, bakedChars[i].yoff};
@@ -100,7 +100,7 @@ bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) 
 #endif  // 0
   }
 
-  auto textureId = renderer->createTexture(image);
+  auto textureId = si::createTextureFromImage(renderer, image, false);
   if (!isValid(textureId)) {
     LOG(Error) << "Could not create texture for font.";
     return false;
@@ -114,7 +114,7 @@ bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) 
 ca::Size Font::calculateTextExtent(const nu::StringView& text) const {
   F32 width = 0.0f;
   for (StringLength i = 0; i < text.getLength(); ++i) {
-    width += m_glyphData[text[i]-32].xAdvance;
+    width += m_glyphData[text[i] - 32].xAdvance;
   }
 
   return {static_cast<I32>(std::round(width)), m_ascent - m_descent};
