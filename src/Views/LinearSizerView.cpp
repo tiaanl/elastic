@@ -53,12 +53,12 @@ void LinearSizerView::layout(const ca::Rect& rect) {
 void LinearSizerView::layoutHorizontal(const ca::Rect& rect) {
   // Make place where we can store the size for each child.
   nu::DynamicArray<std::pair<I32, ca::Size>> sizes;
-  sizes.resize(m_children.getSize(), std::make_pair(0, ca::Size{}));
+  sizes.resize(m_children.size(), std::make_pair(0, ca::Size{}));
 
   // The total width available to us.
   int32_t totalSize = rect.size.width;
   int32_t totalProportion = 0;
-  for (size_t i = 0; i < m_children.getSize(); ++i) {
+  for (size_t i = 0; i < m_children.size(); ++i) {
     sizes[i].first = m_children[i]->getProportion();
     sizes[i].second = m_children[i]->calculateMinSize();
 
@@ -74,7 +74,7 @@ void LinearSizerView::layoutHorizontal(const ca::Rect& rect) {
 
   // Start with the entire area we have available.
   ca::Rect sectionRect(rect);
-  for (size_t i = 0; i < m_children.getSize(); ++i) {
+  for (size_t i = 0; i < m_children.size(); ++i) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.
     sectionRect.size.width =
@@ -93,12 +93,12 @@ void LinearSizerView::layoutHorizontal(const ca::Rect& rect) {
 void LinearSizerView::layoutVertical(const ca::Rect& rect) {
   // Make place where we can store the size for each child.
   nu::DynamicArray<std::pair<int32_t, ca::Size>> sizes;
-  sizes.resize(m_children.getSize(), std::make_pair(0, ca::Size{}));
+  sizes.resize(m_children.size(), std::make_pair(0, ca::Size{}));
 
   // The total height available to us.
   int32_t totalSize = rect.size.height;
   int32_t totalProportion = 0;
-  for (size_t i = 0; i < m_children.getSize(); ++i) {
+  for (size_t i = 0; i < m_children.size(); ++i) {
     sizes[i].first = m_children[i]->getProportion();
     sizes[i].second = m_children[i]->calculateMinSize();
 
@@ -114,7 +114,7 @@ void LinearSizerView::layoutVertical(const ca::Rect& rect) {
 
   // Start with the entire area we have available.
   ca::Rect sectionRect(rect);
-  for (size_t i = 0; i < m_children.getSize(); ++i) {
+  for (size_t i = 0; i < m_children.size(); ++i) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.
     sectionRect.size.height =
