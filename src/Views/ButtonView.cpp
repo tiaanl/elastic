@@ -64,6 +64,8 @@ void ButtonView::layout(const ca::Rect& rect) {
 
 void ButtonView::render(Renderer* renderer, const ca::Mat4& mat) {
   View::render(renderer, mat);
+
+  renderer->renderQuad(m_rect, ca::Color::red);
 }
 
 }  // namespace el
