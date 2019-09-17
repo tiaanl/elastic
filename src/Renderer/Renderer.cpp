@@ -197,7 +197,7 @@ void Renderer::renderQuad(const ca::Rect& rect, const ca::Color& color) {
 
   ca::UniformBuffer uniforms;
   uniforms.set(m_quadTransformUniformId, m_projectionMatrix * view);
-  uniforms.set(m_quadTexCoordsTransformUniformId, ca::Mat4::identity);
+  // uniforms.set(m_quadTexCoordsTransformUniformId, ca::Mat4::identity);
   uniforms.set(m_quadColorUniformId, color);
 
   m_renderer->draw(ca::DrawType::Triangles, 6, m_quadColorProgramId, m_quadVertexBufferId,

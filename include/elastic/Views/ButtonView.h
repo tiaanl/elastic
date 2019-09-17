@@ -29,12 +29,8 @@ public:
   bool handlesInput() const override {
     return true;
   }
-
   bool onMousePressed(const ca::MouseEvent& evt) override;
   void onMouseReleased(const ca::MouseEvent& evt) override;
-  void onMouseEnter(const ca::MouseEvent& evt) override;
-  void onMouseLeave(const ca::MouseEvent& evt) override;
-
   ca::Size calculateMinSize() const override;
   void layout(const ca::Rect& rect) override;
   void render(Renderer* renderer, const ca::Mat4& mat) override;

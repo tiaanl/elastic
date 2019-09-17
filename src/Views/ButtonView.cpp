@@ -35,27 +35,30 @@ void ButtonView::setLabel(const nu::StringView& label) {
 
 bool ButtonView::onMousePressed(const ca::MouseEvent& evt) {
   View::onMousePressed(evt);
+
+  LOG(Info) << "onMousePressed";
+
   return true;
 }
 
 void ButtonView::onMouseReleased(const ca::MouseEvent& event) {
   View::onMouseReleased(event);
 
+  LOG(Info) << "onMouseReleased";
+
   if (m_listener) {
     m_listener->onButtonClicked(this);
   }
 }
 
-void ButtonView::onMouseEnter(const ca::MouseEvent& UNUSED(event)) {
-}
-
-void ButtonView::onMouseLeave(const ca::MouseEvent& UNUSED(event)) {
-}
-
 ca::Size ButtonView::calculateMinSize() const {
+#if 0
   ca::Size result = View::calculateMinSize();
 
   return result;
+#endif
+
+  return {100, 100};
 }
 
 void ButtonView::layout(const ca::Rect& rect) {
