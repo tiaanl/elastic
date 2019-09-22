@@ -9,6 +9,7 @@
 #include "nucleus/Logging.h"
 #include "nucleus/Memory/ScopedPtr.h"
 #include "nucleus/Streams/FileInputStream.h"
+#include "silhouette/Image/Image.h"
 
 class ElasticDemo : public ca::WindowDelegate {
 public:
@@ -43,19 +44,19 @@ public:
       return false;
     }
 
-    ca::Image image;
+    si::Image image;
     if (!image.loadFromStream(&imageStream)) {
       LOG(Error) << "Could not load image file.";
       return false;
     }
 
-    auto textureId = renderer->createTexture(image);
+    auto textureId = si::createTextureFromImage(renderer, image);
     if (!isValid(textureId)) {
       LOG(Error) << "Could not upload texture to GPU.";
       return false;
     }
 
-    m_image.reset(new el::Image{textureId, image.getSize()});
+    m_image.reset(new el::Image{textureId, image.size()});
 
     if (!m_context.initialize(renderer)) {
       return false;
@@ -84,8 +85,8 @@ public:
 
     auto labelView = new el::LabelView{&m_context, "elastic", &m_font};
     stackedSizerView->addChild(labelView);
-//    labelView->setHorizontalAlignment(el::Alignment::Left);
-//    labelView->setVerticalAlignment(el::Alignment::Top);
+    //    labelView->setHorizontalAlignment(el::Alignment::Left);
+    //    labelView->setVerticalAlignment(el::Alignment::Top);
 
     return true;
   }

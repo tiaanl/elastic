@@ -13,8 +13,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 # Dependencies
 
-include("cmake/canvas.cmake")
-add_subdirectory(../silhouette silhouette)
+add_subdirectory(../reactor reactor)
 
 # elastic
 
