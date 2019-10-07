@@ -19,6 +19,12 @@ public:
   explicit ButtonView(Context* context, const nu::StringView& label = nu::StringView{}, OnClickListener* listener = nullptr);
   ~ButtonView() override;
 
+  // font
+  auto font() const -> Font* {
+    return m_font;
+  }
+  auto setFont(Font* font) -> void;
+
   // label
   const nu::StringView& getLabel() const {
     return m_label;
@@ -41,8 +47,10 @@ private:
   // The label we print on the button.
   nu::StaticString<128> m_label;
 
+  Font* m_font = nullptr;
+
   // A listener that will receive events when the button is clicked.
-  OnClickListener* m_listener;
+  OnClickListener* m_listener = nullptr;
 };
 
 }  // namespace el

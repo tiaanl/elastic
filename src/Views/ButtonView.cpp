@@ -10,24 +10,13 @@ namespace el {
 ButtonView::OnClickListener::~OnClickListener() = default;
 
 ButtonView::ButtonView(Context* context, const nu::StringView& label, OnClickListener* listener)
-  : View(context), m_label(label), m_listener(listener) {
-  // sf::Font* buttonFont = context->getFont("default");
-
-  // Set up the background shape.
-  // m_backgroundShape.setFillColor(sf::Color{255, 255, 255, 127});
-  // m_backgroundShape.setOutlineColor(sf::Color{127, 255, 127});
-  // m_backgroundShape.setOutlineThickness(1);
-
-  // Set up the label.
-  // if (buttonFont) {
-  //   m_labelShape.setString(m_label);
-  //   m_labelShape.setFont(*buttonFont);
-  //   m_labelShape.setColor(sf::Color{127, 255, 127});
-  //   m_labelShape.setCharacterSize(25);
-  // }
-}
+  : View(context), m_label{label}, m_listener{listener} {}
 
 ButtonView::~ButtonView() = default;
+
+auto ButtonView::setFont(Font* font) -> void {
+  m_font = font;
+}
 
 void ButtonView::setLabel(const nu::StringView& label) {
   m_label = label;
@@ -52,13 +41,14 @@ void ButtonView::onMouseReleased(const ca::MouseEvent& event) {
 }
 
 ca::Size ButtonView::calculateMinSize() const {
-#if 0
-  ca::Size result = View::calculateMinSize();
+  auto minSize = View::calculateMinSize();
 
-  return result;
-#endif
+  if (m_font && !m_label.isEmpty()) {
+    auto extent = m_font->calculateTextExtent(m_label);
+    minSize = ca::max(minSize, extent);
+  }
 
-  return {100, 100};
+  return minSize;
 }
 
 void ButtonView::layout(const ca::Rect& rect) {
@@ -69,6 +59,14 @@ void ButtonView::render(Renderer* renderer, const ca::Mat4& mat) {
   View::render(renderer, mat);
 
   renderer->renderQuad(m_rect, ca::Color::red);
+
+  if (m_font) {
+    auto extent = m_font->calculateTextExtent(m_label);
+    F32 x = static_cast<F32>(m_rect.size.width) / 2.0f - static_cast<F32>(extent.width) / 2.0f;
+    F32 y = static_cast<F32>(m_rect.size.height) / 2.0f - static_cast<F32>(extent.height) / 2.0f;
+    auto offset = ca::Pos{static_cast<I32>(std::round(x)), static_cast<I32>(std::round(y))};
+    renderer->renderText(m_font, m_rect.pos + offset, m_label);
+  }
 }
 
 }  // namespace el

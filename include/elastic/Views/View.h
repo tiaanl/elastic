@@ -1,4 +1,3 @@
-
 #ifndef ELASTIC_VIEWS_VIEW_H_
 #define ELASTIC_VIEWS_VIEW_H_
 
@@ -9,6 +8,7 @@
 #include "canvas/Windows/KeyboardEventHandlerInterface.h"
 #include "canvas/Windows/MouseEventHandlerInterface.h"
 #include "elastic/Renderer/Renderer.h"
+#include "elastic/Utils/Margins.h"
 #include "nucleus/Macros.h"
 
 namespace el {
@@ -52,6 +52,14 @@ public:
     return m_minSize;
   }
   void setMinSize(const ca::Size& minSize);
+
+  // margins
+  auto margins() const -> const Margins& {
+    return m_margins;
+  }
+  auto setMargins(const Margins& margins) -> void {
+    m_margins = margins;
+  }
 
   // horizontalAlign
   Alignment getHorizontalAlignment() const {
@@ -125,6 +133,9 @@ protected:
 
   // The minimum size of the view.
   ca::Size m_minSize;
+
+  // A margin around the view.
+  Margins m_margins;
 
   // Horizontal/vertical align.
   Alignment m_horizontalAlignment = Alignment::Center;
