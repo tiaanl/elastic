@@ -45,7 +45,7 @@ ca::Size ButtonView::calculateMinSize() const {
 
   if (m_font && !m_label.isEmpty()) {
     auto extent = m_font->calculateTextExtent(m_label);
-    minSize = ca::max(minSize, extent);
+    minSize = ca::maximum(minSize, extent);
   }
 
   return minSize;

@@ -43,7 +43,11 @@ ca::Rect GroupView::layoutControlInRect(View* view, const ca::Rect& rect) {
 
 GroupView::GroupView(Context* context) : View(context) {}
 
-GroupView::~GroupView() = default;
+GroupView::~GroupView() {
+  for (auto* child : m_children) {
+    delete child;
+  }
+}
 
 void GroupView::addChild(View* view) {
   view->m_parent = this;
