@@ -12,6 +12,8 @@ class View;
 
 class Context : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
+  NU_DELETE_COPY_AND_MOVE(Context);
+
   Context();
   ~Context();
 
@@ -43,8 +45,6 @@ public:
   void onKeyReleased(const ca::KeyEvent& evt) override;
 
 protected:
-  DELETE_COPY_AND_MOVE(Context);
-
   friend class View;
 
   // The root view of our hierarchy.

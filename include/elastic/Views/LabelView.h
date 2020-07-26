@@ -10,6 +10,8 @@ namespace el {
 
 class LabelView : public View {
 public:
+  NU_DELETE_COPY_AND_MOVE(LabelView);
+
   LabelView(Context* context, const nu::StringView& label, Font* font);
   ~LabelView() override;
 
@@ -23,8 +25,6 @@ public:
   void render(Renderer* canvas, const ca::Mat4& mat) override;
 
 private:
-  DELETE_COPY_AND_MOVE(LabelView);
-
   nu::StaticString<128> m_label;
 
   Font* m_font;

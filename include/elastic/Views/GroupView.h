@@ -9,6 +9,8 @@ namespace el {
 
 class GroupView : public View {
 public:
+  NU_DELETE_COPY_AND_MOVE(GroupView);
+
   static ca::Rect layoutControlInRect(View* view, const ca::Rect& rect);
 
   explicit GroupView(Context* context);
@@ -28,9 +30,6 @@ public:
 protected:
   // This view's child views.
   nu::DynamicArray<View*> m_children;
-
-private:
-  DELETE_COPY_AND_MOVE(GroupView);
 };
 
 }  // namespace el

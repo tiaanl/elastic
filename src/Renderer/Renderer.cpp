@@ -74,11 +74,11 @@ void main() {
 ca::ProgramId createProgram(ca::Renderer* renderer, const I8* vertexShaderSource,
                             const I8* fragmentShaderSource) {
   nu::WrappedMemoryInputStream vertexStream{vertexShaderSource,
-                                            nu::StringView{vertexShaderSource}.getLength()};
+                                            nu::StringView{vertexShaderSource}.length()};
   auto vss = ca::ShaderSource::from(&vertexStream);
 
   nu::WrappedMemoryInputStream fragmentStream{fragmentShaderSource,
-                                              nu::StringView{fragmentShaderSource}.getLength()};
+                                              nu::StringView{fragmentShaderSource}.length()};
   auto fss = ca::ShaderSource::from(&fragmentStream);
 
   return renderer->createProgram(vss, fss);
@@ -215,7 +215,7 @@ void Renderer::renderQuad(const ca::Rect& rect, const Image& image, const ca::Re
 void Renderer::renderText(Font* font, const ca::Pos& position, const nu::StringView& text) {
   const Image& image = font->getImage();
   ca::Vec2 currentPosition{static_cast<F32>(position.x), static_cast<F32>(position.y)};
-  for (StringLength i = 0; i < text.getLength(); ++i) {
+  for (StringLength i = 0; i < text.length(); ++i) {
     Char ch = text[i];
     auto& glyph = font->glyph(ch);
 

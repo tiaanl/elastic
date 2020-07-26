@@ -43,7 +43,7 @@ void ButtonView::onMouseReleased(const ca::MouseEvent& event) {
 ca::Size ButtonView::calculateMinSize() const {
   auto minSize = View::calculateMinSize();
 
-  if (m_font && !m_label.isEmpty()) {
+  if (m_font && !m_label.empty()) {
     auto extent = m_font->calculateTextExtent(m_label);
     minSize = ca::maximum(minSize, extent);
   }

@@ -13,6 +13,8 @@ enum class Orientation : U32 {
 
 class LinearSizerView : public GroupView {
 public:
+  NU_DELETE_COPY_AND_MOVE(LinearSizerView);
+
   explicit LinearSizerView(Context* context, Orientation orientation = Orientation::Horizontal);
   ~LinearSizerView() override;
 
@@ -27,8 +29,6 @@ public:
   void layout(const ca::Rect& rect) override;
 
 private:
-  DELETE_COPY_AND_MOVE(LinearSizerView);
-
   void layoutHorizontal(const ca::Rect& rect);
   void layoutVertical(const ca::Rect& rect);
 

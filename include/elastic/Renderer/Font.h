@@ -14,6 +14,8 @@ namespace el {
 
 class Font {
 public:
+  NU_DELETE_COPY_AND_MOVE(Font);
+
   struct GlyphData {
     ca::Rect rect;
     ca::Vec2 offset{0.0f, 0.0f};
@@ -45,8 +47,6 @@ public:
   ca::Size calculateTextExtent(const nu::StringView& text) const;
 
 private:
-  DELETE_COPY_AND_MOVE(Font);
-
   Image m_image;
   I32 m_ascent = 0;
   I32 m_descent = 0;

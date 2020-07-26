@@ -9,6 +9,8 @@ namespace el {
 
 class ImageView : public View {
 public:
+  NU_DELETE_COPY_AND_MOVE(ImageView);
+
   explicit ImageView(Context* context, Image* image = nullptr);
   ~ImageView() override;
 
@@ -24,8 +26,6 @@ public:
   void render(Renderer* renderer, const ca::Mat4& mat) override;
 
 private:
-  DELETE_COPY_AND_MOVE(ImageView);
-
   Image* m_image;
 };
 

@@ -33,6 +33,8 @@ enum class Expansion : U32 {
 
 class View : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
 public:
+  NU_DELETE_COPY_AND_MOVE(View);
+
   explicit View(Context* context);
   virtual ~View();
 
@@ -146,9 +148,6 @@ protected:
 
   // The proportion of this view in relation to other views in the same GroupView.
   I32 m_proportion = 0;
-
-private:
-  DELETE_COPY_AND_MOVE(View);
 };
 
 }  // namespace el

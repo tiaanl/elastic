@@ -1,9 +1,10 @@
 
 #include "elastic/Renderer/Font.h"
-#include "nucleus/Streams/Utils.h"
-#include "silhouette/Image/Image.h"
 
 #include <cmath>
+
+#include "nucleus/Streams/Utils.h"
+#include "silhouette/Image/Image.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
@@ -113,7 +114,7 @@ bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) 
 
 ca::Size Font::calculateTextExtent(const nu::StringView& text) const {
   F32 width = 0.0f;
-  for (StringLength i = 0; i < text.getLength(); ++i) {
+  for (StringLength i = 0; i < text.length(); ++i) {
     width += m_glyphData[text[i] - 32].xAdvance;
   }
 

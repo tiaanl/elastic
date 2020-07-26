@@ -10,13 +10,16 @@ namespace el {
 
 class ButtonView : public View {
 public:
+  NU_DELETE_COPY_AND_MOVE(ButtonView);
+
   class OnClickListener {
   public:
     virtual ~OnClickListener();
     virtual void onButtonClicked(ButtonView* sender) = 0;
   };
 
-  explicit ButtonView(Context* context, const nu::StringView& label = nu::StringView{}, OnClickListener* listener = nullptr);
+  explicit ButtonView(Context* context, const nu::StringView& label = nu::StringView{},
+                      OnClickListener* listener = nullptr);
   ~ButtonView() override;
 
   // font
@@ -42,8 +45,6 @@ public:
   void render(Renderer* renderer, const ca::Mat4& mat) override;
 
 private:
-  DELETE_COPY_AND_MOVE(ButtonView);
-
   // The label we print on the button.
   nu::StaticString<128> m_label;
 

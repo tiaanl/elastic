@@ -8,6 +8,8 @@ namespace el {
 
 class ContextView : public StackedSizerView {
 public:
+  NU_DELETE_COPY_AND_MOVE(ContextView);
+
   explicit ContextView(Context* context);
   ~ContextView() override;
 
@@ -18,8 +20,6 @@ public:
   bool onMouseDragged(const ca::MouseEvent& evt) override;
 
 private:
-  DELETE_COPY_AND_MOVE(ContextView);
-
   friend class Context;
 
   // Initiate user input from the context.

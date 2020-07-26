@@ -8,6 +8,8 @@ namespace el {
 
 class ColorView : public View {
 public:
+  NU_DELETE_COPY_AND_MOVE(ColorView);
+
   explicit ColorView(Context* context, const ca::Color& color = ca::Color::white);
   ~ColorView() override;
 
@@ -22,8 +24,6 @@ public:
   void render(Renderer* renderer, const ca::Mat4& mat) override;
 
 private:
-  DELETE_COPY_AND_MOVE(ColorView);
-
   // The color of the view.
   ca::Color m_color;
 };

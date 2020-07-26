@@ -10,6 +10,8 @@ namespace el {
 
 class Renderer {
 public:
+  NU_DELETE_COPY_AND_MOVE(Renderer);
+
   Renderer();
   ~Renderer();
 
@@ -22,8 +24,6 @@ public:
   void renderText(Font* font, const ca::Pos& position, const nu::StringView& text);
 
 private:
-  DELETE_COPY_AND_MOVE(Renderer);
-
   void renderTexturedQuad(const ca::Rect& rect, const Image& image, const ca::Rect& subImage,
                           ca::ProgramId programId);
 

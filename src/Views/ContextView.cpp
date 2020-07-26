@@ -2,7 +2,6 @@
 #include "elastic/Views/ContextView.h"
 
 #include "elastic/Context.h"
-
 #include "nucleus/MemoryDebug.h"
 
 namespace el {
@@ -26,15 +25,16 @@ bool ContextView::onMousePressed(const ca::MouseEvent& event) {
        m_mousePressedHandler = m_mousePressedHandler->getParent()) {
     bool handled = m_mousePressedHandler->onMousePressed(event);
 
-    // The view could have removed itself from the tree when handling `onMousePressed()`.  In this case, the removal
-    // notification will have reset `m_mousePressedHandler` to nullptr.  Detect this case and stop.  We don't return
-    // `true` here, because we don't want the context to forward future events to us when there is no handler.
+    // The view could have removed itself from the tree when handling `onMousePressed()`.  In this
+    // case, the removal notification will have reset `m_mousePressedHandler` to nullptr.  Detect
+    // this case and stop.  We don't return `true` here, because we don't want the context to
+    // forward future events to us when there is no handler.
     if (!m_mousePressedHandler) {
       break;
     }
 
-    // If the view handled the event, leave `m_mousePressedHandler` set and return `true`, which will cause subsequent
-    // drag/release events to get forwarded to that view.
+    // If the view handled the event, leave `m_mousePressedHandler` set and return `true`, which
+    // will cause subsequent drag/release events to get forwarded to that view.
     if (handled) {
       return true;
     }
@@ -87,7 +87,7 @@ void ContextView::onMouseMoved(const ca::MouseEvent& event) {
   }
 }
 
-bool ContextView::processMousePressed(const ca::MouseEvent& event, bool UNUSED(isDouble)) {
+bool ContextView::processMousePressed(const ca::MouseEvent& event, bool NU_UNUSED(isDouble)) {
   m_lastMouseEventWasMove = false;
 
   if (onMousePressed(event)) {

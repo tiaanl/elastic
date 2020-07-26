@@ -2,7 +2,6 @@
 #include "elastic/Views/View.h"
 
 #include "elastic/Context.h"
-
 #include "nucleus/MemoryDebug.h"
 
 namespace el {
@@ -42,7 +41,7 @@ View* View::getViewAtPosition(const ca::Pos& pos) const {
   return m_rect.contains(pos) ? const_cast<View*>(this) : nullptr;
 }
 
-void View::tick(F32 UNUSED(delta)) {}
+void View::tick(F32 NU_UNUSED(delta)) {}
 
 ca::Size View::calculateMinSize() const {
   return m_minSize;
@@ -52,28 +51,28 @@ void View::layout(const ca::Rect& rect) {
   m_rect = rect;
 }
 
-void View::onMouseMoved(const ca::MouseEvent& UNUSED(evt)) {}
+void View::onMouseMoved(const ca::MouseEvent& NU_UNUSED(evt)) {}
 
-bool View::onMousePressed(const ca::MouseEvent& UNUSED(evt)) {
+bool View::onMousePressed(const ca::MouseEvent& NU_UNUSED(evt)) {
   return false;
 }
 
-bool View::onMouseDragged(const ca::MouseEvent& UNUSED(evt)) {
+bool View::onMouseDragged(const ca::MouseEvent& NU_UNUSED(evt)) {
   return false;
 }
 
-void View::onMouseReleased(const ca::MouseEvent& UNUSED(evt)) {}
+void View::onMouseReleased(const ca::MouseEvent& NU_UNUSED(evt)) {}
 
-void View::onMouseWheel(const ca::MouseWheelEvent& UNUSED(evt)) {}
+void View::onMouseWheel(const ca::MouseWheelEvent& NU_UNUSED(evt)) {}
 
-void View::onMouseEnter(const ca::MouseEvent& UNUSED(evt)) {}
+void View::onMouseEnter(const ca::MouseEvent& NU_UNUSED(evt)) {}
 
-void View::onMouseLeave(const ca::MouseEvent& UNUSED(evt)) {}
+void View::onMouseLeave(const ca::MouseEvent& NU_UNUSED(evt)) {}
 
-void View::onKeyPressed(const ca::KeyEvent& UNUSED(evt)) {}
+void View::onKeyPressed(const ca::KeyEvent& NU_UNUSED(evt)) {}
 
-void View::onKeyReleased(const ca::KeyEvent& UNUSED(evt)) {}
+void View::onKeyReleased(const ca::KeyEvent& NU_UNUSED(evt)) {}
 
-void View::render(Renderer* UNUSED(renderer), const ca::Mat4& UNUSED(mat)) {}
+void View::render(Renderer* NU_UNUSED(renderer), const ca::Mat4& NU_UNUSED(mat)) {}
 
 }  // namespace el
