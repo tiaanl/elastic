@@ -2,7 +2,6 @@
 #include "elastic/Views/ContextView.h"
 
 #include "elastic/Context.h"
-#include "nucleus/MemoryDebug.h"
 
 namespace el {
 
@@ -18,7 +17,7 @@ bool ContextView::onMousePressed(const ca::MouseEvent& event) {
     return true;
   }
 
-  ca::Pos mousePos = event.pos;
+  fl::Pos mousePos = event.pos;
 
   for (m_mousePressedHandler = getViewAtPosition(mousePos);
        m_mousePressedHandler && (m_mousePressedHandler != this);

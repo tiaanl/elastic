@@ -14,8 +14,8 @@ public:
   ~StackedSizerView() override;
 
   // Implement: GroupView
-  ca::Size calculateMinSize() const override;
-  void layout(const ca::Rect& rect) override;
+  fl::Size calculateMinSize() const override;
+  void layout(const fl::Rect& rect) override;
 };
 
 }  // namespace el

@@ -20,8 +20,8 @@ public:
   void setColor(const ca::Color& color);
 
   // Override: View
-  void layout(const ca::Rect& rect) override;
-  void render(Renderer* renderer, const ca::Mat4& mat) override;
+  void layout(const fl::Rect& rect) override;
+  void render(Renderer* renderer, const fl::Mat4& mat) override;
 
 private:
   // The color of the view.

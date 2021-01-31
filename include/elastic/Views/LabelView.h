@@ -15,14 +15,14 @@ public:
   LabelView(Context* context, const nu::StringView& label, Font* font);
   ~LabelView() override;
 
-  const nu::StringView& getLabel() const {
-    return m_label;
+  nu::StringView getLabel() const {
+    return m_label.view();
   }
   void setLabel(const nu::StringView& label);
 
   // Override: View
-  ca::Size calculateMinSize() const override;
-  void render(Renderer* canvas, const ca::Mat4& mat) override;
+  fl::Size calculateMinSize() const override;
+  void render(Renderer* canvas, const fl::Mat4& mat) override;
 
 private:
   nu::StaticString<128> m_label;

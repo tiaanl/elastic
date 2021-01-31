@@ -4,8 +4,6 @@
 #include <algorithm>
 #include <cmath>
 
-#include "nucleus/MemoryDebug.h"
-
 namespace el {
 
 LinearSizerView::LinearSizerView(Context* context, Orientation orientation)
@@ -17,19 +15,19 @@ void LinearSizerView::setOrientation(Orientation orientation) {
   m_orientation = orientation;
 }
 
-ca::Size LinearSizerView::calculateMinSize() const {
-  ca::Size minSize = GroupView::calculateMinSize();
+fl::Size LinearSizerView::calculateMinSize() const {
+  fl::Size minSize = GroupView::calculateMinSize();
 
-  ca::Size contentSize;
+  fl::Size contentSize;
   if (m_orientation == Orientation::Horizontal) {
     for (const auto& child : m_children) {
-      ca::Size childMinSize = child->calculateMinSize();
+      fl::Size childMinSize = child->calculateMinSize();
       contentSize.width += childMinSize.width;
       contentSize.height = std::max(contentSize.height, childMinSize.height);
     }
   } else {
     for (const auto& child : m_children) {
-      ca::Size childMinSize = child->calculateMinSize();
+      fl::Size childMinSize = child->calculateMinSize();
       contentSize.width = std::max(contentSize.width, childMinSize.width);
       contentSize.height += childMinSize.height;
     }
@@ -41,7 +39,7 @@ ca::Size LinearSizerView::calculateMinSize() const {
   return minSize;
 }
 
-void LinearSizerView::layout(const ca::Rect& rect) {
+void LinearSizerView::layout(const fl::Rect& rect) {
   GroupView::layout(rect);
 
   if (m_orientation == Orientation::Horizontal)
@@ -50,10 +48,10 @@ void LinearSizerView::layout(const ca::Rect& rect) {
     layoutVertical(rect);
 }
 
-void LinearSizerView::layoutHorizontal(const ca::Rect& rect) {
+void LinearSizerView::layoutHorizontal(const fl::Rect& rect) {
   // Make place where we can store the size for each child.
-  nu::DynamicArray<std::pair<I32, ca::Size>> sizes;
-  sizes.resize(m_children.size(), std::make_pair(0, ca::Size{}));
+  nu::DynamicArray<std::pair<I32, fl::Size>> sizes;
+  sizes.resize(m_children.size(), std::make_pair(0, fl::Size{}));
 
   // The total width available to us.
   int32_t totalSize = rect.size.width;
@@ -73,7 +71,7 @@ void LinearSizerView::layoutHorizontal(const ca::Rect& rect) {
   float singleProportionSize = static_cast<float>(totalSize) / static_cast<float>(totalProportion);
 
   // Start with the entire area we have available.
-  ca::Rect sectionRect(rect);
+  fl::Rect sectionRect(rect);
   for (size_t i = 0; i < m_children.size(); ++i) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.
@@ -90,10 +88,10 @@ void LinearSizerView::layoutHorizontal(const ca::Rect& rect) {
   }
 }
 
-void LinearSizerView::layoutVertical(const ca::Rect& rect) {
+void LinearSizerView::layoutVertical(const fl::Rect& rect) {
   // Make place where we can store the size for each child.
-  nu::DynamicArray<std::pair<int32_t, ca::Size>> sizes;
-  sizes.resize(m_children.size(), std::make_pair(0, ca::Size{}));
+  nu::DynamicArray<std::pair<int32_t, fl::Size>> sizes;
+  sizes.resize(m_children.size(), std::make_pair(0, fl::Size{}));
 
   // The total height available to us.
   int32_t totalSize = rect.size.height;
@@ -113,7 +111,7 @@ void LinearSizerView::layoutVertical(const ca::Rect& rect) {
   float singleProportionSize = static_cast<float>(totalSize) / static_cast<float>(totalProportion);
 
   // Start with the entire area we have available.
-  ca::Rect sectionRect(rect);
+  fl::Rect sectionRect(rect);
   for (size_t i = 0; i < m_children.size(); ++i) {
     // The height available is the minSize of the view + the amount we receive
     // from the total left over space.

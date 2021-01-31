@@ -3,19 +3,17 @@
 
 #include <algorithm>
 
-#include "nucleus/MemoryDebug.h"
-
 namespace el {
 
 StackedSizerView::StackedSizerView(Context* context) : GroupView(context) {}
 
 StackedSizerView::~StackedSizerView() = default;
 
-ca::Size StackedSizerView::calculateMinSize() const {
-  ca::Size minSize = GroupView::calculateMinSize();
+fl::Size StackedSizerView::calculateMinSize() const {
+  fl::Size minSize = GroupView::calculateMinSize();
 
   for (auto& child : m_children) {
-    ca::Size childSize = child->calculateMinSize();
+    fl::Size childSize = child->calculateMinSize();
     minSize.width = std::max(minSize.width, childSize.width);
     minSize.height = std::max(minSize.height, childSize.height);
   }
@@ -23,7 +21,7 @@ ca::Size StackedSizerView::calculateMinSize() const {
   return minSize;
 }
 
-void StackedSizerView::layout(const ca::Rect& rect) {
+void StackedSizerView::layout(const fl::Rect& rect) {
   GroupView::layout(rect);
 
   for (auto& child : m_children)

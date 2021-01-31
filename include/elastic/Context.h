@@ -22,7 +22,7 @@ public:
     return &m_contextView;
   }
 
-  void resize(const ca::Size& size);
+  void resize(const fl::Size& size);
 
   // Get/set the view that will have the keyboard focus.
   View* getFocusView() const {

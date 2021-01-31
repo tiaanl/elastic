@@ -1,12 +1,12 @@
 #ifndef ELASTIC_RENDERER_FONT_H_
 #define ELASTIC_RENDERER_FONT_H_
 
-#include "canvas/Math/Vec2.h"
 #include "canvas/Renderer/Renderer.h"
 #include "canvas/Renderer/Types.h"
-#include "canvas/Utils/Rect.h"
 #include "elastic/Renderer/Image.h"
-#include "nucleus/Containers/Array.h"
+#include "floats/Rect.h"
+#include "floats/Vec2.h"
+#include "nucleus/Containers/StaticArray.h"
 #include "nucleus/Macros.h"
 #include "nucleus/Streams/InputStream.h"
 
@@ -17,8 +17,8 @@ public:
   NU_DELETE_COPY_AND_MOVE(Font);
 
   struct GlyphData {
-    ca::Rect rect;
-    ca::Vec2 offset{0.0f, 0.0f};
+    fl::Rect rect;
+    fl::Vec2 offset{0.0f, 0.0f};
     F32 xAdvance = 0.0f;
   };
 
@@ -44,13 +44,13 @@ public:
     return m_glyphData[ch - 32];
   }
 
-  ca::Size calculateTextExtent(const nu::StringView& text) const;
+  fl::Size calculateTextExtent(nu::StringView text) const;
 
 private:
   Image m_image;
   I32 m_ascent = 0;
   I32 m_descent = 0;
-  nu::Array<GlyphData, 96> m_glyphData;
+  nu::StaticArray<GlyphData, 96> m_glyphData;
 };
 
 }  // namespace el

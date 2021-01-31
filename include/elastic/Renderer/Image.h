@@ -2,7 +2,7 @@
 #define ELASTIC_RENDERER_IMAGE_H_
 
 #include "canvas/Renderer/Types.h"
-#include "canvas/Utils/Size.h"
+#include "floats/Size.h"
 #include "nucleus/Macros.h"
 
 namespace el {
@@ -11,19 +11,19 @@ class Image {
 public:
   Image() = default;
 
-  Image(ca::TextureId textureId, const ca::Size& size) : m_textureId{textureId}, m_size{size} {}
+  Image(ca::TextureId textureId, const fl::Size& size) : m_textureId{textureId}, m_size{size} {}
 
   const ca::TextureId& getTextureId() const {
     return m_textureId;
   }
 
-  const ca::Size& getSize() const {
+  const fl::Size& getSize() const {
     return m_size;
   }
 
 private:
   ca::TextureId m_textureId;
-  ca::Size m_size;
+  fl::Size m_size;
 };
 
 }  // namespace el

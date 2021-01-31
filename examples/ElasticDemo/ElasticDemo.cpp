@@ -9,13 +9,13 @@
 #include "nucleus/Logging.h"
 #include "nucleus/Memory/ScopedPtr.h"
 #include "nucleus/Streams/FileInputStream.h"
-#include "silhouette/Image/Image.h"
+#include "silhouette/Image.h"
 
 class ElasticDemo : public ca::WindowDelegate {
 public:
   ElasticDemo() : ca::WindowDelegate("ElasticDemo") {}
 
-  void onWindowResized(const ca::Size& size) override {
+  void onWindowResized(const fl::Size& size) override {
     m_context.resize(size);
   }
 
@@ -96,7 +96,7 @@ public:
   }
 
 private:
-  DELETE_COPY_AND_MOVE(ElasticDemo);
+  NU_DELETE_COPY_AND_MOVE(ElasticDemo);
 
   el::Context m_context;
   nu::ScopedPtr<el::Image> m_image;

@@ -25,12 +25,12 @@ public:
   void setOrientation(Orientation orientation);
 
   // Override: GroupView
-  ca::Size calculateMinSize() const override;
-  void layout(const ca::Rect& rect) override;
+  fl::Size calculateMinSize() const override;
+  void layout(const fl::Rect& rect) override;
 
 private:
-  void layoutHorizontal(const ca::Rect& rect);
-  void layoutVertical(const ca::Rect& rect);
+  void layoutHorizontal(const fl::Rect& rect);
+  void layoutVertical(const fl::Rect& rect);
 
   // The orientation of the sizer.
   Orientation m_orientation;

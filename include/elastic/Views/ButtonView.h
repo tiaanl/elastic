@@ -29,8 +29,8 @@ public:
   auto setFont(Font* font) -> void;
 
   // label
-  const nu::StringView& getLabel() const {
-    return m_label;
+  nu::StringView getLabel() const {
+    return m_label.view();
   }
   void setLabel(const nu::StringView& label);
 
@@ -40,9 +40,9 @@ public:
   }
   bool onMousePressed(const ca::MouseEvent& evt) override;
   void onMouseReleased(const ca::MouseEvent& evt) override;
-  ca::Size calculateMinSize() const override;
-  void layout(const ca::Rect& rect) override;
-  void render(Renderer* renderer, const ca::Mat4& mat) override;
+  fl::Size calculateMinSize() const override;
+  void layout(const fl::Rect& rect) override;
+  void render(Renderer* renderer, const fl::Mat4& mat) override;
 
 private:
   // The label we print on the button.

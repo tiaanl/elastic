@@ -3,8 +3,6 @@
 
 #include "elastic/Context.h"
 
-#include "nucleus/MemoryDebug.h"
-
 namespace el {
 
 ColorView::ColorView(Context* context, const ca::Color& color) : View{context}, m_color{color} {}
@@ -15,11 +13,11 @@ void ColorView::setColor(const ca::Color& color) {
   m_color = color;
 }
 
-void ColorView::layout(const ca::Rect& rect) {
+void ColorView::layout(const fl::Rect& rect) {
   View::layout(rect);
 }
 
-void ColorView::render(Renderer* renderer, const ca::Mat4& mat) {
+void ColorView::render(Renderer* renderer, const fl::Mat4& mat) {
   View::render(renderer, mat);
 
   renderer->renderQuad(m_rect, m_color);

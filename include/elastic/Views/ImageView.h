@@ -22,8 +22,8 @@ public:
     m_image = image;
   }
 
-  ca::Size calculateMinSize() const override;
-  void render(Renderer* renderer, const ca::Mat4& mat) override;
+  fl::Size calculateMinSize() const override;
+  void render(Renderer* renderer, const fl::Mat4& mat) override;
 
 private:
   Image* m_image;

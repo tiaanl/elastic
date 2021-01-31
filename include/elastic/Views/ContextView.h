@@ -41,7 +41,7 @@ private:
   bool m_isMouseDown = false;
 
   // Keeps track of the last position we moved the mouse at.
-  ca::Pos m_lastMouseMovePos;
+  fl::Pos m_lastMouseMovePos;
 
   // The view that we last pressed on.
   View* m_mousePressedHandler = nullptr;

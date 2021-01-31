@@ -4,7 +4,7 @@
 #include <cmath>
 
 #include "nucleus/Streams/Utils.h"
-#include "silhouette/Image/Image.h"
+#include "silhouette/Image.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
@@ -80,7 +80,7 @@ void bakeFontBitmap(U8* data,
 bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) {
   auto data = readEntireStream(inputStream);
 
-  ca::Size imageSize{1024, 1024};
+  fl::Size imageSize{1024, 1024};
   auto image = si::Image::createAlpha(imageSize, 0);
 
   stbtt_bakedchar bakedChars[96];
@@ -112,7 +112,7 @@ bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) 
   return true;
 }
 
-ca::Size Font::calculateTextExtent(const nu::StringView& text) const {
+fl::Size Font::calculateTextExtent(nu::StringView text) const {
   F32 width = 0.0f;
   for (StringLength i = 0; i < text.length(); ++i) {
     width += m_glyphData[text[i] - 32].xAdvance;

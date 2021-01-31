@@ -20,7 +20,7 @@ bool Context::initialize(ca::Renderer* renderer) {
   return true;
 }
 
-void Context::resize(const ca::Size& size) {
+void Context::resize(const fl::Size& size) {
   LOG(Info) << "Resizing context to (" << size.width << ", " << size.height << ")";
   m_renderer.resize(size);
 }
@@ -39,13 +39,13 @@ void Context::render(ca::Renderer* renderer) {
                                                 "with. Maybe you didn't initialize the context?";
 #endif  // BUILD(DEBUG)
 
-  ca::Size size = renderer->getSize();
+  fl::Size size = renderer->getSize();
 
   // Get the size of the render target in pixels for the UI to render.
-  ca::Rect layoutRect{{0, 0}, size};
+  fl::Rect layoutRect{{0, 0}, size};
 
   m_contextView.layout(layoutRect);
-  m_contextView.render(&m_renderer, ca::Mat4::identity);
+  m_contextView.render(&m_renderer, fl::Mat4::identity);
 }
 
 void Context::onMouseMoved(const ca::MouseEvent& evt) {

@@ -11,7 +11,7 @@ class GroupView : public View {
 public:
   NU_DELETE_COPY_AND_MOVE(GroupView);
 
-  static ca::Rect layoutControlInRect(View* view, const ca::Rect& rect);
+  static fl::Rect layoutControlInRect(View* view, const fl::Rect& rect);
 
   explicit GroupView(Context* context);
   ~GroupView() override;
@@ -20,12 +20,12 @@ public:
   void removeChild(View* view);
 
   // Return a pointer to the view that is at the given coordinates.
-  View* getViewAtPosition(const ca::Pos& pos) const override;
+  View* getViewAtPosition(const fl::Pos& pos) const override;
 
   // Override: View
   void tick(float delta) override;
 
-  void render(Renderer* renderer, const ca::Mat4& mat) override;
+  void render(Renderer* renderer, const fl::Mat4& mat) override;
 
 protected:
   // This view's child views.

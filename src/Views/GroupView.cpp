@@ -3,14 +3,12 @@
 
 #include "elastic/Context.h"
 
-#include "nucleus/MemoryDebug.h"
-
 namespace el {
 
 // static
-ca::Rect GroupView::layoutControlInRect(View* view, const ca::Rect& rect) {
-  ca::Size minSize = view->calculateMinSize();
-  ca::Rect viewRect{rect.pos.x, rect.pos.y, minSize.width, minSize.height};
+fl::Rect GroupView::layoutControlInRect(View* view, const fl::Rect& rect) {
+  fl::Size minSize = view->calculateMinSize();
+  fl::Rect viewRect{rect.pos.x, rect.pos.y, minSize.width, minSize.height};
 
   const Expansion expand = view->getExpansion();
 
@@ -62,7 +60,7 @@ void GroupView::removeChild(View* view) {
   m_children.remove(it);
 }
 
-View* GroupView::getViewAtPosition(const ca::Pos& pos) const {
+View* GroupView::getViewAtPosition(const fl::Pos& pos) const {
   View* foundView = nullptr;
 
   for (const auto& view : m_children) {
@@ -95,7 +93,7 @@ void GroupView::tick(float adjustment) {
   }
 }
 
-void GroupView::render(Renderer* renderer, const ca::Mat4& mat) {
+void GroupView::render(Renderer* renderer, const fl::Mat4& mat) {
   View::render(renderer, mat);
 
   for (auto& child : m_children) {

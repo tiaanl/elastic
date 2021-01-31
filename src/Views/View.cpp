@@ -2,7 +2,6 @@
 #include "elastic/Views/View.h"
 
 #include "elastic/Context.h"
-#include "nucleus/MemoryDebug.h"
 
 namespace el {
 
@@ -14,7 +13,7 @@ void View::setName(const nu::StringView& name) {
   m_name = name;
 }
 
-void View::setMinSize(const ca::Size& minSize) {
+void View::setMinSize(const fl::Size& minSize) {
   m_minSize = minSize;
 }
 
@@ -34,7 +33,7 @@ void View::setProportion(I32 proportion) {
   m_proportion = proportion;
 }
 
-View* View::getViewAtPosition(const ca::Pos& pos) const {
+View* View::getViewAtPosition(const fl::Pos& pos) const {
   if (!handlesInput())
     return nullptr;
 
@@ -43,11 +42,11 @@ View* View::getViewAtPosition(const ca::Pos& pos) const {
 
 void View::tick(F32 NU_UNUSED(delta)) {}
 
-ca::Size View::calculateMinSize() const {
+fl::Size View::calculateMinSize() const {
   return m_minSize;
 }
 
-void View::layout(const ca::Rect& rect) {
+void View::layout(const fl::Rect& rect) {
   m_rect = rect;
 }
 
@@ -73,6 +72,6 @@ void View::onKeyPressed(const ca::KeyEvent& NU_UNUSED(evt)) {}
 
 void View::onKeyReleased(const ca::KeyEvent& NU_UNUSED(evt)) {}
 
-void View::render(Renderer* NU_UNUSED(renderer), const ca::Mat4& NU_UNUSED(mat)) {}
+void View::render(Renderer* NU_UNUSED(renderer), const fl::Mat4& NU_UNUSED(mat)) {}
 
 }  // namespace el

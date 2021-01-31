@@ -1,14 +1,14 @@
 #ifndef ELASTIC_VIEWS_VIEW_H_
 #define ELASTIC_VIEWS_VIEW_H_
 
-#include "canvas/Math/Mat4.h"
-#include "canvas/Utils/Pos.h"
-#include "canvas/Utils/Rect.h"
-#include "canvas/Utils/Size.h"
 #include "canvas/Windows/KeyboardEventHandlerInterface.h"
 #include "canvas/Windows/MouseEventHandlerInterface.h"
 #include "elastic/Renderer/Renderer.h"
 #include "elastic/Utils/Margins.h"
+#include "floats/Mat4.h"
+#include "floats/Pos.h"
+#include "floats/Rect.h"
+#include "floats/Size.h"
 #include "nucleus/Macros.h"
 
 namespace el {
@@ -44,16 +44,16 @@ public:
   }
 
   // name
-  const nu::StringView& getName() const {
-    return m_name;
+  nu::StringView getName() const {
+    return m_name.view();
   }
   void setName(const nu::StringView& name);
 
   // minSize
-  virtual const ca::Size& getMinSize() const {
+  virtual const fl::Size& getMinSize() const {
     return m_minSize;
   }
-  void setMinSize(const ca::Size& minSize);
+  void setMinSize(const fl::Size& minSize);
 
   // margins
   auto margins() const -> const Margins& {
@@ -90,7 +90,7 @@ public:
   // Virtual Interface
 
   // Get the view/child view at this position.
-  virtual View* getViewAtPosition(const ca::Pos& pos) const;
+  virtual View* getViewAtPosition(const fl::Pos& pos) const;
 
   // Return true if you want to receive input events on this view.  If not,
   // events will be processed by this view's parents.
@@ -99,8 +99,8 @@ public:
   }
 
   virtual void tick(F32 delta);
-  virtual ca::Size calculateMinSize() const;
-  virtual void layout(const ca::Rect& rect);
+  virtual fl::Size calculateMinSize() const;
+  virtual void layout(const fl::Rect& rect);
 
   // Events
 
@@ -116,7 +116,7 @@ public:
   void onKeyPressed(const ca::KeyEvent& evt) override;
   void onKeyReleased(const ca::KeyEvent& evt) override;
 
-  virtual void render(Renderer* renderer, const ca::Mat4& mat);
+  virtual void render(Renderer* renderer, const fl::Mat4& mat);
 
 protected:
   friend class GroupView;
@@ -131,10 +131,10 @@ protected:
   nu::StaticString<64> m_name;
 
   // The rect where this view has been laid out to.
-  ca::Rect m_rect;
+  fl::Rect m_rect;
 
   // The minimum size of the view.
-  ca::Size m_minSize;
+  fl::Size m_minSize;
 
   // A margin around the view.
   Margins m_margins;

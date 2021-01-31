@@ -2,9 +2,9 @@
 #define ELASTIC_RENDERER_RENDERER_H_
 
 #include "canvas/Renderer/Renderer.h"
-#include "canvas/Utils/Rect.h"
 #include "elastic/Renderer/Font.h"
 #include "elastic/Renderer/Image.h"
+#include "floats/Rect.h"
 
 namespace el {
 
@@ -16,21 +16,21 @@ public:
   ~Renderer();
 
   bool initialize(ca::Renderer* renderer);
-  void resize(const ca::Size& size);
+  void resize(const fl::Size& size);
 
-  void renderQuad(const ca::Rect& rect, const ca::Color& color);
-  void renderQuad(const ca::Rect& rect, const Image& image);
-  void renderQuad(const ca::Rect& rect, const Image& image, const ca::Rect& subImage);
-  void renderText(Font* font, const ca::Pos& position, const nu::StringView& text);
+  void renderQuad(const fl::Rect& rect, const ca::Color& color);
+  void renderQuad(const fl::Rect& rect, const Image& image);
+  void renderQuad(const fl::Rect& rect, const Image& image, const fl::Rect& subImage);
+  void renderText(Font* font, const fl::Pos& position, const nu::StringView& text);
 
 private:
-  void renderTexturedQuad(const ca::Rect& rect, const Image& image, const ca::Rect& subImage,
+  void renderTexturedQuad(const fl::Rect& fl, const Image& image, const fl::Rect& subImage,
                           ca::ProgramId programId);
 
   ca::Renderer* m_renderer = nullptr;
 
-  ca::Size m_size;
-  ca::Mat4 m_projectionMatrix = ca::Mat4::identity;
+  fl::Size m_size;
+  fl::Mat4 m_projectionMatrix = fl::Mat4::identity;
 
   ca::ProgramId m_quadColorProgramId;
   ca::ProgramId m_quadTextureProgramId;
