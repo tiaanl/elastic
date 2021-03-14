@@ -16,7 +16,7 @@ public:
   ElasticDemo() : ca::WindowDelegate("ElasticDemo") {}
 
   void onWindowResized(const fl::Size& size) override {
-    m_context.resize(size);
+    context_.resize(size);
   }
 
   bool onWindowCreated(ca::Window* window) override {
@@ -26,81 +26,81 @@ public:
 
     ca::Renderer* renderer = window->getRenderer();
 
-    auto rootPath = nu::FilePath{__FILE__}.dirName().dirName() / "resources";
+    auto root_path = nu::FilePath{__FILE__}.dirName().dirName() / "resources";
 
-    nu::FileInputStream fontStream{rootPath / "liberation-mono.ttf"};
-    if (!fontStream.openedOk()) {
+    nu::FileInputStream font_stream{root_path / "liberation-mono.ttf"};
+    if (!font_stream.openedOk()) {
       LOG(Error) << "Could not open font file.";
       return false;
     }
 
-    if (!m_font.load(&fontStream, renderer, 144)) {
+    if (!font_.load(&font_stream, renderer, 144)) {
       return false;
     }
 
-    nu::FileInputStream imageStream{rootPath / "elastic.png"};
-    if (!imageStream.openedOk()) {
+    nu::FileInputStream image_stream{root_path / "elastic.png"};
+    if (!image_stream.openedOk()) {
       LOG(Error) << "Could not open image file.";
       return false;
     }
 
     si::Image image;
-    if (!image.loadFromStream(&imageStream)) {
+    if (!image.loadFromStream(&image_stream)) {
       LOG(Error) << "Could not load image file.";
       return false;
     }
 
-    auto textureId = si::createTextureFromImage(renderer, image);
-    if (!isValid(textureId)) {
+    auto texture_id = si::createTextureFromImage(renderer, image);
+    if (!isValid(texture_id)) {
       LOG(Error) << "Could not upload texture to GPU.";
       return false;
     }
 
-    m_image.reset(new el::Image{textureId, image.size()});
+    image_.reset(new el::Image{texture_id, image.size()});
 
-    if (!m_context.initialize(renderer)) {
+    if (!context_.initialize(renderer)) {
       return false;
     }
 
-    auto stackedSizerView = new el::StackedSizerView(&m_context);
-    stackedSizerView->setExpansion(el::Expansion::Both);
-    m_context.getRootView()->addChild(stackedSizerView);
+    auto stacked_sizer_view = new el::StackedSizerView(&context_);
+    stacked_sizer_view->setExpansion(el::Expansion::Both);
+    context_.getRootView()->addChild(stacked_sizer_view);
 
-    auto colorView1 = new el::ColorView(&m_context, ca::Color::red);
-    stackedSizerView->addChild(colorView1);
-    colorView1->setName("colorView1");
-    colorView1->setHorizontalAlignment(el::Alignment::Center);
-    colorView1->setExpansion(el::Expansion::Vertical);
-    colorView1->setMinSize({100, 100});
+    auto red_block = new el::ColorView(&context_, ca::Color::red);
+    stacked_sizer_view->addChild(red_block);
+    red_block->setName("colorView1");
+    red_block->setHorizontalAlignment(el::Alignment::Center);
+    red_block->setExpansion(el::Expansion::Vertical);
+    red_block->setMinSize({100, 100});
 
-    auto colorView2 = new el::ColorView(&m_context, ca::Color::blue);
-    stackedSizerView->addChild(colorView2);
-    colorView2->setName("colorView2");
-    colorView2->setHorizontalAlignment(el::Alignment::Center);
-    colorView2->setExpansion(el::Expansion::Horizontal);
-    colorView2->setMinSize({100, 100});
+    auto blue_block = new el::ColorView(&context_, ca::Color::blue);
+    stacked_sizer_view->addChild(blue_block);
+    blue_block->setName("colorView2");
+    blue_block->setHorizontalAlignment(el::Alignment::Center);
+    blue_block->setExpansion(el::Expansion::Horizontal);
+    blue_block->setMinSize({100, 100});
 
-    auto imageView1 = new el::ImageView(&m_context, m_image.get());
-    stackedSizerView->addChild(imageView1);
+    auto image_view = new el::ImageView(&context_, image_.get());
+    stacked_sizer_view->addChild(image_view);
 
-    auto labelView = new el::LabelView{&m_context, "elastic", &m_font};
-    stackedSizerView->addChild(labelView);
-    //    labelView->setHorizontalAlignment(el::Alignment::Left);
-    //    labelView->setVerticalAlignment(el::Alignment::Top);
+    auto label_view = new el::LabelView{&context_, "elastic", &font_};
+    stacked_sizer_view->addChild(label_view);
+    label_view->setHorizontalAlignment(el::Alignment::Left);
+    label_view->setVerticalAlignment(el::Alignment::Top);
 
     return true;
   }
 
   void onRender(ca::Renderer* renderer) override {
-    m_context.render(renderer);
+    context_.render(renderer);
   }
 
 private:
   NU_DELETE_COPY_AND_MOVE(ElasticDemo);
 
-  el::Context m_context;
-  nu::ScopedPtr<el::Image> m_image;
-  el::Font m_font;
+  el::Context context_;
+  nu::ScopedPtr<el::Image> image_;
+  el::Font font_;
 };
 
 CANVAS_APP(ElasticDemo)
