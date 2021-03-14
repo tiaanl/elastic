@@ -84,8 +84,8 @@ bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) 
   auto image = si::Image::createAlpha(imageSize, 0);
 
   stbtt_bakedchar bakedChars[96];
-  bakeFontBitmap(data.data(), 0, static_cast<F32>(size), image.data(), imageSize.width,
-                 imageSize.height, 32, 96, bakedChars, &m_ascent, &m_descent);
+  bakeFontBitmap(data.data(), 0, static_cast<F32>(size), const_cast<U8*>(image.data().data()),
+                 imageSize.width, imageSize.height, 32, 96, bakedChars, &m_ascent, &m_descent);
 
   for (auto i = 0; i < 96; ++i) {
     m_glyphData[i].rect = {bakedChars[i].x0, bakedChars[i].y0, bakedChars[i].x1 - bakedChars[i].x0,
