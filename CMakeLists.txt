@@ -17,7 +17,7 @@ set(elastic_TEST_FILES
     tests/ContextTests.cpp
     )
 
-add_executable(elasticTests ${elastic_TEST_FILES})
+nucleus_add_executable(elasticTests ${elastic_TEST_FILES})
 target_link_libraries(elasticTests PRIVATE elastic testsMain)
 
 if (ELASTIC_BUILD_EXAMPLES)

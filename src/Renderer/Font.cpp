@@ -101,7 +101,28 @@ bool Font::load(nu::InputStream* inputStream, ca::Renderer* renderer, I32 size) 
 #endif  // 0
   }
 
-  auto textureId = si::createTextureFromImage(renderer, image, false);
+  auto createTextureFromImage = [](ca::Renderer* renderer, const si::Image& image,
+                                   bool smooth) -> ca::TextureId {
+#if 0
+    LOG(Info) << "Creating texture: format = " << (U32)image.m_format << ", size = " << image.m_size;
+#endif  // 0
+    ca::TextureFormat format = ca::TextureFormat::Unknown;
+    switch (image.format()) {
+      case si::ImageFormat::Alpha:
+        format = ca::TextureFormat::Alpha;
+        break;
+      case si::ImageFormat::RedGreenBlue:
+        format = ca::TextureFormat::RGB;
+        break;
+      case si::ImageFormat::RedGreenBlueAlpha:
+        format = ca::TextureFormat::RGBA;
+        break;
+    }
+    return renderer->createTexture(format, image.size(), image.data().data(), image.data().size(),
+                                   smooth);
+  };
+
+  auto textureId = createTextureFromImage(renderer, image, false);
   if (!isValid(textureId)) {
     LOG(Error) << "Could not create texture for font.";
     return false;
