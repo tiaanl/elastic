@@ -35,14 +35,14 @@ public:
   void render(ca::Renderer* renderer);
 
   // Override: ca::MouseEventHandlerInterface
-  void onMouseMoved(const ca::MouseEvent& evt) override;
-  bool onMousePressed(const ca::MouseEvent& evt) override;
-  void onMouseReleased(const ca::MouseEvent& evt) override;
-  void onMouseWheel(const ca::MouseWheelEvent& evt) override;
+  void on_mouse_moved(const ca::MouseEvent& evt) override;
+  bool on_mouse_pressed(const ca::MouseEvent& evt) override;
+  void on_mouse_released(const ca::MouseEvent& evt) override;
+  void on_mouse_wheel(const ca::MouseWheelEvent& evt) override;
 
   // Override: ca::KeyboardEventHandlerInterface
-  void onKeyPressed(const ca::KeyEvent& evt) override;
-  void onKeyReleased(const ca::KeyEvent& evt) override;
+  void on_key_pressed(const ca::KeyEvent& evt) override;
+  void on_key_released(const ca::KeyEvent& evt) override;
 
 protected:
   friend class View;

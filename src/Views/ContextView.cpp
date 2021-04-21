@@ -9,11 +9,11 @@ ContextView::ContextView(Context* context) : StackedSizerView{context} {}
 
 ContextView::~ContextView() = default;
 
-bool ContextView::onMousePressed(const ca::MouseEvent& event) {
+bool ContextView::on_mouse_pressed(const ca::MouseEvent& event) {
   // If `m_mousePressedHandler` is not `nullptr`, then we are currently processing a
   // pressed->drag->released session. In that case we send the event to `m_mousePressedHandler`.
   if (m_mousePressedHandler) {
-    m_mousePressedHandler->onMousePressed(event);
+    m_mousePressedHandler->on_mouse_pressed(event);
     return true;
   }
 
@@ -22,7 +22,7 @@ bool ContextView::onMousePressed(const ca::MouseEvent& event) {
   for (m_mousePressedHandler = getViewAtPosition(mousePos);
        m_mousePressedHandler && (m_mousePressedHandler != this);
        m_mousePressedHandler = m_mousePressedHandler->getParent()) {
-    bool handled = m_mousePressedHandler->onMousePressed(event);
+    bool handled = m_mousePressedHandler->on_mouse_pressed(event);
 
     // The view could have removed itself from the tree when handling `onMousePressed()`.  In this
     // case, the removal notification will have reset `m_mousePressedHandler` to nullptr.  Detect
@@ -52,16 +52,16 @@ bool ContextView::onMouseDragged(const ca::MouseEvent& event) {
   return false;
 }
 
-void ContextView::onMouseReleased(const ca::MouseEvent& event) {
+void ContextView::on_mouse_released(const ca::MouseEvent& event) {
   if (m_mousePressedHandler) {
     View* mousePressedHandler = m_mousePressedHandler;
     m_mousePressedHandler = nullptr;
-    mousePressedHandler->onMouseReleased(event);
+    mousePressedHandler->on_mouse_released(event);
     // Don't touch mousePressedHandler any more.
   }
 }
 
-void ContextView::onMouseMoved(const ca::MouseEvent& event) {
+void ContextView::on_mouse_moved(const ca::MouseEvent& event) {
   View* topMost = getViewAtPosition(event.pos);
 
   if (topMost && topMost != this) {
@@ -80,7 +80,7 @@ void ContextView::onMouseMoved(const ca::MouseEvent& event) {
     }
 
     // Now send the move event.
-    m_mouseMoveHandler->onMouseMoved(event);
+    m_mouseMoveHandler->on_mouse_moved(event);
   } else if (m_mouseMoveHandler) {
     m_mouseMoveHandler->onMouseLeave(event);
   }
@@ -89,7 +89,7 @@ void ContextView::onMouseMoved(const ca::MouseEvent& event) {
 bool ContextView::processMousePressed(const ca::MouseEvent& event, bool NU_UNUSED(isDouble)) {
   m_lastMouseEventWasMove = false;
 
-  if (onMousePressed(event)) {
+  if (on_mouse_pressed(event)) {
     m_isMouseDown = true;
 
     if (!m_hasCapture) {
@@ -117,7 +117,7 @@ void ContextView::processMouseReleased(const ca::MouseEvent& event) {
 
   m_isMouseDown = false;
 
-  onMouseReleased(event);
+  on_mouse_released(event);
 }
 
 void ContextView::processMouseMoved(const ca::MouseEvent& event) {
@@ -129,7 +129,7 @@ void ContextView::processMouseMoved(const ca::MouseEvent& event) {
     }
     m_lastMouseMovePos = event.pos;
     m_lastMouseEventWasMove = true;
-    onMouseMoved(event);
+    on_mouse_moved(event);
   }
 }
 
@@ -140,7 +140,7 @@ void ContextView::processMouseWheel(const ca::MouseWheelEvent& event) {
     return;
   }
 
-  view->onMouseWheel(event);
+  view->on_mouse_wheel(event);
 }
 
 void ContextView::processKeyPressed(const ca::KeyEvent& event) {
@@ -148,7 +148,7 @@ void ContextView::processKeyPressed(const ca::KeyEvent& event) {
     return;
   }
 
-  m_context->getFocusView()->onKeyPressed(event);
+  m_context->getFocusView()->on_key_pressed(event);
 }
 
 void ContextView::processKeyReleased(const ca::KeyEvent& event) {
@@ -156,7 +156,7 @@ void ContextView::processKeyReleased(const ca::KeyEvent& event) {
     return;
   }
 
-  m_context->getFocusView()->onKeyReleased(event);
+  m_context->getFocusView()->on_key_released(event);
 }
 
 }  // namespace el

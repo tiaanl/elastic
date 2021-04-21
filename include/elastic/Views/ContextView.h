@@ -14,9 +14,9 @@ public:
   ~ContextView() override;
 
   // Override: StackedSizerView
-  void onMouseMoved(const ca::MouseEvent& evt) override;
-  bool onMousePressed(const ca::MouseEvent& evt) override;
-  void onMouseReleased(const ca::MouseEvent& evt) override;
+  void on_mouse_moved(const ca::MouseEvent& evt) override;
+  bool on_mouse_pressed(const ca::MouseEvent& evt) override;
+  void on_mouse_released(const ca::MouseEvent& evt) override;
   bool onMouseDragged(const ca::MouseEvent& evt) override;
 
 private:

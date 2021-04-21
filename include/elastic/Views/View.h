@@ -1,8 +1,8 @@
 #ifndef ELASTIC_VIEWS_VIEW_H_
 #define ELASTIC_VIEWS_VIEW_H_
 
-#include "canvas/Windows/KeyboardEventHandlerInterface.h"
-#include "canvas/Windows/MouseEventHandlerInterface.h"
+#include "canvas/Windows/keyboard_event_handler_interface.h"
+#include "canvas/Windows/mouse_event_handler_interface.h"
 #include "elastic/Renderer/Renderer.h"
 #include "elastic/Utils/Margins.h"
 #include "floats/Mat4.h"
@@ -104,17 +104,17 @@ public:
 
   // Events
 
-  void onMouseMoved(const ca::MouseEvent& evt) override;
-  bool onMousePressed(const ca::MouseEvent& evt) override;
-  void onMouseReleased(const ca::MouseEvent& evt) override;
-  void onMouseWheel(const ca::MouseWheelEvent& evt) override;
+  void on_mouse_moved(const ca::MouseEvent& evt) override;
+  bool on_mouse_pressed(const ca::MouseEvent& evt) override;
+  void on_mouse_released(const ca::MouseEvent& evt) override;
+  void on_mouse_wheel(const ca::MouseWheelEvent& evt) override;
 
   virtual bool onMouseDragged(const ca::MouseEvent& evt);
   virtual void onMouseEnter(const ca::MouseEvent& evt);
   virtual void onMouseLeave(const ca::MouseEvent& evt);
 
-  void onKeyPressed(const ca::KeyEvent& evt) override;
-  void onKeyReleased(const ca::KeyEvent& evt) override;
+  void on_key_pressed(const ca::KeyEvent& evt) override;
+  void on_key_released(const ca::KeyEvent& evt) override;
 
   virtual void render(Renderer* renderer, const fl::Mat4& mat);
 

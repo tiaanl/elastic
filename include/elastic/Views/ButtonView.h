@@ -38,8 +38,8 @@ public:
   bool handlesInput() const override {
     return true;
   }
-  bool onMousePressed(const ca::MouseEvent& evt) override;
-  void onMouseReleased(const ca::MouseEvent& evt) override;
+  bool on_mouse_pressed(const ca::MouseEvent& evt) override;
+  void on_mouse_released(const ca::MouseEvent& evt) override;
   fl::Size calculateMinSize() const override;
   void layout(const fl::Rect& rect) override;
   void render(Renderer* renderer, const fl::Mat4& mat) override;

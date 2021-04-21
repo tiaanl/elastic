@@ -50,9 +50,9 @@ void View::layout(const fl::Rect& rect) {
   m_rect = rect;
 }
 
-void View::onMouseMoved(const ca::MouseEvent& NU_UNUSED(evt)) {}
+void View::on_mouse_moved(const ca::MouseEvent& NU_UNUSED(evt)) {}
 
-bool View::onMousePressed(const ca::MouseEvent& NU_UNUSED(evt)) {
+bool View::on_mouse_pressed(const ca::MouseEvent& NU_UNUSED(evt)) {
   return false;
 }
 
@@ -60,17 +60,17 @@ bool View::onMouseDragged(const ca::MouseEvent& NU_UNUSED(evt)) {
   return false;
 }
 
-void View::onMouseReleased(const ca::MouseEvent& NU_UNUSED(evt)) {}
+void View::on_mouse_released(const ca::MouseEvent& NU_UNUSED(evt)) {}
 
-void View::onMouseWheel(const ca::MouseWheelEvent& NU_UNUSED(evt)) {}
+void View::on_mouse_wheel(const ca::MouseWheelEvent& NU_UNUSED(evt)) {}
 
 void View::onMouseEnter(const ca::MouseEvent& NU_UNUSED(evt)) {}
 
 void View::onMouseLeave(const ca::MouseEvent& NU_UNUSED(evt)) {}
 
-void View::onKeyPressed(const ca::KeyEvent& NU_UNUSED(evt)) {}
+void View::on_key_pressed(const ca::KeyEvent& NU_UNUSED(evt)) {}
 
-void View::onKeyReleased(const ca::KeyEvent& NU_UNUSED(evt)) {}
+void View::on_key_released(const ca::KeyEvent& NU_UNUSED(evt)) {}
 
 void View::render(Renderer* NU_UNUSED(renderer), const fl::Mat4& NU_UNUSED(mat)) {}
 

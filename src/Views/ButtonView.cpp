@@ -20,18 +20,18 @@ void ButtonView::setLabel(const nu::StringView& label) {
   m_label = label;
 }
 
-bool ButtonView::onMousePressed(const ca::MouseEvent& evt) {
-  View::onMousePressed(evt);
+bool ButtonView::on_mouse_pressed(const ca::MouseEvent& evt) {
+  View::on_mouse_pressed(evt);
 
-  LOG(Info) << "onMousePressed";
+  LOG(Info) << "on_mouse_pressed";
 
   return true;
 }
 
-void ButtonView::onMouseReleased(const ca::MouseEvent& event) {
-  View::onMouseReleased(event);
+void ButtonView::on_mouse_released(const ca::MouseEvent& event) {
+  View::on_mouse_released(event);
 
-  LOG(Info) << "onMouseReleased";
+  LOG(Info) << "on_mouse_released";
 
   if (m_listener) {
     m_listener->onButtonClicked(this);

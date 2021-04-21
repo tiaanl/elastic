@@ -48,27 +48,27 @@ void Context::render(ca::Renderer* renderer) {
   m_contextView.render(&m_renderer, fl::Mat4::identity);
 }
 
-void Context::onMouseMoved(const ca::MouseEvent& evt) {
+void Context::on_mouse_moved(const ca::MouseEvent& evt) {
   m_contextView.processMouseMoved(evt);
 }
 
-bool Context::onMousePressed(const ca::MouseEvent& evt) {
+bool Context::on_mouse_pressed(const ca::MouseEvent& evt) {
   return m_contextView.processMousePressed(evt, false);
 }
 
-void Context::onMouseReleased(const ca::MouseEvent& evt) {
+void Context::on_mouse_released(const ca::MouseEvent& evt) {
   m_contextView.processMouseReleased(evt);
 }
 
-void Context::onMouseWheel(const ca::MouseWheelEvent& evt) {
+void Context::on_mouse_wheel(const ca::MouseWheelEvent& evt) {
   m_contextView.processMouseWheel(evt);
 }
 
-void Context::onKeyPressed(const ca::KeyEvent& evt) {
+void Context::on_key_pressed(const ca::KeyEvent& evt) {
   m_contextView.processKeyPressed(evt);
 }
 
-void Context::onKeyReleased(const ca::KeyEvent& evt) {
+void Context::on_key_released(const ca::KeyEvent& evt) {
   m_contextView.processKeyReleased(evt);
 }
 
