@@ -4,7 +4,7 @@
 #include <cmath>
 
 #include "nucleus/Streams/Utils.h"
-#include "silhouette/Image.h"
+#include "silhouette/image.h"
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
