@@ -203,6 +203,10 @@ void Renderer::renderQuad(const fl::Rect& rect, const ca::Color& color) {
 }
 
 void Renderer::renderQuad(const fl::Rect& rect, const Image& image) {
+  if (!image.getTextureId().isValid()) {
+    LOG(Warning) << "Rendering invalid image.";
+    return;
+  }
   renderTexturedQuad(rect, image, {{0, 0}, image.getSize()}, m_quadTextureProgramId);
 }
 

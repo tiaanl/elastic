@@ -18,21 +18,27 @@ public:
     virtual void onButtonClicked(ButtonView* sender) = 0;
   };
 
-  explicit ButtonView(Context* context, const nu::StringView& label = nu::StringView{},
+  explicit ButtonView(Context* context, nu::StringView label = {},
                       OnClickListener* listener = nullptr);
   ~ButtonView() override;
 
-  // font
-  auto font() const -> Font* {
-    return m_font;
-  }
-  auto setFont(Font* font) -> void;
-
   // label
-  nu::StringView getLabel() const {
-    return m_label.view();
+  const nu::StaticString<128>& getLabel() const {
+    return m_label;
   }
   void setLabel(const nu::StringView& label);
+
+  // font
+  Font* font() const {
+    return m_font;
+  }
+  void setFont(Font* font);
+
+  // background
+  const Image& background() const {
+    return background_;
+  }
+  void background(Image background);
 
   // Override: View
   bool handlesInput() const override {
@@ -49,6 +55,8 @@ private:
   nu::StaticString<128> m_label;
 
   Font* m_font = nullptr;
+
+  Image background_;
 
   // A listener that will receive events when the button is clicked.
   OnClickListener* m_listener = nullptr;

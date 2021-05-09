@@ -7,13 +7,17 @@ namespace el {
 
 ButtonView::OnClickListener::~OnClickListener() = default;
 
-ButtonView::ButtonView(Context* context, const nu::StringView& label, OnClickListener* listener)
+ButtonView::ButtonView(Context* context, nu::StringView label, OnClickListener* listener)
   : View(context), m_label{label}, m_listener{listener} {}
 
 ButtonView::~ButtonView() = default;
 
 auto ButtonView::setFont(Font* font) -> void {
   m_font = font;
+}
+
+void ButtonView::background(Image background) {
+  background_ = std::move(background);
 }
 
 void ButtonView::setLabel(const nu::StringView& label) {
@@ -56,7 +60,8 @@ void ButtonView::layout(const fl::Rect& rect) {
 void ButtonView::render(Renderer* renderer, const fl::Mat4& mat) {
   View::render(renderer, mat);
 
-  renderer->renderQuad(m_rect, ca::Color::red);
+  // renderer->renderQuad(m_rect, ca::Color::red);
+  renderer->renderQuad(m_rect, background_);
 
   if (m_font) {
     auto extent = m_font->calculateTextExtent(m_label.view());
