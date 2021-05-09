@@ -3,7 +3,7 @@
 
 namespace el {
 
-LabelView::LabelView(Context* context, const nu::StringView& label, Font* font)
+LabelView::LabelView(Context* context, nu::StringView label, Font* font)
   : View{context}, m_label{label}, m_font{font} {}
 
 LabelView::~LabelView() = default;

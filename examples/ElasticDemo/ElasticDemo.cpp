@@ -45,12 +45,13 @@ public:
     }
 
     si::Image image;
-    if (!image.loadFromStream(&image_stream)) {
+    if (!image.load_from_png(&image_stream)) {
       LOG(Error) << "Could not load image file.";
       return false;
     }
 
-    auto texture_id = si::createTextureFromImage(renderer, image);
+    auto texture_id = renderer->createTexture(ca::TextureFormat::RGBA, image.size(),
+                                              image.data().data(), image.data().size(), false);
     if (!isValid(texture_id)) {
       LOG(Error) << "Could not upload texture to GPU.";
       return false;

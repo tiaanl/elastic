@@ -53,7 +53,9 @@ void Context::on_mouse_moved(const ca::MouseEvent& evt) {
 }
 
 bool Context::on_mouse_pressed(const ca::MouseEvent& evt) {
-  return m_contextView.processMousePressed(evt, false);
+  m_contextView.processMousePressed(evt, false);
+
+  return false;
 }
 
 void Context::on_mouse_released(const ca::MouseEvent& evt) {

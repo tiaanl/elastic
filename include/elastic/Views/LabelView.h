@@ -12,7 +12,7 @@ class LabelView : public View {
 public:
   NU_DELETE_COPY_AND_MOVE(LabelView);
 
-  LabelView(Context* context, const nu::StringView& label, Font* font);
+  LabelView(Context* context, nu::StringView label, Font* font);
   ~LabelView() override;
 
   nu::StringView getLabel() const {

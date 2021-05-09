@@ -2,9 +2,6 @@
 #include "elastic/Renderer/Renderer.h"
 
 #include "floats/Transform.h"
-#include "floats/Vec2.h"
-#include "nucleus/Config.h"
-#include "nucleus/Logging.h"
 #include "nucleus/Streams/ArrayInputStream.h"
 
 namespace el {
@@ -64,10 +61,8 @@ out vec4 final;
 uniform sampler2D uTexture;
 
 void main() {
-  // final = texture(uTexture, texCoords);
-   float r = texture(uTexture, texCoords).r;
-   final = vec4(1.0f, 1.0f, 1.0f, r);
-  // final = vec4(1.0f, 0.0f, 0.0f, 0.1f);
+   float alpha = texture(uTexture, texCoords).r;
+   final = vec4(1.0f, 1.0f, 1.0f, alpha);
 }
 )source";
 
@@ -200,6 +195,9 @@ void Renderer::renderQuad(const fl::Rect& rect, const ca::Color& color) {
   // uniforms.set(m_quadTexCoordsTransformUniformId, fl::Mat4::identity);
   uniforms.set(m_quadColorUniformId, color);
 
+  m_renderer->state().depth_test(false);
+  m_renderer->state().cull_face(false);
+
   m_renderer->draw(ca::DrawType::Triangles, 6, m_quadColorProgramId, m_quadVertexBufferId,
                    m_quadIndexBufferId, ca::TextureId{}, uniforms);
 }
@@ -271,6 +269,9 @@ void Renderer::renderTexturedQuad(const fl::Rect& rect, const Image& image,
   LOG(Info) << "Rendering quad at (" << rect.pos.x << ", " << rect.pos.y << ", " << rect.size.width
             << ", " << rect.size.height << ")";
 #endif  // 0
+
+  m_renderer->state().depth_test(false);
+  m_renderer->state().cull_face(false);
 
   m_renderer->draw(ca::DrawType::Triangles, 6, programId, m_quadVertexBufferId, m_quadIndexBufferId,
                    image.getTextureId(), uniforms);

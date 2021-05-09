@@ -31,7 +31,7 @@ enum class Expansion : U32 {
   Both,
 };
 
-class View : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
+class View {
 public:
   NU_DELETE_COPY_AND_MOVE(View);
 
@@ -102,19 +102,18 @@ public:
   virtual fl::Size calculateMinSize() const;
   virtual void layout(const fl::Rect& rect);
 
-  // Events
-
-  void on_mouse_moved(const ca::MouseEvent& evt) override;
-  bool on_mouse_pressed(const ca::MouseEvent& evt) override;
-  void on_mouse_released(const ca::MouseEvent& evt) override;
-  void on_mouse_wheel(const ca::MouseWheelEvent& evt) override;
+  // Raw input events from canvas.
+  virtual void on_mouse_moved(const ca::MouseEvent& evt);
+  virtual bool on_mouse_pressed(const ca::MouseEvent& evt);
+  virtual void on_mouse_released(const ca::MouseEvent& evt);
+  virtual void on_mouse_wheel(const ca::MouseWheelEvent& evt);
 
   virtual bool onMouseDragged(const ca::MouseEvent& evt);
   virtual void onMouseEnter(const ca::MouseEvent& evt);
   virtual void onMouseLeave(const ca::MouseEvent& evt);
 
-  void on_key_pressed(const ca::KeyEvent& evt) override;
-  void on_key_released(const ca::KeyEvent& evt) override;
+  virtual void on_key_pressed(const ca::KeyEvent& evt);
+  virtual void on_key_released(const ca::KeyEvent& evt);
 
   virtual void render(Renderer* renderer, const fl::Mat4& mat);
 
