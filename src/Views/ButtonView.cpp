@@ -5,10 +5,27 @@
 
 namespace el {
 
+class LambdaListener : public ButtonView::OnClickListener {
+public:
+  explicit LambdaListener(nu::Function<void(ButtonView*)> listener)
+    : listener_{std::move(listener)} {}
+
+  void onButtonClicked(ButtonView* sender) override {
+    listener_(sender);
+  }
+
+private:
+  nu::Function<void(ButtonView*)> listener_;
+};
+
 ButtonView::OnClickListener::~OnClickListener() = default;
 
 ButtonView::ButtonView(Context* context, nu::StringView label, OnClickListener* listener)
   : View(context), m_label{label}, m_listener{listener} {}
+
+ButtonView::ButtonView(Context* context, nu::StringView label,
+                       nu::Function<void(ButtonView*)> listener)
+  : View{context}, m_label{label}, m_listener{new LambdaListener{std::move(listener)}} {}
 
 ButtonView::~ButtonView() = default;
 
@@ -27,15 +44,11 @@ void ButtonView::setLabel(const nu::StringView& label) {
 bool ButtonView::on_mouse_pressed(const ca::MouseEvent& evt) {
   View::on_mouse_pressed(evt);
 
-  LOG(Info) << "on_mouse_pressed";
-
   return true;
 }
 
 void ButtonView::on_mouse_released(const ca::MouseEvent& event) {
   View::on_mouse_released(event);
-
-  LOG(Info) << "on_mouse_released";
 
   if (m_listener) {
     m_listener->onButtonClicked(this);
@@ -60,8 +73,10 @@ void ButtonView::layout(const fl::Rect& rect) {
 void ButtonView::render(Renderer* renderer, const fl::Mat4& mat) {
   View::render(renderer, mat);
 
-  // renderer->renderQuad(m_rect, ca::Color::red);
-  renderer->renderQuad(m_rect, background_);
+  if (background_.getSize().area() > 0) {
+    // renderer->renderQuad(m_rect, ca::Color::red);
+    renderer->renderQuad(m_rect, background_);
+  }
 
   if (m_font) {
     auto extent = m_font->calculateTextExtent(m_label.view());

@@ -20,11 +20,13 @@ public:
 
   explicit ButtonView(Context* context, nu::StringView label = {},
                       OnClickListener* listener = nullptr);
+  explicit ButtonView(Context* context, nu::StringView label = {},
+                      nu::Function<void(ButtonView*)> listener = {});
   ~ButtonView() override;
 
   // label
-  const nu::StaticString<128>& getLabel() const {
-    return m_label;
+  nu::StringView getLabel() const {
+    return m_label.view();
   }
   void setLabel(const nu::StringView& label);
 
