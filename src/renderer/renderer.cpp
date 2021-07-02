@@ -162,8 +162,8 @@ bool Renderer::initialize(ca::Renderer* renderer) {
     return false;
   }
 
-  m_projectionMatrix = fl::orthographicProjection(0.0f, static_cast<F32>(m_size.width), 0.0f,
-                                                  static_cast<F32>(m_size.height), -1.0f, 1.0f);
+  m_projectionMatrix = fl::orthographic_projection(0.0f, static_cast<F32>(m_size.width), 0.0f,
+                                                   static_cast<F32>(m_size.height), -1.0f, 1.0f);
 
   return true;
 }
@@ -171,8 +171,8 @@ bool Renderer::initialize(ca::Renderer* renderer) {
 void Renderer::resize(const fl::Size& size) {
   m_size = size;
 
-  m_projectionMatrix = fl::orthographicProjection(0.0f, static_cast<F32>(m_size.width), 0.0f,
-                                                  static_cast<F32>(m_size.height), -1.0f, 1.0f);
+  m_projectionMatrix = fl::orthographic_projection(0.0f, static_cast<F32>(m_size.width), 0.0f,
+                                                   static_cast<F32>(m_size.height), -1.0f, 1.0f);
 }
 
 void Renderer::renderQuad(const fl::Rect& rect, const ca::Color& color) {
@@ -184,8 +184,8 @@ void Renderer::renderQuad(const fl::Rect& rect, const ca::Color& color) {
 #endif  // BUILD(DEBUG)
 
   fl::Mat4 translation =
-      fl::translationMatrix({static_cast<F32>(rect.pos.x), static_cast<F32>(rect.pos.y), 0.0f});
-  fl::Mat4 scale = fl::scaleMatrix(
+      fl::translation_matrix({static_cast<F32>(rect.pos.x), static_cast<F32>(rect.pos.y), 0.0f});
+  fl::Mat4 scale = fl::scale_matrix(
       {static_cast<F32>(rect.size.width), static_cast<F32>(rect.size.height), 1.0f});
 
   fl::Mat4 view = translation * scale;
@@ -250,8 +250,8 @@ void Renderer::renderTexturedQuad(const fl::Rect& rect, const Image& image,
 #endif  // BUILD(DEBUG)
 
   fl::Mat4 translation =
-      fl::translationMatrix({static_cast<F32>(rect.pos.x), static_cast<F32>(rect.pos.y), 0.0f});
-  fl::Mat4 scale = fl::scaleMatrix(
+      fl::translation_matrix({static_cast<F32>(rect.pos.x), static_cast<F32>(rect.pos.y), 0.0f});
+  fl::Mat4 scale = fl::scale_matrix(
       {static_cast<F32>(rect.size.width), static_cast<F32>(rect.size.height), 1.0f});
 
   fl::Mat4 view = translation * scale;
@@ -260,10 +260,10 @@ void Renderer::renderTexturedQuad(const fl::Rect& rect, const Image& image,
   fl::Vec2 imageSize{static_cast<F32>(image.getSize().width),
                      static_cast<F32>(image.getSize().height)};
   fl::Mat4 texCoordsTransform =
-      fl::translationMatrix({static_cast<F32>(subImage.pos.x) / imageSize.x,
-                             static_cast<F32>(subImage.pos.y) / imageSize.y, 0.0f}) *
-      fl::scaleMatrix({static_cast<F32>(subImage.size.width) / imageSize.x,
-                       static_cast<F32>(subImage.size.height) / imageSize.y, 0.0f});
+      fl::translation_matrix({static_cast<F32>(subImage.pos.x) / imageSize.x,
+                              static_cast<F32>(subImage.pos.y) / imageSize.y, 0.0f}) *
+      fl::scale_matrix({static_cast<F32>(subImage.size.width) / imageSize.x,
+                        static_cast<F32>(subImage.size.height) / imageSize.y, 0.0f});
 
   ca::UniformBuffer uniforms;
   uniforms.set(m_quadTransformUniformId, m_projectionMatrix * view);
