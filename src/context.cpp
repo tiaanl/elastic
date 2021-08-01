@@ -37,7 +37,7 @@ void Context::render(ca::Renderer* renderer) {
                                                 "with. Maybe you didn't initialize the context?";
 #endif  // BUILD(DEBUG)
 
-  fl::Size size = renderer->getSize();
+  fl::Size size = renderer->size();
 
   // Get the size of the render target in pixels for the UI to render.
   fl::Rect layoutRect{{0, 0}, size};

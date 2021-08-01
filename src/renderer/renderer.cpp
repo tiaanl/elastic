@@ -76,7 +76,7 @@ ca::ProgramId createProgram(ca::Renderer* renderer, nu::StringView vertexShaderS
       reinterpret_cast<const U8*>(fragmentShaderSource.data()), fragmentShaderSource.length()}};
   auto fss = ca::ShaderSource::from(&fragmentStream);
 
-  return renderer->createProgram(vss, fss);
+  return renderer->create_program(vss, fss);
 }
 
 struct QuadVertex {
@@ -103,7 +103,7 @@ Renderer::~Renderer() = default;
 bool Renderer::initialize(ca::Renderer* renderer) {
   m_renderer = renderer;
 
-  m_size = renderer->getSize();
+  m_size = renderer->size();
 
   m_quadColorProgramId =
       createProgram(renderer, kQuadVertexShaderSource, kQuadColorFragmentShaderSource);
@@ -131,32 +131,32 @@ bool Renderer::initialize(ca::Renderer* renderer) {
   definition.addAttribute(ca::ComponentType::Float32, ca::ComponentCount::Two);
 
   m_quadVertexBufferId =
-      renderer->createVertexBuffer(definition, kQuadVertices, sizeof(kQuadVertices));
+      renderer->create_vertex_buffer(definition, kQuadVertices, sizeof(kQuadVertices));
   if (!isValid(m_quadVertexBufferId)) {
     LOG(Error) << "Could not create quad vertex buffer.";
     return false;
   }
 
-  m_quadIndexBufferId =
-      renderer->createIndexBuffer(ca::ComponentType::Unsigned8, kQuadIndices, sizeof(kQuadIndices));
+  m_quadIndexBufferId = renderer->create_index_buffer(ca::ComponentType::Unsigned8, kQuadIndices,
+                                                      sizeof(kQuadIndices));
   if (!isValid(m_quadIndexBufferId)) {
     LOG(Error) << "Could not create quad index buffer.";
     return false;
   }
 
-  m_quadTransformUniformId = renderer->createUniform("uTransform");
+  m_quadTransformUniformId = renderer->create_uniform("uTransform");
   if (!isValid(m_quadTransformUniformId)) {
     LOG(Error) << "Could not create quad transform uniform.";
     return false;
   }
 
-  m_quadTexCoordsTransformUniformId = renderer->createUniform("uTexCoordsTransform");
+  m_quadTexCoordsTransformUniformId = renderer->create_uniform("uTexCoordsTransform");
   if (!isValid(m_quadTexCoordsTransformUniformId)) {
     LOG(Error) << "Could not create quad tex coords transform uniform.";
     return false;
   }
 
-  m_quadColorUniformId = renderer->createUniform("uColor");
+  m_quadColorUniformId = renderer->create_uniform("uColor");
   if (!isValid(m_quadColorUniformId)) {
     LOG(Error) << "Could not create quad color uniform.";
     return false;

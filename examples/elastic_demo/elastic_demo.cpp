@@ -44,8 +44,8 @@ public:
       return false;
     }
 
-    auto texture_id = renderer->createTexture(ca::TextureFormat::RGBA, image.size(),
-                                              image.data().data(), image.data().size(), false);
+    auto texture_id = renderer->create_texture(ca::TextureFormat::RGBA, image.size(),
+                                               image.data().data(), image.data().size(), false);
     if (!isValid(texture_id)) {
       LOG(Error) << "Could not upload texture to GPU.";
       return false;

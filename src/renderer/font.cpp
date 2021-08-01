@@ -99,8 +99,8 @@ bool Font::load(nu::InputStream* stream, ca::Renderer* renderer, I32 size) {
 #endif  // 0
   }
 
-  auto texture_id = renderer->createTexture(ca::TextureFormat::Alpha, image_size, image.data(),
-                                            image.size(), false);
+  auto texture_id = renderer->create_texture(ca::TextureFormat::Alpha, image_size, image.data(),
+                                             image.size(), false);
   if (!isValid(texture_id)) {
     LOG(Error) << "Could not create texture for font.";
     return false;
