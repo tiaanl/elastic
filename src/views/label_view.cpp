@@ -15,7 +15,7 @@ void LabelView::setLabel(const nu::StringView& label) {
 fl::Size LabelView::calculateMinSize() const {
   fl::Size minSize = View::calculateMinSize();
 
-  auto textExtent = m_font->calculateTextExtent(m_label.view());
+  auto textExtent = m_font->calculate_text_extent(m_label.view());
 
   minSize.width = std::max(minSize.width, textExtent.width);
   minSize.height = std::max(minSize.height, textExtent.height);

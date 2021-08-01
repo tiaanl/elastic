@@ -144,19 +144,19 @@ void ContextView::processMouseWheel(const ca::MouseWheelEvent& event) {
 }
 
 void ContextView::processKeyPressed(const ca::KeyEvent& event) {
-  if (!m_context->getFocusView()) {
+  if (!m_context->focus_view()) {
     return;
   }
 
-  m_context->getFocusView()->on_key_pressed(event);
+  m_context->focus_view()->on_key_pressed(event);
 }
 
 void ContextView::processKeyReleased(const ca::KeyEvent& event) {
-  if (!m_context->getFocusView()) {
+  if (!m_context->focus_view()) {
     return;
   }
 
-  m_context->getFocusView()->on_key_released(event);
+  m_context->focus_view()->on_key_released(event);
 }
 
 }  // namespace el

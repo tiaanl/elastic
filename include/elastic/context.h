@@ -1,32 +1,33 @@
 #pragma once
 
-#include "elastic/Renderer/renderer.h"
-#include "elastic/Views/context_view.h"
-#include "nucleus/config.h"
+#include <nucleus/config.h>
+
+#include "elastic/renderer/renderer.h"
+#include "elastic/views/context_view.h"
 
 namespace el {
 
 class View;
 
-class Context : public ca::MouseEventHandlerInterface, public ca::KeyboardEventHandlerInterface {
-public:
+class Context : public ca::MouseEventReceiver, public ca::KeyboardEventReceiver {
   NU_DELETE_COPY_AND_MOVE(Context);
 
+public:
   Context();
-  ~Context();
 
   // Get the root view of the context.
-  ContextView* getRootView() {
-    return &m_contextView;
+  ContextView* root_view() {
+    return &context_view_;
   }
 
+  // Resize the size of the render area.  Usually called when the window size changes.
   void resize(const fl::Size& size);
 
   // Get/set the view that will have the keyboard focus.
-  View* getFocusView() const {
-    return m_focusView;
+  NU_NO_DISCARD View* focus_view() const {
+    return focus_view_;
   }
-  void setFocusView(View* view);
+  void set_focus_view(View* view);
 
   bool initialize(ca::Renderer* renderer);
   void tick(F32 delta);
@@ -46,18 +47,18 @@ protected:
   friend class View;
 
   // The root view of our hierarchy.
-  ContextView m_contextView;
+  ContextView context_view_;
 
-  // The `Renderer` we use to render all the views.
-  Renderer m_renderer;
+  // The `Renderer` we are using to render all the views.
+  Renderer renderer_;
 
   // The view that currently has keyboard focus.
-  View* m_focusView = nullptr;
+  View* focus_view_ = nullptr;
 
 #if BUILD(DEBUG)
   // In debug builds, we make sure that the `Renderer` we initialize with, is the one we render
   // with.
-  ca::Renderer* m_initializingRenderer = nullptr;
+  ca::Renderer* initializing_renderer_ = nullptr;
 #endif  // BUILD(DEBUG)
 };
 

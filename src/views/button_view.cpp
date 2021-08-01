@@ -59,7 +59,7 @@ fl::Size ButtonView::calculateMinSize() const {
   auto minSize = View::calculateMinSize();
 
   if (m_font && !m_label.empty()) {
-    auto extent = m_font->calculateTextExtent(m_label.view());
+    auto extent = m_font->calculate_text_extent(m_label.view());
     minSize = fl::maximum(minSize, extent);
   }
 
@@ -79,7 +79,7 @@ void ButtonView::render(Renderer* renderer, const fl::Mat4& mat) {
   }
 
   if (m_font) {
-    auto extent = m_font->calculateTextExtent(m_label.view());
+    auto extent = m_font->calculate_text_extent(m_label.view());
     F32 x = static_cast<F32>(m_rect.size.width) / 2.0f - static_cast<F32>(extent.width) / 2.0f;
     F32 y = static_cast<F32>(m_rect.size.height) / 2.0f - static_cast<F32>(extent.height) / 2.0f;
     auto offset = fl::Pos{static_cast<I32>(std::round(x)), static_cast<I32>(std::round(y))};

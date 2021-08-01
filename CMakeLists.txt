@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.10.0)
 project(elastic)
 
 add_subdirectory(../canvas canvas)
-add_subdirectory(../silhouette silhouette)
 
 option(ELASTIC_BUILD_EXAMPLES "Build example projects" ON)
 
@@ -41,7 +40,7 @@ set(SOURCE_FILES
     )
 
 nucleus_add_library(elastic ${HEADER_FILES} ${SOURCE_FILES})
-target_link_libraries(elastic PUBLIC canvas silhouette)
+target_link_libraries(elastic PUBLIC canvas)
 
 set(TEST_FILES
     tests/context_tests.cpp

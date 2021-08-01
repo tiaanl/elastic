@@ -1,26 +1,20 @@
-
 #include <canvas/app.h>
 #include <elastic/context.h>
-#include <elastic/renderer/font.h>
 #include <elastic/views/color_view.h>
 #include <elastic/views/image_view.h>
 #include <elastic/views/label_view.h>
-#include <nucleus/Memory/scoped_ptr.h>
 #include <nucleus/file_path.h>
-#include <nucleus/logging.h>
 #include <nucleus/streams/file_input_stream.h>
 #include <silhouette/image.h>
 
 class ElasticDemo : public ca::WindowDelegate {
+  NU_DELETE_COPY_AND_MOVE(ElasticDemo);
+
 public:
   ElasticDemo() : ca::WindowDelegate("ElasticDemo") {}
 
-  void onWindowResized(const fl::Size& size) override {
-    context_.resize(size);
-  }
-
-  bool onWindowCreated(ca::Window* window) override {
-    if (!WindowDelegate::onWindowCreated(window)) {
+  bool on_window_created(ca::Window* window) override {
+    if (!WindowDelegate::on_window_created(window)) {
       return false;
     }
 
@@ -65,7 +59,7 @@ public:
 
     auto stacked_sizer_view = new el::StackedSizerView(&context_);
     stacked_sizer_view->setExpansion(el::Expansion::Both);
-    context_.getRootView()->addChild(stacked_sizer_view);
+    context_.root_view()->addChild(stacked_sizer_view);
 
     auto red_block = new el::ColorView(&context_, ca::Color::red);
     stacked_sizer_view->addChild(red_block);
@@ -92,13 +86,15 @@ public:
     return true;
   }
 
-  void onRender(ca::Renderer* renderer) override {
+  void on_window_resized(const fl::Size& size) override {
+    context_.resize(size);
+  }
+
+  void on_render(ca::Renderer* renderer) override {
     context_.render(renderer);
   }
 
 private:
-  NU_DELETE_COPY_AND_MOVE(ElasticDemo);
-
   el::Context context_;
   nu::ScopedPtr<el::Image> image_;
   el::Font font_;

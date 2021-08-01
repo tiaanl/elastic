@@ -1,7 +1,7 @@
 #pragma once
 
-#include <canvas/windows/keyboard_event_handler_interface.h>
-#include <canvas/windows/mouse_event_handler_interface.h>
+#include <canvas/windows/keyboard_event_receiver.h>
+#include <canvas/windows/mouse_event_receiver.h>
 #include <floats/mat4.h>
 #include <floats/pos.h>
 #include <floats/rect.h>

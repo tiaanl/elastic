@@ -215,14 +215,14 @@ void Renderer::renderQuad(const fl::Rect& rect, const Image& image, const fl::Re
 }
 
 void Renderer::renderText(Font* font, const fl::Pos& position, const nu::StringView& text) {
-  const Image& image = font->getImage();
+  const Image& image = font->image();
   fl::Vec2 currentPosition{static_cast<F32>(position.x), static_cast<F32>(position.y)};
   for (StringLength i = 0; i < text.length(); ++i) {
     Char ch = text[i];
     auto& glyph = font->glyph(ch);
 
     fl::Rect rect{(I32)std::round(currentPosition.x + glyph.offset.x),
-                  (I32)std::round(currentPosition.y + font->getAscent() + glyph.offset.y),
+                  (I32)std::round(currentPosition.y + font->ascent() + glyph.offset.y),
                   glyph.rect.size.width, glyph.rect.size.height};
 
 #if 0
@@ -236,7 +236,7 @@ void Renderer::renderText(Font* font, const fl::Pos& position, const nu::StringV
     // renderQuad(rect, image, glyph.rect);
     renderTexturedQuad(rect, image, glyph.rect, m_quadFontProgramId);
 
-    currentPosition.x += glyph.xAdvance;
+    currentPosition.x += glyph.advance;
   }
 }
 
