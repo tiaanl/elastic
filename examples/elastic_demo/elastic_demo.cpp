@@ -5,6 +5,7 @@
 #include <elastic/views/label_view.h>
 #include <nucleus/file_path.h>
 #include <nucleus/streams/file_input_stream.h>
+#include <silhouette/codec/image/png.h>
 #include <silhouette/image.h>
 
 class ElasticDemo : public ca::WindowDelegate {
@@ -38,20 +39,20 @@ public:
       return false;
     }
 
-    si::Image image;
-    if (!image.load_from_png(&image_stream)) {
+    auto image = si::load_image_from_png(&image_stream);
+    if (!image.has_value()) {
       LOG(Error) << "Could not load image file.";
       return false;
     }
 
-    auto texture_id = renderer->create_texture(ca::TextureFormat::RGBA, image.size(),
-                                               image.data().data(), image.data().size(), false);
+    auto texture_id = renderer->create_texture(ca::TextureFormat::RGBA, image->size(),
+                                               image->data().data(), image->data().size(), false);
     if (!isValid(texture_id)) {
       LOG(Error) << "Could not upload texture to GPU.";
       return false;
     }
 
-    image_.reset(new el::Image{texture_id, image.size()});
+    image_.reset(new el::Image{texture_id, image->size()});
 
     if (!context_.initialize(renderer)) {
       return false;
