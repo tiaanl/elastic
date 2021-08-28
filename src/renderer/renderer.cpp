@@ -107,21 +107,21 @@ bool Renderer::initialize(ca::Renderer* renderer) {
 
   m_quadColorProgramId =
       createProgram(renderer, kQuadVertexShaderSource, kQuadColorFragmentShaderSource);
-  if (!isValid(m_quadColorProgramId)) {
+  if (!m_quadColorProgramId.is_valid()) {
     LOG(Error) << "Could not create quad color shader program.";
     return false;
   }
 
   m_quadTextureProgramId =
       createProgram(renderer, kQuadVertexShaderSource, kQuadTextureFragmentShaderSource);
-  if (!isValid(m_quadTextureProgramId)) {
+  if (!m_quadTextureProgramId.is_valid()) {
     LOG(Error) << "Could not create quad texture shader program.";
     return false;
   }
 
   m_quadFontProgramId =
       createProgram(renderer, kQuadVertexShaderSource, kQuadFontFragmentShaderSource);
-  if (!isValid(m_quadTextureProgramId)) {
+  if (!m_quadTextureProgramId.is_valid()) {
     LOG(Error) << "Could not create quad FONT shader program.";
     return false;
   }
@@ -132,32 +132,32 @@ bool Renderer::initialize(ca::Renderer* renderer) {
 
   m_quadVertexBufferId =
       renderer->create_vertex_buffer(definition, kQuadVertices, sizeof(kQuadVertices));
-  if (!isValid(m_quadVertexBufferId)) {
+  if (!m_quadVertexBufferId.is_valid()) {
     LOG(Error) << "Could not create quad vertex buffer.";
     return false;
   }
 
   m_quadIndexBufferId = renderer->create_index_buffer(ca::ComponentType::Unsigned8, kQuadIndices,
                                                       sizeof(kQuadIndices));
-  if (!isValid(m_quadIndexBufferId)) {
+  if (!m_quadIndexBufferId.is_valid()) {
     LOG(Error) << "Could not create quad index buffer.";
     return false;
   }
 
   m_quadTransformUniformId = renderer->create_uniform("uTransform");
-  if (!isValid(m_quadTransformUniformId)) {
+  if (!m_quadTransformUniformId.is_valid()) {
     LOG(Error) << "Could not create quad transform uniform.";
     return false;
   }
 
   m_quadTexCoordsTransformUniformId = renderer->create_uniform("uTexCoordsTransform");
-  if (!isValid(m_quadTexCoordsTransformUniformId)) {
+  if (!m_quadTexCoordsTransformUniformId.is_valid()) {
     LOG(Error) << "Could not create quad tex coords transform uniform.";
     return false;
   }
 
   m_quadColorUniformId = renderer->create_uniform("uColor");
-  if (!isValid(m_quadColorUniformId)) {
+  if (!m_quadColorUniformId.is_valid()) {
     LOG(Error) << "Could not create quad color uniform.";
     return false;
   }
@@ -203,7 +203,7 @@ void Renderer::renderQuad(const fl::Rect& rect, const ca::Color& color) {
 }
 
 void Renderer::renderQuad(const fl::Rect& rect, const Image& image) {
-  if (!image.getTextureId().isValid()) {
+  if (!image.getTextureId().is_valid()) {
     LOG(Warning) << "Rendering invalid image.";
     return;
   }
